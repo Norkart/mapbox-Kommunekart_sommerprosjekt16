@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kommunekart</title>
+
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.css' rel='stylesheet' />
+  <link href='../stylesheets/main.scss' rel='stylesheet' />
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <!-- <script src="../javascript/kommuner.js"></script> -->
+
+
+</head>
+<body>
+  <ul id="kommuneList"></ul>
+  <div id='map'></div>
+<script>
+var kommuneList=[];
+var startNorth;
+var startEast;
+var zoomTo;
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vpbm8iLCJhIjoiOE5oc094SSJ9.DHxjhFy2Ef33iP8yqIm5cA';
+  var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/keino/cio2gxo6b000wc7m7xfh2z02o'
+  });
+
+  // $.ajax({
+  //   url:"https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-0219",
+  // }).done(function(res){
+  //   console.log(res[0]);
+  //
+  //   var kommuner=[];
+  //
+  //   for(var i=0; i<res[0].Layers.length; i++){
+  //     kommuner.push(res[0].Layers[i]);
+  //   }
+  //   console.log(kommuner);
+  //   console.log(kommuner[0].Name);
+  // });
+
+
+
+
+
+</script>
+
+<<style>
+
+</style>
+
+
+</body>
+</html>

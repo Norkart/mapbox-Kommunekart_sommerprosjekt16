@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kommunekart</title>
+
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <link rel="icon" href="http://www.norkart.no/content/themes/norkart/assets/images/favicon.png">
+
+
+
+  <link href='../stylesheets/main.min.css' rel='stylesheet' />
+    <link href="../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.css" rel="stylesheet" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <div id = "container">
+    <div id='map'></div>
+    <div src ="www.norkart.no" class ="kommunekart-logo" name ="kommunekart_logo" title ="www.norkart.no" style="bottom: 24px;">
+      <img height ="16" src="https://kommunekart.com/Images/NORKART_LOGO_positiv_digital_tiny.png">
+    </div>
+    <div id = "navbar-top">
+      <div id ="choose-kommune-menu">
+        <button id ="main-menu" type ="button"></button>
+        <div name ="menu-content" class = "show-menu">
+          <ul id ="menu-selector">
+            <li name ="baselayerselector">
+              <div class="select-baselayer">
+                <button name ="normal" class ="baselayer-button normal selected" type="button">
+                  <span>Kart</span>
+                </button>
+                <button name ="aerial" class ="baselayer-button aerial" type="button">
+                  <span>Flyfoto</span>
+                </button>
+                <button name ="hybrid" class ="baselayer-button hybrid" type="button">
+                  <span>Hybrid</span>
+                </button>
+                <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
+                  <span>3D-kart</span>
+                </button>
+              </div>
+            </li>
+            <li>
+              <button class="list-button list-button-del" name ="share" type="button">Del</button>
+            </li>
+            <li>
+              <button class="list-button list-button-avstand" name ="measure" type="button">Avstand</button>
+            </li>
+            <li>
+              <button class="list-button list-button-print" name ="print" type="button">Skriv ut</button>
+            </li>
+            <li>
+              <button class="list-button list-button-draw" name ="draw" type="button">Påtegning</button>
+            </li>
+            <li>
+              <button class="list-button list-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
+            </li>
+            <li>
+              <button class="list-button list-button-hjelp" name ="help" type="button">Hjelp</button>
+            </li>
+            <li>
+              <button class="list-button list-button-om" name ="about" type="button">Om</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id ="kommunekart-menu">
+        <button id ="sprite-chevron-down" type = "button">
+          <h4 id ="choose-kommune-text">Velg kommune</h4>
+          <div id="kommuneListPointer" class ="pointer pointer-down"></div>
+        </button>
+        <ul id="kommuneList"></ul>
+      </div>
+      <div id ="search-container">
+        <div class ="kommunekart-search kommunekart-control">
+          <input input = "text" class = "kommunekart-search-input" placeholder="Søk etter adresse, sted eller eiendom.">
+          <button name ="submit_button" class ="kommunekart-search-button" type="button" title ="Søk"></button>
+        </div>
+      </div>
+      <div id ="Kommunekart-tag">
+        <h3>KOMMUNEKART</h3>
+        <div class="logo"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../javascripts/index.js"></script>
+  <script src="../javascripts/popup.js"></script>
+  <script src='../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script>
+
+</body>
+</html>
