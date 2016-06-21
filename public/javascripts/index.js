@@ -17,12 +17,10 @@ map.on('load', function () {
   var sourceObj={
     "type":"raster",
     "tiles":[
-      "http://www.webatlas.no/wacloud/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="
+      "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="
       //BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart"
     ],
     "tileSize":256
-      //"http://www.webatlas.no/wacloud/Servicerepository/Combine.aspx?X=69367&Y=38140&Z=17&layers=BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart"
-      //}
   };
   map.addSource("testRaster",sourceObj);
   map.addLayer({
@@ -50,14 +48,6 @@ map.on('load', function () {
       "maxzoom": 22
   });
 });
-
-//http://www.webatlas.no/wacloud/Servicerepository/Combine.aspx?X={x}&Y={y}&Z={z}&layers=BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart
-
-//https://localhost:44367/Combine.aspx?X={x}&Y={y}&Z={z}&layers={layerDef}&userOID={userOID}&accessToken={accessToken}
-//https://www.webatlas.no/wacloud/servicerepository/Combine.aspx?QuadKey=120021313021.png&layers=TMS_WEBATLAS_MEDIUM:0;WEBATLAS_ORTOFOTO_HISTORISK:Asker-2002;ASKER_GISLINE_WMS:Barneskolekretser,RPLAN
-
-//https://www.webatlas.no/wacloud/servicerepository/Combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_MEDIUM
-
 
 var kommuneList=[];
 
