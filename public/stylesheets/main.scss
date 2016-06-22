@@ -7,6 +7,25 @@ body{
   height: 100vh;
   position: absolute;
 }
+.modal-shadow{
+  display: none;
+  position: fixed;
+  _position: absolute;
+  height: 100vh;
+  width: 100%;
+  background: #000;
+  z-index: 1000;
+  opacity: 0.4;
+}
+modal-info-content{
+  background-color: #f6f6f6;
+  max-width: 500px;
+  min-width: 500px;
+  max-height: 90%;
+  overflow: auto;
+  z-index: 1001;
+}
+
 .distance-container {
     position: absolute;
     top: 100px;
@@ -95,9 +114,17 @@ button:focus {
     box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.50);
     background-color: #2A2A2A;
   }
+  .activeListElement{
+    opacity: 1;
+  }
   .list-button:hover{
     background-color:rgb(60, 60, 60) ;
   }
+  .list-button:active{
+    background-color: rgb(115, 115, 115);
+  }
+
+
   .list-button-del{
     background-image: url("https://kommunekart.com/Images/ikoner/nk_017-dele-A-48px.png");
   }

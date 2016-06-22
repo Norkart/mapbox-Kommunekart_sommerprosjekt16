@@ -61,6 +61,7 @@ $('.list-button-del').click(function(){
 });
 $('.list-button-avstand').click(function(){
   startMeasureModus();
+   $('.list-button-avstand').addClass("activeListElement");
 });
 
 $('.list-button-print').click(function(){
