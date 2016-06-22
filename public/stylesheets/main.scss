@@ -7,6 +7,24 @@ body{
   height: 100vh;
   position: absolute;
 }
+.distance-container {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    z-index: 1;
+}
+
+.distance-container > * {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 11px;
+    line-height: 18px;
+    display: block;
+    margin: 0;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
 .kommunekart-logo{
   position: absolute;
   box-sizing: border-box;
@@ -63,17 +81,19 @@ button:focus {
   padding:0;
 
   .list-button{
-    padding: 1px 6px;
+    padding: 0px 6px;
     background-size: 24px;
-    background-color: #2f2f2f;
+    opacity: 0.72;
+    border: 1px solid #000000;
+    box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.50);
     color: white;
     background-position: 12px 12px;
     height:48px;
     padding-left:48px;
     width:260px;
     text-align: -webkit-match-parent;
-    background-image: linear-gradient(-180deg, rgba(153,157,162,0.47) 0%, rgba(54,54,54,0.57) 100%);
     box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.50);
+    background-color: #2A2A2A;
   }
   .list-button:hover{
     background-color:rgb(60, 60, 60) ;
@@ -103,7 +123,9 @@ button:focus {
 .sidenavOpen{
   width:260px!important;
 }
-
+.menuInfoOpen{
+  height:200px;
+}
 
 .baselayer-button{
   display: block;
@@ -115,16 +137,20 @@ button:focus {
   padding: 0;
   border: none;
   border-bottom: 1px solid rgba(0,0,0,0.1);
-  border-right: 1px solid rgba(0,0,0,0.1);
+  border-right: 1px solid #858A90;
   background-size: calc(100% - 8px);
   background-position: 4px 4px;
   background-repeat: no-repeat;
+  background-color: rgba(42,42,42,0.44);
+  color:white;
 }
 .baselayer-button:hover{
-  background-color:rgb(246, 246, 246) ;
+  background-color:rgb(60, 60, 60) ;
 }
 .baselayer-button.selected{
-  background-color: whitesmoke;
+  background-color: #E8E8E8;
+  color:#2A2A2A;
+  font-weight:bold;
 }
 
 .baselayer-button span{
@@ -133,6 +159,58 @@ button:focus {
   bottom: -15px;
 }
 
+#del-info{
+  margin-left: 15%;
+  color: white;
+  //margin-top:10px;
+  height: 0;
+  overflow-y: hidden;
+  transition: 0.5s;
+  overflow-x: auto;
+  padding:0;
+  #socialMedia{
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  #shareLink{
+    margin-top:10px;
+  }
+}
+.menuInfoOpen{
+  height:100px !important;
+}
+#avstand-info{
+  margin-left: 15%;
+  color: white;
+  //margin-top:10px;
+  height: 0;
+  overflow-y: hidden;
+  transition: 0.5s;
+  overflow-x: auto;
+  padding:0;
+}
+
+#print-info{
+  margin-left: 15%;
+  color: white;
+  //margin-top:10px;
+  height: 0;
+  overflow-y: hidden;
+  transition: 0.5s;
+  overflow-x: auto;
+  padding:0;
+}
+
+#draw-info{
+  margin-left: 15%;
+  color: white;
+  //margin-top:10px;
+  height: 0;
+  overflow-y: hidden;
+  transition: 0.5s;
+  overflow-x: auto;
+  padding:0;
+}
 .normal{
   background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_normal_transp_bw.png");
 }

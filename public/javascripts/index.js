@@ -1,3 +1,6 @@
+var mapmodus = "popup";
+
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vpbm8iLCJhIjoiOE5oc094SSJ9.DHxjhFy2Ef33iP8yqIm5cA';
 var map = new mapboxgl.Map({
   container: 'map',
@@ -17,39 +20,128 @@ map.on('load', function () {
   var sourceObj={
     "type":"raster",
     "tiles":[
-      "http://www.webatlas.no/wacloud/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="
+      "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="
       //BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart"
     ],
     "tileSize":256
       //"http://www.webatlas.no/wacloud/Servicerepository/Combine.aspx?X=69367&Y=38140&Z=17&layers=BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart"
       //}
   };
-  map.addSource("testRaster",sourceObj);
-  map.addLayer({
-      "id":"testStyle",
-      "type":"raster",
-      "source":"testRaster",
-      "id": "raster_overlay",
-      "layout": {
-          "visibility": "visible"
-      },
-      "source-layer": "testRaster",
-      "paint": {
-          "raster-fade-duration": 100
-      },
-      "paint.contours": {
-          "raster-opacity": {
-              "base": 1,
-              "stops": [
-                  [ 11, 1 ],
-                  [ 12, 0.5 ]
-              ]
-          }
-      },
-      "minzoom": 0,
-      "maxzoom": 22
-  });
+  map.addSource("testRaster",sourceObj)
 });
+
+function startMeasureModus(){
+  mapmodus = "measure";
+  var distanceContainer = document.getElementById('distance');
+
+  // GeoJSON object to hold our measurement features
+  var geojson = {
+      "type": "FeatureCollection",
+      "features": []
+  };
+
+  // Used to draw a line between points
+  var linestring = {
+      "type": "Feature",
+      "geometry": {
+          "type": "LineString",
+          "coordinates": []
+      }
+  };
+
+  console.log(map);
+      map.addSource('geojson', {
+          "type": "geojson",
+          "data": geojson
+      });
+
+      // Add styles to the map
+      map.addLayer({
+          id: 'measure-points',
+          type: 'circle',
+          source: 'geojson',
+          paint: {
+              'circle-radius': 5,
+              'circle-color': 'rgb(97, 73, 241)'
+          },
+          filter: ['in', '$type', 'Point']
+      });
+      map.addLayer({
+          id: 'measure-lines',
+          type: 'line',
+          source: 'geojson',
+          layout: {
+            'line-cap': 'round',
+            'line-join': 'round'
+          },
+          paint: {
+            'line-color': 'rgb(97, 73, 241)',
+            'line-width': 2.5
+          },
+          filter: ['in', '$type', 'LineString']
+      });
+
+      map.on('click', function(e) {
+          var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
+
+          // Remove the linestring from the group
+          // So we can redraw it based on the points collection
+          if (geojson.features.length > 1) geojson.features.pop();
+
+          // Clear the Distance container to populate it with a new value
+          distanceContainer.innerHTML = '';
+
+          // If a marker was clicked, remove it from the
+          if (features.length) {
+              var id = features[0].properties.id;
+              geojson.features = geojson.features.filter(function(point) {
+                  return point.properties.id !== id;
+              });
+          } else {
+              var point = {
+                  "type": "Feature",
+                  "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                          e.lngLat.lng,
+                          e.lngLat.lat
+                      ]
+                  },
+                  "properties": {
+                      "id": String(new Date().getTime())
+                  }
+              };
+
+              geojson.features.push(point);
+          }
+
+          if (geojson.features.length > 1) {
+              linestring.geometry.coordinates = geojson.features.map(function(point) {
+                  return point.geometry.coordinates;
+              });
+
+              geojson.features.push(linestring);
+
+              // Populate the distanceContainer with total distance
+              var value = document.createElement('pre');
+              value.textContent = 'Total distance: ' + turf.lineDistance(linestring).toLocaleString() + 'km';
+              distanceContainer.appendChild(value);
+          }
+
+          map.getSource('geojson').setData(geojson);
+      });
+
+
+  map.on('mousemove', function (e) {
+      var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
+      // UI indicator for clicking/hovering a point on the map
+      map.getCanvas().style.cursor = (features.length) ? 'pointer' : 'crosshair';
+      $('#distance').css({
+        left:  e.point.x+2,
+        top:   e.point.y+2
+      });
+  });
+}
 
 //http://www.webatlas.no/wacloud/Servicerepository/Combine.aspx?X={x}&Y={y}&Z={z}&layers=BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart
 
@@ -63,7 +155,7 @@ var kommuneList=[];
 
 document.getElementById("sprite-chevron-down").addEventListener("click", function(){
   $("#kommuneList").toggleClass("dropdownVisible");
-  $("#menu-selector").removeClass("sidenavOpen");
+  $("#main-menu").removeClass("sidenavOpen");
   $("#kommuneListPointer").toggleClass("pointer-down pointer-up");
 
 });
@@ -76,7 +168,21 @@ function getMap(){
   return map;
 }
 
-document.getElementById("choose-kommune-menu").addEventListener("click", function(){
+$('.list-button-del').click(function(){
+  $('#del-info').toggleClass("menuInfoOpen");
+});
+$('.list-button-avstand').click(function(){
+  startMeasureModus();
+});
+
+$('.list-button-print').click(function(){
+  $('#print-info').toggleClass("menuInfoOpen");
+});
+$('.list-button-draw').click(function(){
+  $('#draw-info').toggleClass("menuInfoOpen");
+});
+
+document.getElementById("main-menu").addEventListener("click", function(){
 
   $("#menu-selector").toggleClass("sidenavOpen");
 
@@ -152,21 +258,24 @@ function flyTo(kommuneIndex){
 
 //Adding popup info
 map.on('click', function (e) {
-  console.log("popup please");
+  console.log(mapmodus);
   // Populate the popup and set its coordinates
 
   //var utmCoord=getUTMCoordinates(e.lngLat.lat, e.lngLat.lng);
   //var utmString=_makeUtmCoordinateString(utmCoord.lat, utmCoord.lng);
+  if(mapmodus === "popup"){
+    var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
+    var popup = new mapboxgl.Popup()
+    //e.point: x and y for point
+    .setLngLat(e.lngLat)
+    .setHTML(latLngString)
+    .addTo(map);
+  }
+  else{
+    return false;
+  }
 
-  var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
-
-  var popup = new mapboxgl.Popup()
-  //e.point: x and y for point
-  .setLngLat(e.lngLat)
-  .setHTML(latLngString)
-  .addTo(map);
 });
-
 
 
 //Getting correct coordinates

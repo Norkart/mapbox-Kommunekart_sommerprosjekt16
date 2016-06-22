@@ -17,6 +17,7 @@
 <body>
   <div id = "container">
     <div id='map'></div>
+    <div id='distance' class='distance-container'></div>
     <div src ="www.norkart.no" class ="kommunekart-logo" name ="kommunekart_logo" title ="www.norkart.no" style="bottom: 24px;">
       <img height ="16" src="https://kommunekart.com/Images/NORKART_LOGO_positiv_digital_tiny.png">
     </div>
@@ -42,16 +43,33 @@
               </div>
             </li>
             <li>
-              <button class="list-button list-button-del" name ="share" type="button">Del</button>
+              <div id="del">
+                <button class="list-button list-button-del" name ="share" type="button">Del</button>
+                <div id="del-info">
+                  <input id ="shareLink"></input>
+                  <div id="socialMedia">
+                    <img class ="smSymbol" src="../Images/facebook.png" style="width:50px;">
+                    <img class ="smSymbol" src="../Images/googlePlus.png" style="width:50px;">
+                    <img class ="smSymbol" src="../Images/Twitter.png" style="width:50px;">
+                  </div>
+                </div>
+              </div>
             </li>
             <li>
               <button class="list-button list-button-avstand" name ="measure" type="button">Avstand</button>
+              <div id ="avstand-info">
+                <span>Avstandinfo</span>
+              </div>
             </li>
             <li>
               <button class="list-button list-button-print" name ="print" type="button">Skriv ut</button>
+              <div id ="print-info">
+              </div>
             </li>
             <li>
               <button class="list-button list-button-draw" name ="draw" type="button">Påtegning</button>
+              <div id ="draw-info">
+              </div>
             </li>
             <li>
               <button class="list-button list-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
@@ -88,6 +106,7 @@
   <script src="../javascripts/index.js"></script>
   <script src="../javascripts/popup.js"></script>
   <script src='../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script>
+  <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 
 </body>
 </html>
