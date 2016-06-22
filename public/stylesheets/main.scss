@@ -102,7 +102,6 @@ button:focus {
   .list-button{
     padding: 0px 6px;
     background-size: 24px;
-    opacity: 0.72;
     border: 1px solid #000000;
     box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.50);
     color: white;
@@ -112,7 +111,7 @@ button:focus {
     width:260px;
     text-align: -webkit-match-parent;
     box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.50);
-    background-color: #2A2A2A;
+    background-color: rgba(42, 42, 42, 0.71);
   }
   .activeListElement{
     opacity: 1;
@@ -154,6 +153,21 @@ button:focus {
   height:200px;
 }
 
+#norkartLogo{
+  background: url("http://www.norkart.no/content/themes/norkart/assets/images/ident-symbol.svg");
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-repeat:no-repeat;
+  margin-left: 96px;
+  margin-top: 50px;
+}
+
+#baselayerselector{
+  width: 260px;
+  position: fixed;
+  bottom: 0px;
+}
 .baselayer-button{
   display: block;
   float: left;
@@ -289,10 +303,9 @@ button:focus {
   border: 0 none;
 }
 #kommunekart-menu{
-  height: 40px !important;
+  height: 47px;
   cursor:pointer;
   margin-top:0px;
-  margin-left:10px;
   vertical-align:middle;
   padding:0;
   float:left;
@@ -300,16 +313,17 @@ button:focus {
 #sprite-chevron-down{
   background-color: transparent;
   color: white;
-  height:40px;
   cursor:pointer;
   margin:0px;
   vertical-align:middle;
   padding:0;
   width:250px;
+  height:47px;
+  h4{
+   margin-top: 16px;
+ }
 }
-#sprite-chevron-down h4{
-  margin-top: 13px;
-}
+
 .logo{
   background-image: url("http://www.norkart.no/content/themes/norkart/assets/images/ident-symbol.svg");
   width: 36px;
@@ -369,9 +383,10 @@ input.choose-kommune{
 
 #kommuneList{
   z-index: 10;
+  width: 260px;
   font: 13.3333px Arial;
   margin-top: 2px;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgb(51, 51, 51);
   color: white;
   transition: 0.5s;
   padding: 0;
@@ -400,8 +415,8 @@ input.choose-kommune{
   }
 }
 .dropdownVisible{
-  height: auto!important;
-  max-height: 342px;
+  height: 100vh!important;
+  position: fixed;
 }
 .arrow1{
   right:0;
@@ -413,7 +428,7 @@ input.choose-kommune{
 }
 
 #search-container{
-  margin-left:10px;
+  margin-left:236px;
   height:40px;
   border-radius: 0px;
   vertical-align: middle;

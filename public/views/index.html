@@ -31,20 +31,14 @@
         <button id ="main-menu" type ="button"></button>
         <div name ="menu-content" class = "show-menu">
           <ul id ="menu-selector">
-            <li name ="baselayerselector">
-              <div class="select-baselayer">
-                <button name ="normal" class ="baselayer-button normal selected" type="button">
-                  <span>Kart</span>
+
+            <li>
+              <div id ="kommunekart-menu">
+                <button id ="sprite-chevron-down" type = "button">
+                  <h4 id ="choose-kommune-text">Velg kommune</h4>
+                  <div id="kommuneListPointer" class ="pointer pointer-down"></div>
                 </button>
-                <button name ="aerial" class ="baselayer-button aerial" type="button">
-                  <span>Flyfoto</span>
-                </button>
-                <button name ="hybrid" class ="baselayer-button hybrid" type="button">
-                  <span>Hybrid</span>
-                </button>
-                <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
-                  <span>3D-kart</span>
-                </button>
+                <ul id="kommuneList"></ul>
               </div>
             </li>
             <li>
@@ -85,16 +79,29 @@
             <li>
               <button class="list-button list-button-om" name ="about" type="button">Om</button>
             </li>
+            <li id="norkartLogo">
+              <a  href="http://norkart.no" title="Forsiden"></a>
+            </li>
+            <li id="baselayerselector"name ="baselayerselector">
+              <div class="select-baselayer">
+                <button name ="normal" class ="baselayer-button normal selected" type="button">
+                  <span>Kart</span>
+                </button>
+                <button name ="aerial" class ="baselayer-button aerial" type="button">
+                  <span>Flyfoto</span>
+                </button>
+                <button name ="hybrid" class ="baselayer-button hybrid" type="button">
+                  <span>Hybrid</span>
+                </button>
+                <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
+                  <span>3D-kart</span>
+                </button>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
-      <div id ="kommunekart-menu">
-        <button id ="sprite-chevron-down" type = "button">
-          <h4 id ="choose-kommune-text">Velg kommune</h4>
-          <div id="kommuneListPointer" class ="pointer pointer-down"></div>
-        </button>
-        <ul id="kommuneList"></ul>
-      </div>
+
       <div id ="search-container">
         <div class ="kommunekart-search kommunekart-control">
           <input input = "text" class = "kommunekart-search-input" placeholder="Søk etter adresse, sted eller eiendom.">
