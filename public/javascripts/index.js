@@ -13,22 +13,6 @@ var map = new mapboxgl.Map({
 map.addControl(new mapboxgl.Navigation({position: 'bottom-right'}));
 map.addControl(new mapboxgl.Geolocate({position: 'bottom-right'}));
 
-//add layer with tyle: wms kall
-map.on('load', function () {
-  console.log("loaded");
-
-  var sourceObj={
-    "type":"raster",
-    "tiles":[
-      "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="
-      //BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart"
-    ],
-    "tileSize":256
-      //"http://www.webatlas.no/wacloud/Servicerepository/Combine.aspx?X=69367&Y=38140&Z=17&layers=BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart"
-      //}
-  };
-  map.addSource("testRaster",sourceObj)
-});
 
 function startMeasureModus(){
   mapmodus = "measure";
@@ -143,13 +127,6 @@ function startMeasureModus(){
   });
 }
 
-//http://www.webatlas.no/wacloud/Servicerepository/Combine.aspx?X={x}&Y={y}&Z={z}&layers=BAERUM_KART_GISLINE_WMS:Reguleringsplaner,Matrikkelkart
-
-//https://localhost:44367/Combine.aspx?X={x}&Y={y}&Z={z}&layers={layerDef}&userOID={userOID}&accessToken={accessToken}
-//https://www.webatlas.no/wacloud/servicerepository/Combine.aspx?QuadKey=120021313021.png&layers=TMS_WEBATLAS_MEDIUM:0;WEBATLAS_ORTOFOTO_HISTORISK:Asker-2002;ASKER_GISLINE_WMS:Barneskolekretser,RPLAN
-
-//https://www.webatlas.no/wacloud/servicerepository/Combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_MEDIUM
-
 
 var kommuneList=[];
 
@@ -193,36 +170,184 @@ document.getElementById("main-menu").addEventListener("click", function(){
 });
 
 
+function updateRasterView(name, layerArea){
+  removeRaster("rasterOverlay", activeLayerNames);
+  var layerString=activeLayerNames[0]; //Adding first layer here to be able to add a comma before each insertion inside the for loop
+
+  if(activeLayerNames.length>0){
+    for(var i=1; i<activeLayerNames.length; i++){
+      layerString+=","+activeLayerNames[i];
+    }
+    var wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="+layerArea+":"+layerString;
+    console.log(wmsUrl);
+    addRaster(wmsUrl, "rasterOverlay");
+  }else{
+    console.log("no active layers - nothing added");
+  }
+}
+
+function removeRaster(name){
+  console.log("removing raster");
+  if(map.getSource(name)!==undefined){
+    map.removeSource(name);
+    map.removeLayer(name);
+    return true;
+  }else{
+    console.log("no raster to delete");
+    return false;
+  }
+}
+
+
+function addRaster(url, name){
+  console.log("adding raster");
+  var sourceObj={
+    "type":"raster",
+    "tiles":[url],
+    "tileSize":256
+  };
+  map.addSource(name,sourceObj);
+  map.addLayer({
+    "id":name,
+    "type":"raster",
+    "source":name,
+    "id": name,
+    "layout": {
+      "visibility": "visible"
+    },
+    "source-layer": "testRaster",
+    "paint": {
+      "raster-fade-duration": 100
+    },
+    "paint.contours": {
+      "raster-opacity": {
+        "base": 1,
+        "stops": [
+          [ 11, 1 ],
+          [ 12, 0.5 ]
+        ]
+      }
+    },
+    "minzoom": 0,
+    "maxzoom": 22
+  });
+}
+
+function removeFromList(element, list){
+  var index;
+  for(var i=0; i<list.length; i++){
+    if(list[i]===element){
+      index=i;
+    }
+  }
+  return list.splice(index,1);
+}
+
+
+var activeLayerNames=[];
+
+function resetRasterOverlays(){
+  activeLayerNames=[];
+  var kommuneElements=document.getElementsByClassName('kommuneElement');
+
+  //delete layerList for kommune with "open" raster menu
+  var list=document.getElementById("layerList");
+  console.log(list);
+  if(list){
+    list.parentNode.removeChild(list);
+  }
+
+  removeRaster("rasterOverlay");
+}
+
+
+function setRasterOverlayMenu(kommuneId, idFordomKommuneListElement){
+
+  var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;
+  console.log(layersUrl);
+
+  var layerArea; //name for url for area of different layers
+  var layerName; //end of url for specific raster layer
+  $.ajax({
+    url:layersUrl
+  }).done(function(res){
+    var rasterMenu=document.createElement("ul");
+    rasterMenu.id="layerList";
+    console.log(res);
+    layerArea=res[0].Name;
+    for(var i=0; i<res[0].Layers.length; i++){
+      var rasterElement = document.createElement("li");
+      layerName=res[0].Layers[i].Name;
+      rasterElement.setAttribute("name",layerName);
+      rasterElement.setAttribute("area",layerArea);
+      rasterElement.setAttribute("active", false);
+      rasterElement.innerHTML=layerName;
+
+      rasterElement.addEventListener("click", function(){
+        //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
+        var activeLayer=event.currentTarget.getAttribute("active");
+        console.log(activeLayer);
+        if(activeLayer==="true"){
+          console.log("remove");
+          removeFromList(event.currentTarget.getAttribute("name"), activeLayerNames);
+          event.currentTarget.setAttribute("active", false);
+          event.currentTarget.className="";
+
+        }else{
+          console.log("add");
+          activeLayerNames.push(event.currentTarget.getAttribute("name"));
+          event.currentTarget.setAttribute("active", true);
+          event.currentTarget.className="activeRasterElement";
+        }
+        updateRasterView(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
+      });
+      //adding raster element to raster list:
+      rasterMenu.appendChild(rasterElement);
+    }
+    //adding the raster overlays list two kommune element
+    document.getElementById(idFordomKommuneListElement).appendChild(rasterMenu);
+  });
+}
+
 $.ajax({
   url:"https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetRegisteredAppCustomers?appID=VectortilesDemo",
 }).done(function(res){
   console.log(res);
   for(var i=0; i<res.length; i++){
     kommuneList.push(res[i]);
-    var kommuner=document.getElementById("kommuneList");
-    var kommune=document.createElement("li");
-    kommune.id=i;
-    //adding on click event
-    kommune.addEventListener("click", function(){
+
+    var kommuneElement=document.createElement("li");
+    kommuneElement.className="kommuneElement";
+    kommuneElement.id=i+"element";
+
+    var kommuneDiv=document.createElement("div");
+    kommuneDiv.id=i;
+    kommuneDiv.setAttribute("nr", res[i].Number);
+    //adding on click event for choosing kommune - fly to and create menu
+    kommuneDiv.addEventListener("click", function(){
       console.log(event.currentTarget);
       flyTo(event.currentTarget.id);
-    })
+      resetRasterOverlays();
+      setRasterOverlayMenu(event.currentTarget.getAttribute("nr"), event.currentTarget.id+"element");
+    });
 
-    kommune.className="kommuneElement";
     var kommuneName=document.createElement("h4");
     kommuneName.innerHTML=res[i].Name;
     var kommuneLogo=document.createElement("img");
     kommuneLogo.setAttribute("src", res[i].Logo);
-    kommune.appendChild(kommuneLogo);
-    kommune.appendChild(kommuneName);
-    var arrowDiv=document.createElement("div");
-    arrowDiv.id="arrow";
-    var arrow=document.createElement("img");
-    arrowDiv.appendChild(arrow);
-    arrow.setAttribute("src", "https://kommunekart.com/Images/ikoner/nk_025-hoyrepil-B-48px.png")
-    kommune.appendChild(arrowDiv);
-    kommuner.appendChild(kommune);
+    //var arrow=document.createElement("img");
+    //arrow.setAttribute("src", "https://kommunekart.com/Images/ikoner/nk_025-hoyrepil-B-48px.png")
+    //var arrowDiv=document.createElement("div");
+    //arrowDiv.appendChild(arrow);
+    //arrowDiv.id="arrow";
 
+    kommuneDiv.appendChild(kommuneLogo);
+    kommuneDiv.appendChild(kommuneName);
+    //kommuneDiv.appendChild(arrowDiv);
+    kommuneElement.appendChild(kommuneDiv);
+
+    var kommuner=document.getElementById("kommuneList");
+    kommuner.appendChild(kommuneElement);
   }
 
 });
