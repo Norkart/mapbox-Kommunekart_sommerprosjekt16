@@ -11,12 +11,14 @@
 
 
   <link href='../stylesheets/main.min.css' rel='stylesheet' />
+  <link href='../stylesheets/sideMenu.min.css' rel='stylesheet' />
+  <link href='../stylesheets/top-nav-bar.min.css' rel='stylesheet' />
     <link href="../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.css" rel="stylesheet" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
   <div id = "container">
-    <div id ="about">
+    <div id ="about" class="popup">
       <div class ="modal-shadow"></div>
       <div id = "modal-info-content">
         <img id ="about-logo" src="https://www.kommunekart.com//Images/NORKART_LOGO_positiv_digital_medium.png">
@@ -66,8 +68,8 @@
       <img height ="16" src="https://kommunekart.com/Images/NORKART_LOGO_positiv_digital_tiny.png">
     </div>
     <div id = "navbar-top">
-      <div id ="choose-kommune-menu">
-        <button id ="main-menu" type ="button"></button>
+      <div id ="side-menu-toggle">
+        <button id ="side-menu-toggle-button" type ="button"></button>
         <div name ="menu-content" class = "show-menu">
           <ul id ="menu-selector">
 
@@ -82,8 +84,8 @@
             </li>
             <li>
               <div id="del">
-                <button class="list-button list-button-del" name ="share" type="button">Del</button>
-                <div id="del-info">
+                <button class="tool-button tool-button-del" name ="share" type="button">Del</button>
+                <div id="del-info" class="sideMenuToolDropdown">
                   <input id ="shareLink"></input>
                   <div id="socialMedia">
                     <img class ="smSymbol" src="../Images/facebook.png" style="width:50px;">
@@ -94,29 +96,35 @@
               </div>
             </li>
             <li>
-              <button class="list-button list-button-avstand" name ="measure" type="button">Avstand</button>
-              <div id ="avstand-info">
+              <button class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
+              <div id ="avstand-info" class="sideMenuToolDropdown">
                 <span>Avstandinfo</span>
               </div>
             </li>
             <li>
-              <button class="list-button list-button-print" name ="print" type="button">Skriv ut</button>
-              <div id ="print-info">
+              <button class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
+              <div id ="print-info" class="sideMenuToolDropdown">
               </div>
             </li>
             <li>
-              <button class="list-button list-button-draw" name ="draw" type="button">Påtegning</button>
-              <div id ="draw-info">
+              <button class="tool-button tool-button-draw" name ="draw" type="button">Påtegning</button>
+              <div id ="draw-info" class="sideMenuToolDropdown">
               </div>
             </li>
             <li>
-              <button class="list-button list-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
+              <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
+              <div class="sideMenuToolDropdown">
+              </div>
             </li>
             <li>
-              <button class="list-button list-button-hjelp" name ="help" type="button">Hjelp</button>
+              <button class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
+              <div class="sideMenuToolDropdown">
+              </div>
             </li>
             <li>
-              <button class="list-button list-button-om" name ="about" type="button">Om</button>
+              <button class="tool-button tool-button-om" name ="about" type="button">Om</button>
+              <div class="sideMenuToolDropdown">
+              </div>
             </li>
             <li id="norkartLogo">
               <a  href="http://norkart.no" title="Forsiden"></a>
@@ -147,7 +155,7 @@
           <button name ="submit_button" class ="kommunekart-search-button" type="button" title ="Søk"></button>
         </div>
       </div>
-      <div id ="Kommunekart-tag">
+      <div id ="kommunekart-header">
         <h3>KOMMUNEKART</h3>
         <div class="logo"></div>
       </div>

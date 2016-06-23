@@ -46,7 +46,7 @@ var kommuneList=[];
 
 document.getElementById("sprite-chevron-down").addEventListener("click", function(){
   $("#kommuneList").toggleClass("dropdownVisible");
-  $("#main-menu").removeClass("sidenavOpen");
+  $("#side-menu-toggle-button").removeClass("sidenavOpen");
   $("#kommuneListPointer").toggleClass("pointer-down pointer-up");
 
 });
@@ -56,22 +56,22 @@ $('.kommunekart-logo').click(function(){
 });
 
 
-$('.list-button-del').click(function(){
-  $('#del-info').toggleClass("menuInfoOpen");
+$('.tool-button-del').click(function(){
+  $('#del-info').toggleClass("toolMenuOpen");
 });
-$('.list-button-avstand').click(function(){
+$('.tool-button-avstand').click(function(){
   startMeasureModus();
-   $('.list-button-avstand').addClass("activeListElement");
+   $('.tool-button-avstand').addClass("activeListElement");
 });
 
-$('.list-button-print').click(function(){
-  $('#print-info').toggleClass("menuInfoOpen");
+$('.tool-button-print').click(function(){
+  $('#print-info').toggleClass("toolMenuOpen");
 });
-$('.list-button-draw').click(function(){
-  $('#draw-info').toggleClass("menuInfoOpen");
+$('.tool-button-draw').click(function(){
+  $('#draw-info').toggleClass("toolMenuOpen");
 });
 
-document.getElementById("main-menu").addEventListener("click", function(){
+document.getElementById("side-menu-toggle-button").addEventListener("click", function(){
 
   $("#menu-selector").toggleClass("sidenavOpen");
 
@@ -83,7 +83,7 @@ document.getElementById("main-menu").addEventListener("click", function(){
 
 var infoPopupStatus = 0;
 //Info popup
-$('.list-button-om').click(function(){
+$('.tool-button-om').click(function(){
   if(infoPopupStatus ==0){
     $(".modal-shadow").fadeIn("slow");
     $("#modal-info-content").fadeIn("slow");
