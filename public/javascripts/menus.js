@@ -80,3 +80,28 @@ document.getElementById("main-menu").addEventListener("click", function(){
     $("#kommuneListPointer").toggleClass("pointer-down pointer-up");
   }
 });
+
+var infoPopupStatus = 0;
+//Info popup
+$('.list-button-om').click(function(){
+  if(infoPopupStatus ==0){
+    $(".modal-shadow").fadeIn("slow");
+    $("#modal-info-content").fadeIn("slow");
+    infoPopupStatus = 1;
+  }
+});
+//Closing popups:
+$('.about-close-button').click(function(){
+  if(infoPopupStatus ==1){
+    $(".modal-shadow").fadeOut("slow");
+    $("#modal-info-content").fadeOut("slow");
+    infoPopupStatus = 0;
+  }
+});
+$('.modal-shadow').click(function(){
+  if(infoPopupStatus ==1){
+    $(".modal-shadow").fadeOut("slow");
+    $("#modal-info-content").fadeOut("slow");
+    infoPopupStatus = 0;
+  }
+});
