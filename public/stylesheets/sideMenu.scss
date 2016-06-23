@@ -5,25 +5,25 @@
 #menu-selector{ //icons
 
   .tool-button-del{
-    background-image: url("https://kommunekart.com/Images/ikoner/nk_017-dele-A-48px.png");
+    background-image: url("../images/MenuIcons/share.png");
   }
   .tool-button-avstand{
-    background-image: url("https://kommunekart.com/Images/ikoner/nk_027-maale-A-48px.png");
+    background-image: url("../images/MenuIcons/measure.png");
   }
   .tool-button-print{
-    background-image: url("https://kommunekart.com/Images/ikoner/nk_016-utskrift-A-48px.png");
+    background-image: url("../images/MenuIcons/print.png");
   }
   .tool-button-draw{
-    background-image: url("https://kommunekart.com/Images/ikoner/nk_031-tegning-A-48px.png");
+    background-image: url("../images/MenuIcons/draw.png");
   }
   .tool-button-navigation{
-    background-image: url("https://kommunekart.com/Images/ikoner/nk_011-beregn_rute-A-48px.png");
+    background-image: url("../images/MenuIcons/navigation.png");
   }
   .tool-button-hjelp{
-    background-image: url("https://kommunekart.com/Images/ikoner/nk_012-hjelp-A-48px.png");
+    background-image: url("../images/MenuIcons/help.png");
   }
   .tool-button-om{
-    background-image: url("https://kommunekart.com/Images/ikoner/nk_024-info-A-48px.png");
+    background-image: url("../images/MenuIcons/info.png");
   }
 }
 
@@ -142,11 +142,11 @@
       float:left;
     }
     .pointer-down{
-      background-image: url("https://kommunekart.com/Images/ikoner/nk_004-ned-B-48px.png");
+      background-image: url("../images/down.png");
     }
 
     .pointer-up{
-      background-image: url("https://kommunekart.com/Images/ikoner/nk_003-opp-B-48px.png");
+      background-image: url("../images/up.png");
     }
   }
 
