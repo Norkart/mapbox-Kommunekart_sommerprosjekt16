@@ -197,10 +197,11 @@
     .activeRasterElement{
       background-color: grey;
     }
-    .dropdownVisible{
-      height: 100vh!important;
-      position: fixed;
-    }
+
+  }
+  .dropdownVisible{
+    height: 100vh!important;
+    position: fixed;
   }
 }
 
