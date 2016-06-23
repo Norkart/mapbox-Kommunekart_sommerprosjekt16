@@ -86,11 +86,13 @@
               <div id="del">
                 <button class="tool-button tool-button-del" name ="share" type="button">Del</button>
                 <div id="del-info" class="sideMenuToolDropdown">
-                  <input id ="shareLink"></input>
-                  <div id="socialMedia">
-                    <img class ="smSymbol" src="../Images/facebook.png" style="width:50px;">
-                    <img class ="smSymbol" src="../Images/googlePlus.png" style="width:50px;">
-                    <img class ="smSymbol" src="../Images/Twitter.png" style="width:50px;">
+                  <div id ="del-content">
+                    <input id ="shareLink" value ="Link skal deles her"></input>
+                    <div id="socialMedia">
+                      <img class ="smSymbol" src="https://www.kommunekart.com/Images/FB_72.png">
+                      <img class ="smSymbol" src="https://www.kommunekart.com/Images/GooglePlus_72.png">
+                      <img class ="smSymbol" src="https://www.kommunekart.com/Images/Twitter_72.png">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -113,7 +115,16 @@
             </li>
             <li>
               <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
-              <div class="sideMenuToolDropdown">
+              <div id ="navigation-info" class="sideMenuToolDropdown">
+                <div class="kommunekart-search kommunekart-control">
+                    <button name="submit_button" type="button" title="Søk"></button>
+                    <button name="route_planning_switch_direction_button" class="kommunekart-switch-nav switch-direction-icon" title="Bytt retning" style="display: block;" type="button"></button>
+                    <div name="search_input_container" class="kommunekart-search-form">
+                        <input name="search_input_1" input="text" class="kommunekart-search-input" placeholder="Fra...">
+                        <input name="search_input_2" input="text" class="kommunekart-search-input" placeholder="Til...">
+                    </div>
+                    <button name="route_planning_back_to_normal_search_button" class="cpc-icon-remove move-right" style="display: block;" type="button"></button>
+                </div>
               </div>
             </li>
             <li>

@@ -67,12 +67,10 @@
     opacity: 1;
   }
   .toolMenuOpen{
-    height:100px !important;
+    height:120px !important;
   }
   .sideMenuToolDropdown{
-    margin-left: 15%;
     color: white;
-    //margin-top:10px;
     height: 0;
     overflow-y: hidden;
     transition: 0.5s;
@@ -82,13 +80,21 @@
 }
 
 #menu-selector{ //tool info styling
-  #del{
+  #del-info{
+    margin:0 8%;
     #socialMedia{
-      margin-top: 5px;
+      margin-left:3px;
       margin-bottom: 5px;
     }
     #shareLink{
+      width:98%;
       margin-top:10px;
+      margin-bottom:10px;
+    }
+    .smSymbol{
+      width:50px;
+      border-radius: 25px;
+      margin-left: 10px;
     }
   }
   #avstand-info{
@@ -98,20 +104,61 @@
       left: 100px;
       z-index: 1;
     }
+  }
 
-    .distance-container > * {
-      background-color: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      font-size: 11px;
-      line-height: 18px;
-      display: block;
-      margin: 0;
-      padding: 5px 10px;
-      border-radius: 3px;
-    }
+  .distance-container > * {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 11px;
+    line-height: 18px;
+    display: block;
+    margin: 0;
+    padding: 5px 10px;
+    border-radius: 3px;
+  }
+}
+#navigation-info{
+  margin-left: 0px;
+  .kommunekart-search-input {
+    width: 100%;
+    margin: 0;
+    color: #2E2D30;
+    border: none !important;
+    height: 30px !important;
+    float: left;
+    padding: 0 !important;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    background: rgba(255,255,255,.7);
+}
+  .kommunekart-switch-nav {
+    height:24px;
+    width: 24px;
+    background: none;
+    border:none;
+    position: relative;
+    float: right;
+    top: 34px;
+    right: 10px;
+    margin-bottom: -48px;
+  }
+  .kommunekart-switch-nav:hover{
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+  }
+  .kommunekart-switch-nav:active{
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+  }
+  .switch-direction-icon{
+    background-image: url('../images/mapNavigation/changeDirection.png')!important;
   }
 
 }
+
 
 #kommunekart-menu{
   background-position: 8px 12px;

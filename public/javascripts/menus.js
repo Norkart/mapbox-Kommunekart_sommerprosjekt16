@@ -70,6 +70,9 @@ $('.tool-button-print').click(function(){
 $('.tool-button-draw').click(function(){
   $('#draw-info').toggleClass("toolMenuOpen");
 });
+$('.tool-button-navigation').click(function(){
+  $('#navigation-info').toggleClass("toolMenuOpen");
+});
 
 document.getElementById("side-menu-toggle-button").addEventListener("click", function(){
 
