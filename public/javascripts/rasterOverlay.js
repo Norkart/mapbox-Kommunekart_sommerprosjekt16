@@ -2,7 +2,7 @@
 
 var activeLayerNames=[];
 
-function setRasterOverlayMenu(kommuneId, idFordomKommuneListElement){
+function setRasterOverlayMenu(kommuneId, idForKommuneListElement){
 
   var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;
   console.log(layersUrl);
@@ -12,44 +12,59 @@ function setRasterOverlayMenu(kommuneId, idFordomKommuneListElement){
   $.ajax({
     url:layersUrl
   }).done(function(res){
-    var rasterMenu=document.createElement("ul");
-    rasterMenu.id="layerList";
-    console.log(res);
-    layerArea=res[0].Name;
-    for(var i=0; i<res[0].Layers.length; i++){
-      var rasterElement = document.createElement("li");
-      layerName=res[0].Layers[i].Name;
-      rasterElement.setAttribute("name",layerName);
-      rasterElement.setAttribute("area",layerArea);
-      rasterElement.setAttribute("active", false);
-      rasterElement.innerHTML=layerName;
-
-      rasterElement.addEventListener("click", function(){
-        //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
-        var activeLayer=event.currentTarget.getAttribute("active");
-        console.log(activeLayer);
-        if(activeLayer==="true"){
-          console.log("remove");
-          removeFromList(event.currentTarget.getAttribute("name"), activeLayerNames);
-          event.currentTarget.setAttribute("active", false);
-          event.currentTarget.className="";
-
-        }else{
-          console.log("add");
-          activeLayerNames.push(event.currentTarget.getAttribute("name"));
-          event.currentTarget.setAttribute("active", true);
-          event.currentTarget.className="activeRasterElement";
-        }
-        updateRasterView(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
-      });
-      //adding raster element to raster list:
-      rasterMenu.appendChild(rasterElement);
-    }
-    //adding the raster overlays list two kommune element
-    document.getElementById(idFordomKommuneListElement).appendChild(rasterMenu);
+    removeKommuneListMenu();
+    createRasterLayerMenu();
   });
 }
 
+function removeKommuneListMenu(){
+  document.getElementById("kommuneList").parent.removeChild(document.getElementById("kommuneList"));
+}
+
+function createRasterLayerMenu(layerInfoJson){
+  var rasterMenu=document.createElement("ul");
+  rasterMenu.id="layerList";
+  console.log(layerInfoJson);
+
+  layerArea=layerInfoJson[0].Name;
+  for(var i=0; i<layerInfoJson[0].Layers.length; i++){
+    var rasterElement = document.createElement("li");
+    layerName=layerInfoJson[0].Layers[i].Name;
+    rasterElement.setAttribute("name",layerName);
+    rasterElement.setAttribute("area",layerArea);
+    rasterElement.setAttribute("active", false);
+    rasterElement.innerHTML=layerName;
+
+    rasterElement.addEventListener("click", function(){
+      rasterClickEvent();
+    });
+
+    //adding raster element to raster list:
+    rasterMenu.appendChild(rasterElement);
+  }
+  //adding the raster overlays list two kommune element
+  document.getElementById(idForKommuneListElement).appendChild(rasterMenu);
+}
+
+
+function rasterClickEvent(){
+  //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
+  var activeLayer=event.currentTarget.getAttribute("active");
+  console.log(activeLayer);
+  if(activeLayer==="true"){
+    console.log("remove");
+    removeFromList(event.currentTarget.getAttribute("name"), activeLayerNames);
+    event.currentTarget.setAttribute("active", false);
+    event.currentTarget.className="";
+
+  }else{
+    console.log("add");
+    activeLayerNames.push(event.currentTarget.getAttribute("name"));
+    event.currentTarget.setAttribute("active", true);
+    event.currentTarget.className="activeRasterElement";
+  }
+  updateRasterView(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
+}
 
 
 function updateRasterView(name, layerArea){
