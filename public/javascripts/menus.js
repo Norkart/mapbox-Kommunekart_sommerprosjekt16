@@ -111,6 +111,7 @@ document.getElementById("kommunekart-menu-button").addEventListener("click", fun
     console.log("state is kommuner");
     $("#kommuneList").toggleClass("kommuneDropdownVisible"); //starts closed
     $("#select-baselayer").toggleClass("kommuneDropdownVisibleShowBaselayers");
+    $("#vectorLayers").toggleClass("kommuneDropdownVisibleShowVectorLayers");
     $("#kommunekart-menu").toggleClass("kommuneMenuSlideDown");
 
   }else if(menuState==="rasterLayers"){//show hide raster for kommune
@@ -118,6 +119,7 @@ document.getElementById("kommunekart-menu-button").addEventListener("click", fun
     $("#layerList").toggleClass("dropdownHide"); //starts open
     $("#kommuneList").toggleClass("kommuneDropdownVisible"); //starts closed
     $("#select-baselayer").toggleClass("kommuneDropdownVisibleShowBaselayers");
+    $("#vectorLayers").toggleClass("kommuneDropdownVisibleShowVectorLayers");
   }
 });
 
@@ -129,6 +131,7 @@ document.getElementById("side-menu-toggle-button").addEventListener("click", fun
   //if kommunemenu is down, baseselector have to have togge of styling
   if($("#kommunekart-menu").hasClass("kommuneMenuSlideDown")){
     $("#select-baselayer").toggleClass("kommuneDropdownVisibleShowBaselayers");
+    $("#vectorLayers").toggleClass("kommuneDropdownVisibleShowVectorLayers");
   }
 
   if($("#kommuneList").is(":visible")){
