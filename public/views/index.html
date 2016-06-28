@@ -90,17 +90,16 @@
                 <button name ="aerial" class ="baselayer-button aerial" type="button">
                   <span>Flyfoto</span>
                 </button>
-                <button name ="hybrid" class ="baselayer-button hybrid" type="button">
-                  <span>Hybrid</span>
-                </button>
                 <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
                   <span>3D-kart</span>
                 </button>
               </div>
             </li>
             <li id="vectorLayers">
-              <input id="symbolLayers" type="checkbox">Symboler
-              <input id="otherLayers" type="checkbox">Annet
+              <input id="symbolLayers" type="checkbox">
+                <label for="symbolLayers"><span></span>Symboler</label>
+              <input id="otherLayers" type="checkbox">
+                <label for="otherLayers"><span></span>Annet</label>
             </li>
             <div class="tools" name="verktøy">
               <div id="toolHeader">
@@ -112,11 +111,11 @@
                   <div id="del">
                     <button class="tool-button tool-button-del" name ="share" type="button">Del</button>
                     <div id="del-info" class="sideMenuToolDropdown">
-                      <input id ="shareLink"></input>
+                      <input id ="shareLink" value ="Link skal deles her"></input>
                       <div id="socialMedia">
-                        <img class ="smSymbol" src="../Images/facebook.png" style="width:50px;">
-                        <img class ="smSymbol" src="../Images/googlePlus.png" style="width:50px;">
-                        <img class ="smSymbol" src="../Images/Twitter.png" style="width:50px;">
+                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/FB_72.png">
+                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/GooglePlus_72.png">
+                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/Twitter_72.png">
                       </div>
                     </div>
                   </div>
@@ -147,7 +146,7 @@
                             <input name="search_input_1" input="text" class="kommunekart-search-input" placeholder="Fra...">
                             <input name="search_input_2" input="text" class="kommunekart-search-input" placeholder="Til...">
                         </div>
-                        <button name="route_planning_back_to_normal_search_button" class="cpc-icon-remove move-right" style="display: block;" type="button"></button>
+                        <button name="route_planning_back_to_normal_search_button" class="btnNavigation icon-remove" style="display: block;" type="button"></button>
                     </div>
                   </div>
                 </li>
