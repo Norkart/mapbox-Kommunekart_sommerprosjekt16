@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Kommunekart</title>
-
+  <script src="../layers.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.css' rel='stylesheet' />
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -71,66 +71,19 @@
       <div id ="side-menu-toggle">
         <button id ="side-menu-toggle-button" type ="button"></button>
         <div name ="menu-content" class = "show-menu">
-          <ul id ="menu-selector">
+          <ul id ="menu-selector" class="sidenavOpen">
 
-            <li>
+            <li name="kommunekartMeny">
               <div id ="kommunekart-menu">
-                <button id ="sprite-chevron-down" type = "button">
+                <button id ="kommunekart-menu-button" type = "button">
                   <h4 id ="choose-kommune-text">Velg kommune</h4>
-                  <div id="kommuneListPointer" class ="pointer pointer-down"></div>
+                  <div id="kommuneListPointer" class ="pointer pointer-up"></div>
                 </button>
-                <ul id="kommuneList"></ul>
+                <ul id="kommuneList" class="sideMenuLists"></ul>
               </div>
-            </li>
-            <li>
-              <div id="del">
-                <button class="tool-button tool-button-del" name ="share" type="button">Del</button>
-                <div id="del-info" class="sideMenuToolDropdown">
-                  <input id ="shareLink"></input>
-                  <div id="socialMedia">
-                    <img class ="smSymbol" src="../Images/facebook.png" style="width:50px;">
-                    <img class ="smSymbol" src="../Images/googlePlus.png" style="width:50px;">
-                    <img class ="smSymbol" src="../Images/Twitter.png" style="width:50px;">
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <button class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
-              <div id ="avstand-info" class="sideMenuToolDropdown">
-                <span>Avstandinfo</span>
-              </div>
-            </li>
-            <li>
-              <button class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
-              <div id ="print-info" class="sideMenuToolDropdown">
-              </div>
-            </li>
-            <li>
-              <button class="tool-button tool-button-draw" name ="draw" type="button">Påtegning</button>
-              <div id ="draw-info" class="sideMenuToolDropdown">
-              </div>
-            </li>
-            <li>
-              <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
-              <div class="sideMenuToolDropdown">
-              </div>
-            </li>
-            <li>
-              <button class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
-              <div class="sideMenuToolDropdown">
-              </div>
-            </li>
-            <li>
-              <button class="tool-button tool-button-om" name ="about" type="button">Om</button>
-              <div class="sideMenuToolDropdown">
-              </div>
-            </li>
-            <li id="norkartLogo">
-              <a  href="http://norkart.no" title="Forsiden"></a>
             </li>
             <li id="baselayerselector"name ="baselayerselector">
-              <div class="select-baselayer">
+              <div class="select-baselayer" id="select-baselayer">
                 <button name ="normal" class ="baselayer-button normal selected" type="button">
                   <span>Kart</span>
                 </button>
@@ -144,6 +97,65 @@
                   <span>3D-kart</span>
                 </button>
               </div>
+            </li>
+            <li id="vectorLayers">
+              <input id="symbolLayers" type="checkbox">Symboler
+              <input id="otherLayers" type="checkbox">Annet
+            </li>
+            <div class="tools" name="verktøy">
+              <div id="toolHeader">
+                <h4>Verktøy</h4>
+                <div id="toolPointer" class="pointer pointer-down"></div>
+              </div>
+              <div id="toolList" class="hide">
+                <li>
+                  <div id="del">
+                    <button class="tool-button tool-button-del" name ="share" type="button">Del</button>
+                    <div id="del-info" class="sideMenuToolDropdown">
+                      <input id ="shareLink"></input>
+                      <div id="socialMedia">
+                        <img class ="smSymbol" src="../Images/facebook.png" style="width:50px;">
+                        <img class ="smSymbol" src="../Images/googlePlus.png" style="width:50px;">
+                        <img class ="smSymbol" src="../Images/Twitter.png" style="width:50px;">
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <button class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
+                  <div id ="avstand-info" class="sideMenuToolDropdown">
+                    <span>Avstandinfo</span>
+                  </div>
+                </li>
+                <li>
+                  <button class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
+                  <div id ="print-info" class="sideMenuToolDropdown">
+                  </div>
+                </li>
+                <li>
+                  <button class="tool-button tool-button-draw" name ="draw" type="button">Påtegning</button>
+                  <div id ="draw-info" class="sideMenuToolDropdown">
+                  </div>
+                </li>
+                <li>
+                  <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
+                  <div class="sideMenuToolDropdown">
+                  </div>
+                </li>
+                <li>
+                  <button class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
+                  <div class="sideMenuToolDropdown">
+                  </div>
+                </li>
+                <li>
+                  <button class="tool-button tool-button-om" name ="about" type="button">Om</button>
+                  <div class="sideMenuToolDropdown">
+                  </div>
+                </li>
+              </div>
+            </div> <!--end of tools-->
+            <li id="norkartLogo">
+              <a  href="http://norkart.no" title="Forsiden"></a>
             </li>
           </ul>
         </div>
@@ -163,6 +175,7 @@
   </div>
 
   <script src="../javascripts/map.js"></script>
+  <script src="../javascripts/vectorLayers.js"></script>
   <script src="../javascripts/menus.js"></script>
   <script src="../javascripts/rasterOverlay.js"></script>
   <script src="../javascripts/coordinates.js"></script>
