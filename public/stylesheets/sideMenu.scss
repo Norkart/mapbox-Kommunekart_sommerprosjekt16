@@ -168,7 +168,7 @@ body{
 #navigation-info{
   margin-left: 0px;
   .kommunekart-search-input {
-    width: 100%;
+    width: 90%;
     margin: 0;
     color: #2E2D30;
     border: none !important;
@@ -204,7 +204,23 @@ body{
   .switch-direction-icon{
     background-image: url('../images/mapNavigation/changeDirection.png')!important;
   }
+  ::-webkit-input-placeholder {
+     color: black;
+  }
 
+  :-moz-placeholder { /* Firefox 18- */
+     color: black;
+  }
+
+  ::-moz-placeholder {  /* Firefox 19+ */
+     color: black;
+  }
+
+  :-ms-input-placeholder {
+     color: black;
+  }
+
+  
 }
 
 .scrollPadding{ //make the scroll not cover content of sideMenu
