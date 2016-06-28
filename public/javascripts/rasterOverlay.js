@@ -13,42 +13,53 @@ function setRasterOverlayMenu(kommuneId, idForKommuneListElement){
     url:layersUrl
   }).done(function(res){
     removeKommuneListMenu();
-    createRasterLayerMenu();
+    createRasterLayerMenu(res);
   });
 }
 
-function removeKommuneListMenu(){
-  document.getElementById("kommuneList").parent.removeChild(document.getElementById("kommuneList"));
+
+
+function formatName(name){
+  var formattedName=name.toLowerCase();
+  //first char uppercase
+  formattedName=formattedName.replace(formattedName.charAt(0),formattedName.charAt(0).toUpperCase());
+  formattedName=formattedName.split("_").join(" ");
+  return formattedName;
 }
 
 function createRasterLayerMenu(layerInfoJson){
+
   var rasterMenu=document.createElement("ul");
   rasterMenu.id="layerList";
+  rasterMenu.className="sideMenuLists";
   console.log(layerInfoJson);
 
   layerArea=layerInfoJson[0].Name;
   for(var i=0; i<layerInfoJson[0].Layers.length; i++){
     var rasterElement = document.createElement("li");
-    layerName=layerInfoJson[0].Layers[i].Name;
-    rasterElement.setAttribute("name",layerName);
+    layerName=layerInfoJson[0].Layers[i].Description;
+    formattedLayerName=formatName(layerName);
+    rasterElement.setAttribute("name",formattedLayerName);
     rasterElement.setAttribute("area",layerArea);
     rasterElement.setAttribute("active", false);
-    rasterElement.innerHTML=layerName;
+    rasterElement.innerHTML=formattedLayerName;
 
     rasterElement.addEventListener("click", function(){
-      rasterClickEvent();
+      rasterLayerClickEvent();
     });
 
     //adding raster element to raster list:
     rasterMenu.appendChild(rasterElement);
   }
   //adding the raster overlays list two kommune element
-  document.getElementById(idForKommuneListElement).appendChild(rasterMenu);
+  document.getElementById("kommunekart-menu").appendChild(rasterMenu);
+  $("#layerList").addClass("kommuneDropdownVisible");
 }
 
 
-function rasterClickEvent(){
+function rasterLayerClickEvent(){
   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
+
   var activeLayer=event.currentTarget.getAttribute("active");
   console.log(activeLayer);
   if(activeLayer==="true"){
@@ -104,7 +115,8 @@ function addRaster(url, name){
     "tileSize":256
   };
   map.addSource(name,sourceObj);
-  map.addLayer({
+  var layerNameToInsertBefore="wam-teig";
+  var layerObj={
     "id":name,
     "type":"raster",
     "source":name,
@@ -127,7 +139,8 @@ function addRaster(url, name){
     },
     "minzoom": 0,
     "maxzoom": 22
-  });
+  }
+  map.addLayer(layerObj, layerNameToInsertBefore);
 }
 
 function removeFromList(element, list){
