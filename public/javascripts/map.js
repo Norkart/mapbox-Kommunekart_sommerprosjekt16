@@ -1,5 +1,6 @@
 
 var mapmodus = "popup";
+var mapStyle = "normal";
 var osmActive=true;
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vpbm8iLCJhIjoiOE5oc094SSJ9.DHxjhFy2Ef33iP8yqIm5cA';
@@ -251,3 +252,8 @@ map.on('click', function (e) {
     return false;
   }
 });
+
+function changeBackgroundMap(maptype) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+}

@@ -90,7 +90,7 @@
                 <button name ="normal" class ="baselayer-button normal selected" type="button">
                   <span>Kart</span>
                 </button>
-                <button name ="aerial" class ="baselayer-button aerial" type="button">
+                <button name ="aerial" class ="baselayer-button aerial" id ="aerial" type="button">
                   <span>Flyfoto</span>
                 </button>
                 <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
@@ -171,10 +171,9 @@
           </ul>
         </div>
       </div>
-      <div id ="search-container">
-        <div class ="kommunekart-search kommunekart-control">
-          <input input = "text" class = "kommunekart-search-input" placeholder="Søk etter adresse, sted eller eiendom.">
-          <button name ="submit_button" class ="kommunekart-search-button" type="button" title ="Søk"></button>
+      <div id ="hei">
+        <div class ="kommunekart-search kommunekart-control" id ="searchBox">
+          <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom."><input id="search_submit" type="submit">
         </div>
       </div>
       <div id ="kommunekart-header">
@@ -185,8 +184,8 @@
   </div>
 
   <script src="../javascripts/map.js"></script>
-  <script src="../javascripts/vectorLayers.js"></script>
   <script src="../javascripts/menus.js"></script>
+  <script src="../javascripts/vectorLayers.js"></script>
   <script src="../javascripts/rasterOverlay.js"></script>
   <script src="../javascripts/coordinates.js"></script>
 

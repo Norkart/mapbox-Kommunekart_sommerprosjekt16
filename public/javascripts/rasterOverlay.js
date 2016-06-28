@@ -1,5 +1,5 @@
 
-
+var wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=";
 var activeLayerNames=[];
 
 function setRasterOverlayMenu(kommuneId, idForKommuneListElement){
@@ -86,9 +86,10 @@ function updateRasterView(name, layerArea){
     for(var i=1; i<activeLayerNames.length; i++){
       layerString+=","+activeLayerNames[i];
     }
-    var wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="+layerArea+":"+layerString;
-    console.log(wmsUrl);
-    addRaster(wmsUrl, "rasterOverlay");
+    var url=wmsUrl+layerArea+":"+layerString;
+    //var url="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="+layerArea+":"+layerString;
+    console.log(url);
+    addRaster(url, "rasterOverlay");
   }else{
     console.log("no active layers - nothing added");
   }
@@ -107,8 +108,15 @@ function removeRaster(name){
 }
 
 
-function addRaster(url, name){
+function addRaster(url, name, zoomLevel){
   console.log("adding raster");
+  var mz;
+  if(zoomLevel){
+    console.log("satt");
+    mz=zoomLevel;
+  }else{
+    mz=22;
+  }
   var sourceObj={
     "type":"raster",
     "tiles":[url],
@@ -137,7 +145,7 @@ function addRaster(url, name){
         ]
       }
     },
-    "minzoom": 0,
+    "minzoom": mz,
     "maxzoom": 22
   }
   map.addLayer(layerObj, layerNameToInsertBefore);

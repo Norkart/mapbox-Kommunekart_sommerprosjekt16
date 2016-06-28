@@ -196,3 +196,27 @@ $('.modal-shadow').click(function(){
     infoPopupStatus = 0;
   }
 });
+$('.normal').click(function(){
+  if(mapStyle==="aerial"){
+    $('.aerial').toggleClass('selected');
+    $('.normal').toggleClass('selected');
+  }
+  map.setStyle(layers);
+  mapStyle ="normal";
+  wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=";
+});
+
+$('.aerial').click(function(){
+  map.setStyle("mapbox://styles/keino/cips6baso001sdmm5qfbdurn8");
+  if(mapStyle==="normal"){
+    $('.aerial').toggleClass('selected');
+    $('.normal').toggleClass('selected');
+  }
+  mapStyle ="aerial";
+  setTimeout(function(){
+    addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "rasterOverlay", 10);
+   }, 3000);
+  console.log("loaded");
+
+  wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
+});
