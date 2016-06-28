@@ -1,4 +1,6 @@
+
 var mapmodus = "popup";
+var osmActive=true;
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vpbm8iLCJhIjoiOE5oc094SSJ9.DHxjhFy2Ef33iP8yqIm5cA';
 var map = new mapboxgl.Map({
@@ -13,6 +15,65 @@ var map = new mapboxgl.Map({
 map.addControl(new mapboxgl.Navigation({position: 'bottom-right'}));
 map.addControl(new mapboxgl.Geolocate({position: 'bottom-right'}));
 
+map.on('move', function(){
+  //check border intersection between norway and bounding box of the view
+  var bboxPol= getBBoxPol();
+  var norwayPol=norBorder.features[0];
+  var difference=turf.erase(bboxPol, norwayPol);
+  if(difference==undefined && osmActive){ //i norge, osm på --> skru av
+    console.log("turning off osm");
+    toggleOSM(false); //turn off
+    osmActive=false;
+  }else if(difference!=undefined && osmActive ==false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
+    console.log("turning on osm");
+    toggleOSM(true); //turn on
+    osmActive=true;
+  }else{
+    //do nothing
+  }
+});
+
+function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
+  var layerList=layers.layers;
+  var osmGroup="1452169018974.0132";
+  for(var i=0; i<layerList.length; i++){
+    var layer=layerList[i];
+    if(layer.metadata){
+      if(layer.metadata["mapbox:group"] === osmGroup){
+        if(visible){// make layers visible
+          map.setLayoutProperty(layer.id, 'visibility', 'visible');
+        }else{
+          console.log("change layer to visibility none:");
+          map.setLayoutProperty(layer.id, 'visibility', 'none');
+          map.getLayoutProperty(layer.id, 'visibility');
+        }
+      }
+    }
+  }
+}
+
+function getBBoxPol(){
+  var bounds=map.getBounds();
+  var sw=[bounds._sw.lng, bounds._sw.lat];
+  var ne=[bounds._ne.lng, bounds._ne.lat];
+  var nw=[sw[0], ne[1]]; //lng, lat
+  var se=[ne[0], sw[1]];
+  var pol={
+    "type": "Feature",
+    "properties":{},
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [[[
+        [bounds._sw.lng, bounds._sw.lat],
+        [sw[0], ne[1]],
+        [bounds._ne.lng, bounds._ne.lat],
+        [ne[0], sw[1]],
+        [bounds._sw.lng, bounds._sw.lat]
+      ]]]
+    }
+  };
+  return pol;
+}
 
 function startMeasureModus(){
   mapmodus = "measure";
@@ -21,9 +82,6 @@ function startMeasureModus(){
     "type": "FeatureCollection",
     "features": []
   };
-
-
-
   addMeasurementsLayerToMap(geojson);
 
   //click during measurements

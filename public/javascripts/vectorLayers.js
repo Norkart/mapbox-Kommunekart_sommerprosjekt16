@@ -1,6 +1,4 @@
 //Turn on/off layers based on groups in json
-
-
 var symbolGroups=[
   "Vegskilt",
   "Tekst_Vann",

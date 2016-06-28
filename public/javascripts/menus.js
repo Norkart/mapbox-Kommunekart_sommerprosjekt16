@@ -100,7 +100,7 @@ document.getElementById('menu-selector').addEventListener("click", function(){
 //"Velg kommune" is clicked, kommunelist shown/hidden
 document.getElementById("kommunekart-menu-button").addEventListener("click", function(){
   //$("#side-menu-toggle-button").removeClass("sidenavOpen");
-  $("#kommuneListPointer").toggleClass("pointer-up pointer-down");
+  $("#kommuneListPointer").toggleClass("pointer-right pointer-down");
   //make baselayer selector always show at bottom of sidemeny, and hide the rest
   $("#menu-selector").toggleClass("removeOverflow");
   //$("#kommuneList").toggleClass()
@@ -144,7 +144,7 @@ $('.kommunekart-logo').click(function(){
 //When "Verktoy" is clicked: dropdown menu shows
 $("#toolHeader").click(function(){
   $("#toolList").toggleClass("hide");
-  $("#toolPointer").toggleClass("pointer-up pointer-down");
+  $("#toolPointer").toggleClass("pointer-right pointer-down");
 })
 
 //Different tools:
