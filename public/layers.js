@@ -329,48 +329,48 @@ var layers= {
                 "fill-antialias": false
             }
         },
-        {
-            "id": "landuse_park",
-            "type": "fill",
-            "metadata": {
-                "mapbox:group": "1452169018974.0132"
-            },
-            "source": "composite",
-            "source-layer": "landuse",
-            "interactive": true,
-            "filter": [
-                "==",
-                "class",
-                "park"
-            ],
-            "layout": {
-                "visibility": "visible"
-            },
-            "paint": {
-                "fill-color": "#cde8a2"
-            }
-        },
-        {
-            "id": "landuse",
-            "type": "fill",
-            "metadata": {
-                "mapbox:group": "1452169018974.0132"
-            },
-            "source": "composite",
-            "source-layer": "landuse",
-            "interactive": true,
-            "filter": [
-                "==",
-                "class",
-                "wood"
-            ],
-            "layout": {
-                "visibility": "none"
-            },
-            "paint": {
-                "fill-color": "#c2ddbb"
-            }
-        },
+        // {
+        //     "id": "landuse_park",
+        //     "type": "fill",
+        //     "metadata": {
+        //         "mapbox:group": "1452169018974.0132"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "landuse",
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "class",
+        //         "park"
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible"
+        //     },
+        //     "paint": {
+        //         "fill-color": "#cde8a2"
+        //     }
+        // },
+        // {
+        //     "id": "landuse",
+        //     "type": "fill",
+        //     "metadata": {
+        //         "mapbox:group": "1452169018974.0132"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "landuse",
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "class",
+        //         "wood"
+        //     ],
+        //     "layout": {
+        //         "visibility": "none"
+        //     },
+        //     "paint": {
+        //         "fill-color": "#c2ddbb"
+        //     }
+        // },
         {
             "id": "building_walls",
             "type": "fill",
@@ -1165,61 +1165,61 @@ var layers= {
                 }
             }
         },
-        {
-            "id": "water-label-test",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452169018974.0132"
-            },
-            "source": "composite",
-            "source-layer": "water_label",
-            "minzoom": 3,
-            "maxzoom": 10,
-            "interactive": true,
-            "layout": {
-                "text-line-height": 1.1,
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            3,
-                            12
-                        ],
-                        [
-                            6,
-                            16
-                        ]
-                    ]
-                },
-                "symbol-spacing": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            4,
-                            100
-                        ],
-                        [
-                            6,
-                            400
-                        ]
-                    ]
-                },
-                "text-font": [
-                    "DIN Offc Pro Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "visibility": "none",
-                "text-field": "{name_en}",
-                "text-letter-spacing": 0.1,
-                "text-max-width": 5
-            },
-            "paint": {
-                "text-color": "#092dce",
-                "text-halo-color": "hsl(0, 0%, 100%)",
-                "text-halo-width": 1
-            }
-        },
+        // {
+        //     "id": "water-label-test",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452169018974.0132"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "water_label",
+        //     "minzoom": 3,
+        //     "maxzoom": 10,
+        //     "interactive": true,
+        //     "layout": {
+        //         "text-line-height": 1.1,
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     3,
+        //                     12
+        //                 ],
+        //                 [
+        //                     6,
+        //                     16
+        //                 ]
+        //             ]
+        //         },
+        //         "symbol-spacing": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     4,
+        //                     100
+        //                 ],
+        //                 [
+        //                     6,
+        //                     400
+        //                 ]
+        //             ]
+        //         },
+        //         "text-font": [
+        //             "DIN Offc Pro Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "visibility": "none",
+        //         "text-field": "{name_en}",
+        //         "text-letter-spacing": 0.1,
+        //         "text-max-width": 5
+        //     },
+        //     "paint": {
+        //         "text-color": "#092dce",
+        //         "text-halo-color": "hsl(0, 0%, 100%)",
+        //         "text-halo-width": 1
+        //     }
+        // },
         {
             "id": "marine-label-sm-ln",
             "type": "symbol",
@@ -4889,38 +4889,38 @@ var layers= {
                 }
             }
         },
-        {
-            "id": "fkb-parkeringsomraadeavgrensning",
-            "type": "line",
-            "metadata": {
-                "mapbox:group": "1451981488150.5059"
-            },
-            "source": "composite",
-            "source-layer": "fkb_parkeringsomraadeavgrensning",
-            "minzoom": 15,
-            "interactive": true,
-            "layout": {
-                "visibility": "none",
-                "line-cap": "round",
-                "line-join": "round"
-            },
-            "paint": {
-                "line-width": {
-                    "base": 1.3,
-                    "stops": [
-                        [
-                            14,
-                            0.4
-                        ],
-                        [
-                            22,
-                            0.8
-                        ]
-                    ]
-                },
-                "line-opacity": 0.7
-            }
-        },
+        // {
+        //     "id": "fkb-parkeringsomraadeavgrensning",
+        //     "type": "line",
+        //     "metadata": {
+        //         "mapbox:group": "1451981488150.5059"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "fkb_parkeringsomraadeavgrensning",
+        //     "minzoom": 15,
+        //     "interactive": true,
+        //     "layout": {
+        //         "visibility": "none",
+        //         "line-cap": "round",
+        //         "line-join": "round"
+        //     },
+        //     "paint": {
+        //         "line-width": {
+        //             "base": 1.3,
+        //             "stops": [
+        //                 [
+        //                     14,
+        //                     0.4
+        //                 ],
+        //                 [
+        //                     22,
+        //                     0.8
+        //                 ]
+        //             ]
+        //         },
+        //         "line-opacity": 0.7
+        //     }
+        // },
         {
             "id": "fkb-gangsykkelveg-line",
             "type": "line",
@@ -6057,22 +6057,22 @@ var layers= {
                 "line-opacity": 0.65
             }
         },
-        {
-            "id": "wam-teig",
-            "type": "line",
-            "source": "composite",
-            "source-layer": "WAM_Teig",
-            "minzoom": 16,
-            "interactive": true,
-            "layout": {
-                "visibility": "none"
-            },
-            "paint": {
-                "line-color": "#f20a0a",
-                "line-width": 0.6,
-                "line-opacity": 0.5
-            }
-        },
+        // {
+        //     "id": "wam-teig",
+        //     "type": "line",
+        //     "source": "composite",
+        //     "source-layer": "WAM_Teig",
+        //     "minzoom": 16,
+        //     "interactive": true,
+        //     "layout": {
+        //         "visibility": "none"
+        //     },
+        //     "paint": {
+        //         "line-color": "#f20a0a",
+        //         "line-width": 0.6,
+        //         "line-opacity": 0.5
+        //     }
+        // },
         {
             "id": "railway",
             "type": "line",
@@ -6341,54 +6341,54 @@ var layers= {
                 "text-halo-width": 1.25
             }
         },
-        {
-            "id": "Skrivemaate_xyzvann_32 copy",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1460452470657.2046"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 12,
-            "maxzoom": 18,
-            "interactive": true,
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            6,
-                            8
-                        ],
-                        [
-                            14,
-                            11
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "symbol-avoid-edges": false,
-                "text-ignore-placement": false,
-                "text-font": [
-                    "DIN Offc Pro Regular",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "text-justify": "center",
-                "text-padding": 2,
-                "visibility": "none",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-color": "hsl(1, 80%, 41%)",
-                "text-opacity": 1,
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1
-            }
-        },
+        // {
+        //     "id": "Skrivemaate_xyzvann_32 copy",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1460452470657.2046"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 12,
+        //     "maxzoom": 18,
+        //     "interactive": true,
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     6,
+        //                     8
+        //                 ],
+        //                 [
+        //                     14,
+        //                     11
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "symbol-avoid-edges": false,
+        //         "text-ignore-placement": false,
+        //         "text-font": [
+        //             "DIN Offc Pro Regular",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "text-justify": "center",
+        //         "text-padding": 2,
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-color": "hsl(1, 80%, 41%)",
+        //         "text-opacity": 1,
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1
+        //     }
+        // },
         {
             "id": "Skrivemaate_50_isbre",
             "type": "symbol",
@@ -6512,58 +6512,58 @@ var layers= {
                 "text-opacity": 1
             }
         },
-        {
-            "id": "Vegskilt_Europaveg",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452168476723.928"
-            },
-            "source": "composite",
-            "source-layer": "road_label",
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "in",
-                    "ref",
-                    "E6",
-                    "E18",
-                    "E16",
-                    "E134",
-                    "E45",
-                    "E39",
-                    "E4",
-                    "E14"
-                ],
-                [
-                    "==",
-                    "shield",
-                    "e-road"
-                ]
-            ],
-            "layout": {
-                "text-size": 10,
-                "text-allow-overlap": false,
-                "icon-image": "europavegskilt-2",
-                "icon-rotation-alignment": "viewport",
-                "icon-keep-upright": true,
-                "text-font": [
-                    "Open Sans Bold",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "text-padding": 50,
-                "visibility": "none",
-                "text-rotation-alignment": "viewport",
-                "text-keep-upright": true,
-                "text-field": "{ref}"
-            },
-            "paint": {
-                "text-color": "rgba(255,255,255,1)",
-                "text-halo-width": 0,
-                "text-opacity": 1
-            }
-        },
+        // {
+        //     "id": "Vegskilt_Europaveg",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452168476723.928"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "road_label",
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "in",
+        //             "ref",
+        //             "E6",
+        //             "E18",
+        //             "E16",
+        //             "E134",
+        //             "E45",
+        //             "E39",
+        //             "E4",
+        //             "E14"
+        //         ],
+        //         [
+        //             "==",
+        //             "shield",
+        //             "e-road"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-size": 10,
+        //         "text-allow-overlap": false,
+        //         "icon-image": "europavegskilt-2",
+        //         "icon-rotation-alignment": "viewport",
+        //         "icon-keep-upright": true,
+        //         "text-font": [
+        //             "Open Sans Bold",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "text-padding": 50,
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "viewport",
+        //         "text-keep-upright": true,
+        //         "text-field": "{ref}"
+        //     },
+        //     "paint": {
+        //         "text-color": "rgba(255,255,255,1)",
+        //         "text-halo-width": 0,
+        //         "text-opacity": 1
+        //     }
+        // },
         {
             "id": "Vegskilt_Europaveg_Global",
             "type": "symbol",
@@ -7098,31 +7098,31 @@ var layers= {
                 "text-color": "#612700"
             }
         },
-        {
-            "id": "fkb-presstedsnavn-",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1461904943095.7854"
-            },
-            "source": "composite",
-            "source-layer": "FKB_PresStedsnavn",
-            "minzoom": 10,
-            "interactive": true,
-            "filter": [
-                "in",
-                "$type",
-                "LineString",
-                "Polygon",
-                "Point"
-            ],
-            "layout": {
-                "visibility": "none",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-color": "hsl(0, 94%, 50%)"
-            }
-        },
+        // {
+        //     "id": "fkb-presstedsnavn-",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1461904943095.7854"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "FKB_PresStedsnavn",
+        //     "minzoom": 10,
+        //     "interactive": true,
+        //     "filter": [
+        //         "in",
+        //         "$type",
+        //         "LineString",
+        //         "Polygon",
+        //         "Point"
+        //     ],
+        //     "layout": {
+        //         "visibility": "none",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-color": "hsl(0, 94%, 50%)"
+        //     }
+        // },
         {
             "id": "fkb-presstedsnavn-vann",
             "type": "symbol",
@@ -7387,105 +7387,105 @@ var layers= {
                 "text-opacity": 0.8
             }
         },
-        {
-            "id": "Skrivemaate_Txxx",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 7,
-            "interactive": true,
-            "filter": [
-                "==",
-                "$type",
-                "Point"
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            12
-                        ],
-                        [
-                            14,
-                            12
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "text-transform": "none",
-                "text-font": [
-                    "DIN Offc Pro Medium Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-justify": "left",
-                "text-padding": 1,
-                "visibility": "none",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-halo-width": 1,
-                "text-halo-blur": 0.5,
-                "text-halo-color": "#fff",
-                "text-color": "hsl(0, 91%, 67%)",
-                "text-opacity": 0.85
-            }
-        },
-        {
-            "id": "Skrivemaate_161",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 9,
-            "maxzoom": 15,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "161"
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            10
-                        ],
-                        [
-                            12,
-                            12
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "text-font": [
-                    "DIN Offc Pro Medium Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-justify": "left",
-                "text-padding": 5,
-                "visibility": "none",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-halo-width": 1,
-                "text-halo-blur": 0,
-                "text-halo-color": "#fff",
-                "text-color": "#323232"
-            }
-        },
+        // {
+        //     "id": "Skrivemaate_Txxx",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 7,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "$type",
+        //         "Point"
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     12
+        //                 ],
+        //                 [
+        //                     14,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "text-transform": "none",
+        //         "text-font": [
+        //             "DIN Offc Pro Medium Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-justify": "left",
+        //         "text-padding": 1,
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 0.5,
+        //         "text-halo-color": "#fff",
+        //         "text-color": "hsl(0, 91%, 67%)",
+        //         "text-opacity": 0.85
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_161",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 9,
+        //     "maxzoom": 15,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "161"
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     10
+        //                 ],
+        //                 [
+        //                     12,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "text-font": [
+        //             "DIN Offc Pro Medium Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-justify": "left",
+        //         "text-padding": 5,
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 0,
+        //         "text-halo-color": "#fff",
+        //         "text-color": "#323232"
+        //     }
+        // },
         {
             "id": "Skrivemaate_235+72",
             "type": "symbol",
@@ -7981,383 +7981,383 @@ var layers= {
                 "text-halo-blur": 0.5
             }
         },
-        {
-            "id": "skrivemaate_108-110",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 13,
-            "interactive": true,
-            "filter": [
-                "in",
-                "ptema",
-                "108",
-                "109",
-                "110"
-            ],
-            "layout": {
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Regular",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            10
-                        ],
-                        [
-                            12,
-                            12
-                        ]
-                    ]
-                },
-                "visibility": "none"
-            },
-            "paint": {
-                "text-color": "#323232",
-                "text-halo-color": "#fff",
-                "text-halo-width": 1
-            }
-        },
-        {
-            "id": "Skrivemaate_101",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 8,
-            "maxzoom": 13,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "101"
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            7,
-                            11
-                        ],
-                        [
-                            15,
-                            15
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "text-font": [
-                    "DIN Offc Pro Medium",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-justify": "left",
-                "text-padding": 10,
-                "visibility": "none",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-halo-width": 1.25,
-                "text-halo-blur": 0.5,
-                "text-halo-color": "#fff",
-                "text-color": "#000",
-                "text-opacity": 0.85
-            }
-        },
-        {
-            "id": "Skrivemaate_100",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 6,
-            "maxzoom": 12,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "!=",
-                    "streng",
-                    "Oslo"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "100"
-                ]
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            7,
-                            12
-                        ],
-                        [
-                            10,
-                            18
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "icon-image": "dot-9",
-                "icon-rotation-alignment": "viewport",
-                "symbol-avoid-edges": false,
-                "text-transform": "none",
-                "text-font": [
-                    "DIN Offc Pro Medium",
-                    "Arial Unicode MS Regular"
-                ],
-                "visibility": "none",
-                "text-rotation-alignment": "viewport",
-                "text-anchor": "bottom",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "#000",
-                "text-opacity": 0.85
-            }
-        },
-        {
-            "id": "Skrivemaate_Trikk_Bane",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 9,
-            "maxzoom": 14,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "$type",
-                    "Point"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "219"
-                ]
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            8
-                        ],
-                        [
-                            14,
-                            12
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "text-transform": "none",
-                "text-font": [
-                    "DIN Offc Pro Medium Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "text-justify": "left",
-                "text-padding": 1,
-                "visibility": "none",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-halo-width": 1,
-                "text-halo-blur": 0.5,
-                "text-halo-color": "#fff",
-                "text-color": "hsl(0, 91%, 67%)",
-                "text-opacity": 0.85
-            }
-        },
-        {
-            "id": "Skrivemaate_punkt",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 5,
-            "maxzoom": 15,
-            "interactive": true,
-            "filter": [
-                "in",
-                "$type",
-                "LineString",
-                "Polygon",
-                "Point"
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            6,
-                            10
-                        ],
-                        [
-                            14,
-                            15
-                        ]
-                    ]
-                },
-                "text-allow-overlap": true,
-                "symbol-avoid-edges": false,
-                "text-ignore-placement": false,
-                "text-transform": "none",
-                "text-font": [
-                    "DIN Offc Pro Cond",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "text-justify": "center",
-                "visibility": "none",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-keep-upright": true,
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-color": "hsl(0, 91%, 55%)",
-                "text-halo-width": 1
-            }
-        },
-        {
-            "id": "Skrivemaate_187",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 8,
-            "maxzoom": 14,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "$type",
-                    "Point"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "187"
-                ]
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Bold Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            4,
-                            10
-                        ],
-                        [
-                            7,
-                            12
-                        ]
-                    ]
-                },
-                "text-transform": "none"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(37,99,1,1)",
-                "text-opacity": 0.7
-            }
-        },
-        {
-            "id": "Skrivemaate_100(Oslo)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1452087317478.8662"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 10,
-            "maxzoom": 15,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "ptema",
-                    "100"
-                ],
-                [
-                    "==",
-                    "streng",
-                    "Oslo"
-                ]
-            ],
-            "layout": {
-                "visibility": "none",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Bold",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            4,
-                            13
-                        ],
-                        [
-                            6,
-                            16
-                        ]
-                    ]
-                },
-                "text-transform": "none",
-                "icon-image": "dot-9",
-                "text-anchor": "top"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(20,20,20,1)"
-            }
-        },
+        // {
+        //     "id": "skrivemaate_108-110",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 13,
+        //     "interactive": true,
+        //     "filter": [
+        //         "in",
+        //         "ptema",
+        //         "108",
+        //         "109",
+        //         "110"
+        //     ],
+        //     "layout": {
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Regular",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     10
+        //                 ],
+        //                 [
+        //                     12,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "visibility": "none"
+        //     },
+        //     "paint": {
+        //         "text-color": "#323232",
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_101",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 8,
+        //     "maxzoom": 13,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "101"
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     7,
+        //                     11
+        //                 ],
+        //                 [
+        //                     15,
+        //                     15
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "text-font": [
+        //             "DIN Offc Pro Medium",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-justify": "left",
+        //         "text-padding": 10,
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-halo-width": 1.25,
+        //         "text-halo-blur": 0.5,
+        //         "text-halo-color": "#fff",
+        //         "text-color": "#000",
+        //         "text-opacity": 0.85
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_100",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 6,
+        //     "maxzoom": 12,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "!=",
+        //             "streng",
+        //             "Oslo"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "100"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     7,
+        //                     12
+        //                 ],
+        //                 [
+        //                     10,
+        //                     18
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "icon-image": "dot-9",
+        //         "icon-rotation-alignment": "viewport",
+        //         "symbol-avoid-edges": false,
+        //         "text-transform": "none",
+        //         "text-font": [
+        //             "DIN Offc Pro Medium",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "viewport",
+        //         "text-anchor": "bottom",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "#000",
+        //         "text-opacity": 0.85
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_Trikk_Bane",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 9,
+        //     "maxzoom": 14,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "$type",
+        //             "Point"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "219"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     8
+        //                 ],
+        //                 [
+        //                     14,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "text-transform": "none",
+        //         "text-font": [
+        //             "DIN Offc Pro Medium Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "text-justify": "left",
+        //         "text-padding": 1,
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 0.5,
+        //         "text-halo-color": "#fff",
+        //         "text-color": "hsl(0, 91%, 67%)",
+        //         "text-opacity": 0.85
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_punkt",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 5,
+        //     "maxzoom": 15,
+        //     "interactive": true,
+        //     "filter": [
+        //         "in",
+        //         "$type",
+        //         "LineString",
+        //         "Polygon",
+        //         "Point"
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     6,
+        //                     10
+        //                 ],
+        //                 [
+        //                     14,
+        //                     15
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": true,
+        //         "symbol-avoid-edges": false,
+        //         "text-ignore-placement": false,
+        //         "text-transform": "none",
+        //         "text-font": [
+        //             "DIN Offc Pro Cond",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "text-justify": "center",
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-keep-upright": true,
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-color": "hsl(0, 91%, 55%)",
+        //         "text-halo-width": 1
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_187",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 8,
+        //     "maxzoom": 14,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "$type",
+        //             "Point"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "187"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Bold Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     4,
+        //                     10
+        //                 ],
+        //                 [
+        //                     7,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(37,99,1,1)",
+        //         "text-opacity": 0.7
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_100(Oslo)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1452087317478.8662"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 10,
+        //     "maxzoom": 15,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "100"
+        //         ],
+        //         [
+        //             "==",
+        //             "streng",
+        //             "Oslo"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "visibility": "none",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Bold",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     4,
+        //                     13
+        //                 ],
+        //                 [
+        //                     6,
+        //                     16
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none",
+        //         "icon-image": "dot-9",
+        //         "text-anchor": "top"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(20,20,20,1)"
+        //     }
+        // },
         {
             "id": "Skrivemaate_9004(Høyde_Vann)",
             "type": "symbol",
@@ -8603,49 +8603,49 @@ var layers= {
                 "text-opacity": 0.7
             }
         },
-        {
-            "id": "Skrivemaate_alle",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 8,
-            "maxzoom": 12,
-            "interactive": true,
-            "layout": {
-                "visibility": "none",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Cond Medium",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            12,
-                            10
-                        ],
-                        [
-                            14,
-                            14
-                        ]
-                    ]
-                },
-                "text-transform": "none",
-                "text-allow-overlap": false,
-                "text-letter-spacing": 0.06
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "hsl(0, 96%, 49%)",
-                "text-opacity": 0.75
-            }
-        },
+        // {
+        //     "id": "Skrivemaate_alle",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 8,
+        //     "maxzoom": 12,
+        //     "interactive": true,
+        //     "layout": {
+        //         "visibility": "none",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Cond Medium",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     12,
+        //                     10
+        //                 ],
+        //                 [
+        //                     14,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none",
+        //         "text-allow-overlap": false,
+        //         "text-letter-spacing": 0.06
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "hsl(0, 96%, 49%)",
+        //         "text-opacity": 0.75
+        //     }
+        // },
         {
             "id": "Skrivemaate-80_89(øy)",
             "type": "symbol",
@@ -8916,54 +8916,54 @@ var layers= {
                 "text-halo-blur": 1
             }
         },
-        {
-            "id": "Skrivemaate_vann_xx",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 8,
-            "maxzoom": 14,
-            "interactive": true,
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            8,
-                            15
-                        ],
-                        [
-                            14,
-                            17
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "symbol-avoid-edges": false,
-                "text-ignore-placement": false,
-                "text-font": [
-                    "DIN Offc Pro Medium",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "text-justify": "center",
-                "text-padding": 2,
-                "visibility": "none",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-color": "#1815bd",
-                "text-opacity": 1,
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1
-            }
-        },
+        // {
+        //     "id": "Skrivemaate_vann_xx",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 8,
+        //     "maxzoom": 14,
+        //     "interactive": true,
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     8,
+        //                     15
+        //                 ],
+        //                 [
+        //                     14,
+        //                     17
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "symbol-avoid-edges": false,
+        //         "text-ignore-placement": false,
+        //         "text-font": [
+        //             "DIN Offc Pro Medium",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "text-justify": "center",
+        //         "text-padding": 2,
+        //         "visibility": "none",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-color": "#1815bd",
+        //         "text-opacity": 1,
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1
+        //     }
+        // },
         {
             "id": "Skrivemaate_30(Fjord)",
             "type": "symbol",
@@ -9617,272 +9617,272 @@ var layers= {
                 "text-opacity": 0.75
             }
         },
-        {
-            "id": "Skrivemaate_4",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636370102.6504"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 5,
-            "maxzoom": 7,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "4"
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            6,
-                            10
-                        ],
-                        [
-                            7,
-                            12
-                        ]
-                    ]
-                },
-                "text-allow-overlap": true,
-                "icon-image": "dot-9",
-                "text-transform": "none",
-                "text-font": [
-                    "DIN Offc Pro Regular",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-padding": 1,
-                "visibility": "none",
-                "icon-size": 0.8,
-                "text-anchor": "center",
-                "text-field": "{streng}",
-                "text-letter-spacing": 0.01,
-                "icon-padding": 1
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(20,20,20,1)"
-            }
-        },
-        {
-            "id": "Skrivemaate_3",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636370102.6504"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 5,
-            "maxzoom": 7,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "3"
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            6,
-                            10
-                        ],
-                        [
-                            7,
-                            12
-                        ]
-                    ]
-                },
-                "text-allow-overlap": true,
-                "icon-image": "dot-9",
-                "text-transform": "none",
-                "text-font": [
-                    "DIN Offc Pro Regular",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-padding": 1,
-                "visibility": "none",
-                "icon-size": 0.8,
-                "text-anchor": "center",
-                "text-field": "{streng}",
-                "text-letter-spacing": 0.01,
-                "icon-padding": 1
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(20,20,20,1)"
-            }
-        },
-        {
-            "id": "Skrivemaate_2(LitenBy)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636370102.6504"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 5,
-            "maxzoom": 7,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "2"
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            6,
-                            10
-                        ],
-                        [
-                            7,
-                            12
-                        ]
-                    ]
-                },
-                "text-allow-overlap": true,
-                "icon-image": "dot-9",
-                "text-transform": "none",
-                "text-font": [
-                    "DIN Offc Pro Medium",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-padding": 1,
-                "visibility": "none",
-                "icon-size": 0.8,
-                "text-anchor": "center",
-                "text-field": "{streng}",
-                "text-letter-spacing": 0.01,
-                "icon-padding": 1
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(20,20,20,1)"
-            }
-        },
-        {
-            "id": "Skrivemaate_1(Stor by)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636370102.6504"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 4,
-            "maxzoom": 7,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "ptema",
-                    "1"
-                ],
-                [
-                    "!=",
-                    "streng",
-                    "Oslo"
-                ]
-            ],
-            "layout": {
-                "visibility": "none",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Regular",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            4,
-                            13
-                        ],
-                        [
-                            6,
-                            16
-                        ]
-                    ]
-                },
-                "text-transform": "none",
-                "icon-image": "dot-9",
-                "text-anchor": "bottom"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(20,20,20,1)"
-            }
-        },
-        {
-            "id": "Skrivemaate_1(Oslo)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636370102.6504"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 4,
-            "maxzoom": 7,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "ptema",
-                    "1"
-                ],
-                [
-                    "==",
-                    "streng",
-                    "Oslo"
-                ]
-            ],
-            "layout": {
-                "visibility": "none",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Bold",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            4,
-                            13
-                        ],
-                        [
-                            6,
-                            16
-                        ]
-                    ]
-                },
-                "text-transform": "none",
-                "icon-image": "dot-9",
-                "text-anchor": "top"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(20,20,20,1)"
-            }
-        },
+        // {
+        //     "id": "Skrivemaate_4",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636370102.6504"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 5,
+        //     "maxzoom": 7,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "4"
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     6,
+        //                     10
+        //                 ],
+        //                 [
+        //                     7,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": true,
+        //         "icon-image": "dot-9",
+        //         "text-transform": "none",
+        //         "text-font": [
+        //             "DIN Offc Pro Regular",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-padding": 1,
+        //         "visibility": "none",
+        //         "icon-size": 0.8,
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}",
+        //         "text-letter-spacing": 0.01,
+        //         "icon-padding": 1
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(20,20,20,1)"
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_3",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636370102.6504"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 5,
+        //     "maxzoom": 7,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "3"
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     6,
+        //                     10
+        //                 ],
+        //                 [
+        //                     7,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": true,
+        //         "icon-image": "dot-9",
+        //         "text-transform": "none",
+        //         "text-font": [
+        //             "DIN Offc Pro Regular",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-padding": 1,
+        //         "visibility": "none",
+        //         "icon-size": 0.8,
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}",
+        //         "text-letter-spacing": 0.01,
+        //         "icon-padding": 1
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(20,20,20,1)"
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_2(LitenBy)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636370102.6504"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 5,
+        //     "maxzoom": 7,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "2"
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     6,
+        //                     10
+        //                 ],
+        //                 [
+        //                     7,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": true,
+        //         "icon-image": "dot-9",
+        //         "text-transform": "none",
+        //         "text-font": [
+        //             "DIN Offc Pro Medium",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-padding": 1,
+        //         "visibility": "none",
+        //         "icon-size": 0.8,
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}",
+        //         "text-letter-spacing": 0.01,
+        //         "icon-padding": 1
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(20,20,20,1)"
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_1(Stor by)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636370102.6504"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 4,
+        //     "maxzoom": 7,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "1"
+        //         ],
+        //         [
+        //             "!=",
+        //             "streng",
+        //             "Oslo"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "visibility": "none",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Regular",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     4,
+        //                     13
+        //                 ],
+        //                 [
+        //                     6,
+        //                     16
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none",
+        //         "icon-image": "dot-9",
+        //         "text-anchor": "bottom"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(20,20,20,1)"
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_1(Oslo)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636370102.6504"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 4,
+        //     "maxzoom": 7,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "1"
+        //         ],
+        //         [
+        //             "==",
+        //             "streng",
+        //             "Oslo"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "visibility": "none",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Bold",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     4,
+        //                     13
+        //                 ],
+        //                 [
+        //                     6,
+        //                     16
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none",
+        //         "icon-image": "dot-9",
+        //         "text-anchor": "top"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(20,20,20,1)"
+        //     }
+        // },
         {
             "id": "place-label-sted",
             "type": "symbol",

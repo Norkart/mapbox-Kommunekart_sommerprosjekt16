@@ -4,6 +4,9 @@
   <title>Kommunekart</title>
   <script src="../layers.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.js'></script>
+  <script src='../../../node_modules/turf-intersect/node_modules/jsts/dist/jsts.min.js'></script>
+  <script src='../../../node_modules/turf-difference/node_modules/jsts/dist/jsts.min.js'></script>
+  <script src='../norwayBorder.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.css' rel='stylesheet' />
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
   <link rel="icon" href="http://www.norkart.no/content/themes/norkart/assets/images/favicon.png">
@@ -77,7 +80,7 @@
               <div id ="kommunekart-menu">
                 <button id ="kommunekart-menu-button" type = "button">
                   <h4 id ="choose-kommune-text">Velg kommune</h4>
-                  <div id="kommuneListPointer" class ="pointer pointer-up"></div>
+                  <div id="kommuneListPointer" class ="pointer pointer-right"></div>
                 </button>
                 <ul id="kommuneList" class="sideMenuLists"></ul>
               </div>
@@ -105,7 +108,7 @@
             <div class="tools" name="verktøy">
               <div id="toolHeader">
                 <h4>Verktøy</h4>
-                <div id="toolPointer" class="pointer pointer-down"></div>
+                <div id="toolPointer" class="pointer pointer-right"></div>
               </div>
               <div id="toolList" class="hide">
                 <li>
