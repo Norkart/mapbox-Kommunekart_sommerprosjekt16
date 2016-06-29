@@ -215,7 +215,7 @@ $('.aerial').click(function(){
   mapStyle ="aerial";
   setTimeout(function(){
     addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "rasterOverlay", 10);
-   }, 3000);
+  }, 1000);
   console.log("loaded");
 
   wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";

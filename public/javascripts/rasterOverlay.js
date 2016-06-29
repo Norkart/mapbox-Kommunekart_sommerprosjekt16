@@ -37,7 +37,7 @@ function createRasterLayerMenu(layerInfoJson){
   layerArea=layerInfoJson[0].Name;
   for(var i=0; i<layerInfoJson[0].Layers.length; i++){
     var rasterElement = document.createElement("li");
-    layerName=layerInfoJson[0].Layers[i].Description;
+    layerName=layerInfoJson[0].Layers[i].Name;
     formattedLayerName=formatName(layerName);
     rasterElement.setAttribute("name",formattedLayerName);
     rasterElement.setAttribute("area",layerArea);
@@ -79,6 +79,7 @@ function rasterLayerClickEvent(){
 
 
 function updateRasterView(name, layerArea){
+  console.log("oppdaterer");
   removeRaster("rasterOverlay", activeLayerNames);
   var layerString=activeLayerNames[0]; //Adding first layer here to be able to add a comma before each insertion inside the for loop
 
@@ -89,17 +90,33 @@ function updateRasterView(name, layerArea){
     var url=wmsUrl+layerArea+":"+layerString;
     //var url="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="+layerArea+":"+layerString;
     console.log(url);
-    addRaster(url, "rasterOverlay");
+    if(mapStyle==="aerial"){
+      addAerialRaster(url, "rasterOverlay");
+    } else{
+      addRaster(url, "rasterOverlay");
+    }
   }else{
     console.log("no active layers - nothing added");
   }
 }
 
+function addAerialRaster(url, name){
+  map.removeSource(name); //Default source always on - therefore have to remove first
+  var sourceObj={
+    "type":"raster",
+    "tiles":[url],
+    "tileSize":256
+  };
+  map.addSource(name,sourceObj);
+}
 function removeRaster(name){
   console.log("removing raster");
   if(map.getSource(name)!==undefined){
     map.removeSource(name);
     map.removeLayer(name);
+    if(mapStyle==="aerial"){
+      addRaster(wmsUrl,name); //adding sattelite raster that should always be there
+    }
     return true;
   }else{
     console.log("no raster to delete");
@@ -115,7 +132,7 @@ function addRaster(url, name, zoomLevel){
     console.log("satt");
     mz=zoomLevel;
   }else{
-    mz=22;
+    mz=0;
   }
   var sourceObj={
     "type":"raster",
@@ -123,7 +140,7 @@ function addRaster(url, name, zoomLevel){
     "tileSize":256
   };
   map.addSource(name,sourceObj);
-  var layerNameToInsertBefore="wam-teig";
+  var layerNameToInsertBefore="rail-station-label";
   var layerObj={
     "id":name,
     "type":"raster",
@@ -167,10 +184,8 @@ function resetRasterOverlays(){
 
   //delete layerList for kommune with "open" raster menu
   var list=document.getElementById("layerList");
-  console.log(list);
   if(list){
     list.parentNode.removeChild(list);
   }
-
   removeRaster("rasterOverlay");
 }

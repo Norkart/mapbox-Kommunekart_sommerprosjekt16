@@ -16,23 +16,23 @@ var map = new mapboxgl.Map({
 map.addControl(new mapboxgl.Navigation({position: 'bottom-right'}));
 map.addControl(new mapboxgl.Geolocate({position: 'bottom-right'}));
 
-map.on('move', function(){
-  //check border intersection between norway and bounding box of the view
-  var bboxPol= getBBoxPol();
-  var norwayPol=norBorder.features[0];
-  var difference=turf.erase(bboxPol, norwayPol);
-  if(difference==undefined && osmActive){ //i norge, osm på --> skru av
-    console.log("turning off osm");
-    toggleOSM(false); //turn off
-    osmActive=false;
-  }else if(difference!=undefined && osmActive ==false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
-    console.log("turning on osm");
-    toggleOSM(true); //turn on
-    osmActive=true;
-  }else{
-    //do nothing
-  }
-});
+// map.on('move', function(){
+//   //check border intersection between norway and bounding box of the view
+//   var bboxPol= getBBoxPol();
+//   var norwayPol=norBorder.features[0];
+//   var difference=turf.erase(bboxPol, norwayPol);
+//   if(difference==undefined && osmActive){ //i norge, osm på --> skru av
+//     console.log("turning off osm");
+//     toggleOSM(false); //turn off
+//     osmActive=false;
+//   }else if(difference!=undefined && osmActive ==false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
+//     console.log("turning on osm");
+//     toggleOSM(true); //turn on
+//     osmActive=true;
+//   }else{
+//     //do nothing
+//   }
+// });
 
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
   var layerList=layers.layers;
