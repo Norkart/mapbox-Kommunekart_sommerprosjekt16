@@ -38,8 +38,9 @@ function createRasterLayerMenu(layerInfoJson){
   for(var i=0; i<layerInfoJson[0].Layers.length; i++){
     var rasterElement = document.createElement("li");
     layerName=layerInfoJson[0].Layers[i].Name;
-    formattedLayerName=formatName(layerName);
-    rasterElement.setAttribute("name",formattedLayerName);
+    layerNameMenu=layerInfoJson[0].Layers[i].Description;
+    formattedLayerName=formatName(layerNameMenu);
+    rasterElement.setAttribute("name",layerName);
     rasterElement.setAttribute("area",layerArea);
     rasterElement.setAttribute("active", false);
     rasterElement.innerHTML=formattedLayerName;

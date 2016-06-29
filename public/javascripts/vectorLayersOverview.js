@@ -5,14 +5,14 @@ var annetLayers=[
   "Bygning",
   "Myr",
   "countour",
-
+  "railway-tracks"
 ];
 
-var annetGroups[
+var annetGroups=[
   "FKB_Bygning",
   "FKB_Veger",
-  "veger",
-  "ABAS_Grenser",
+  "Veger",
+  "ABAS_Grenser"
 ];
 
 var bygninglayers = [

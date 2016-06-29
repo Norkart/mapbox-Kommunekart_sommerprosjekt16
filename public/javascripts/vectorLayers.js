@@ -1,17 +1,16 @@
 //Turn on/off layers based on groups in json
 
 
-var symbolGroupIDs=[];
-//get name of groups that makes out all symbols:
-var layerGroups=layers.metadata["mapbox:groups"];
-// console.log(layerGroups);
-// for(var group in layerGroups){
-//   for(var i=0; i<symbolGroups.length; i++){
-//     if(layerGroups[group].name === symbolGroups[i]){
-//       symbolGroupIDs.push(group);
-//     }
-//   }
-// }
+var annetGroupIDs=[];
+//get name of groups that makes out all layers for "annet":
+var annetLayerGroups=layers.metadata["mapbox:groups"];
+for(var group in annetLayerGroups){
+  for(var i=0; i<annetGroups.length; i++){
+    if(annetLayerGroups[group].name === annetGroups[i]){
+      annetGroupIDs.push(group);
+    }
+  }
+}
 
 //Symbols listener:
 document.getElementById("symbolLayers").addEventListener("click", function(){
@@ -19,11 +18,18 @@ document.getElementById("symbolLayers").addEventListener("click", function(){
   var layerList=layers.layers;
   for(var i=0; i<layerList.length; i++){
     var layer=layerList[i];
-    toggleIfSymbol(layer, symbolGroupIDs);
+    toggleIfSymbol(layer);
   }
 });
 
-var notKnownGroups=[];
+document.getElementById("otherLayers").addEventListener("click", function(){
+  var layerList=layers.layers;
+  for(var i=0; i<layerList.length; i++){
+    var layer=layerList[i];
+    toggleIfPartOfGroup(layer, annetGroupIDs);
+  }
+})
+
 
 function toggleIfSymbol(layer, groupIDs){
   if(layer.type==="symbol"){ // if has a layer group, and type symbol
@@ -44,47 +50,43 @@ function toggleIfSymbol(layer, groupIDs){
   }
 }
 
-function toggleIfPartOfGroupOld(layer, groupIDs){
-  if(layer.metadata && layer.type==="symbol"){ // if has a layer group, and type symbol
-    for(var j=0; j<groupIDs.length; j++){ //check if correct group
-      if(groupIDs[j]==="1463634697483.6973"){ //TEST
-        var print=true;
-      }
+function toggleIfPartOfGroup(layer, groupIDs){
+  if(layer.metadata && layer.ref==undefined){ // if has a layer group defined
+
+    for(var j=0; j<groupIDs.length; j++){ //for all groupIDs
       if(layer.metadata["mapbox:group"] === groupIDs[j] ){ //correct group
-        if(print){console.log("found group");}
-        if( map.getLayoutProperty(layer.id, 'visibility') ==="visible" ){ //visible
-          if(print){
-            console.log("hiding osm");
-          }
-          //console.log("trying to hide visible layers");
+        if(layer.type==="symbol"){
+          alert("SYMBOL!");
+        }
+        if(map.getLayoutProperty(layer.id, 'visibility') ==="visible" ){ //visible
           map.setLayoutProperty(layer.id, 'visibility', 'none');
-          if(print){
-            console.log( map.getLayoutProperty(layer.id, 'visibility') );
-          }
-          //console.log(layer.layout);
+          console.log("hide layer: "+layer.id);
         }else if( map.getLayoutProperty(layer.id, 'visibility')==="none" ){ //not visible
-          console.log("trying to show hidden layers");
+          console.log("trying to show hidden layers: "+layer.id);
+          console.log("has visibility: "+map.getLayoutProperty(layer.id, 'visibility'));
           map.setLayoutProperty(layer.id, 'visibility', 'visible');
         }
-      }else{
-        notKnownGroups.push(layer.id);
       }
     }
-  }else{
-    toggleIfOtherSymbolLayer(layer);
+
   }
-  console.log(notKnownGroups);
+  toggleIfOtherLayer(layer, annetLayers); //layers to be hidden that is not in a group
 }
 
-function toggleIfOtherSymbolLayer(layer){
-  for(var j=0; j<symbolLayers.length; j++){
-    //console.log(layer.id);
-    if(layer.id===symbolLayers[j]){
-      console.log("layer in symbolLayers");
-      if(map.getLayoutProperty(layer.id, 'visibility')==="visible"  && layer.type==="symbol"){
+function toggleIfOtherLayer(layer, layerList){
+  if(layer.ref){ //if layer has ref, dont show or hide
+    return;
+  }
+  for(var j=0; j<layerList.length; j++){
+    if(layer.id===layerList[j]){
+      console.log("layer in layerList");
+      console.log(layer.id);
+      if(map.getLayoutProperty(layer.id, 'visibility')==="visible"){
         map.setLayoutProperty(layer.id, 'visibility', 'none');
-      }else if(layer.type==="symbol"){
+      }else if(map.getLayoutProperty(layer.id, 'visibility')==="none"){
         map.setLayoutProperty(layer.id, 'visibility', 'visible');
+      }else{
+        console.log("why");
       }
     }
   }
