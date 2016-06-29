@@ -20,11 +20,11 @@ map.on('move', function(){
   var bboxPol= getBBoxPol();
   var norwayPol=norBorder.features[0];
   var difference=turf.erase(bboxPol, norwayPol);
-  if(difference==undefined && osmActive){ //i norge, osm på --> skru av
+  if(difference==undefined && osmActive){ //in norway and osm active
     console.log("turning off osm");
     toggleOSM(false); //turn off
     osmActive=false;
-  }else if(difference!=undefined && osmActive ==false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
+  }else if(difference!=undefined && osmActive==false){ //difference defined, meaning some of bbox outside norway, and osm off --> turn on osm
     console.log("turning on osm");
     toggleOSM(true); //turn on
     osmActive=true;
