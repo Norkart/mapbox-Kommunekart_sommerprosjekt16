@@ -1,3 +1,20 @@
+var annetLayers=[
+  "railway",
+  "n50-lysloeype",
+  "countour-index",
+  "Bygning",
+  "Myr",
+  "countour",
+
+];
+
+var annetGroups[
+  "FKB_Bygning",
+  "FKB_Veger",
+  "veger",
+  "ABAS_Grenser",
+];
+
 var bygninglayers = [
   "fill-FKB_Bygning_1-Skygge",
   "fill-FKB_Bygning_2-Skygge",
@@ -100,4 +117,22 @@ var hoydelayers = [
   "symbol-FKB_PresHoydetallPunkt_7501",
   "symbol-FKB_PresHoydetallPunkt_3601",
   "symbol-FKB_PresHoydetallPunkt_1801"
+];
+
+
+var symbolGroups=[
+  "Vegskilt",
+  "Tekst_Vann",
+  "OSM_Labels",
+  //"Skrivemaate_N1000-N500",
+  "Skrivemaate_N5000",
+  "Skrivemaate_N1000-N500",
+  "countour-index-label",
+  "OpenStreetMap"
+];
+var symbolLayers=[
+  "rail-station-label",
+  "contour-index-label",
+  "admin-3-4-boundaries",
+  "admin-2-boundaries",
 ];

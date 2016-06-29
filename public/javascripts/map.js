@@ -16,6 +16,7 @@ var map = new mapboxgl.Map({
 map.addControl(new mapboxgl.Navigation({position: 'bottom-right'}));
 map.addControl(new mapboxgl.Geolocate({position: 'bottom-right'}));
 
+
 // map.on('move', function(){
 //   //check border intersection between norway and bounding box of the view
 //   var bboxPol= getBBoxPol();
@@ -33,6 +34,7 @@ map.addControl(new mapboxgl.Geolocate({position: 'bottom-right'}));
 //     //do nothing
 //   }
 // });
+
 
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
   var layerList=layers.layers;

@@ -6187,6 +6187,7 @@ var layers= {
                 },
                 "icon-image": "t-bane-stasjon",
                 "icon-size": 0.6,
+                "visibility": "visible",
                 "text-anchor": "top",
                 "text-offset": [
                     0,
