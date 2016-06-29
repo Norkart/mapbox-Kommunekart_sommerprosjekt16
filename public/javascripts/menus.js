@@ -57,7 +57,7 @@ function setKommuneMenuHeader(target, kommuneName){
   document.getElementById("kommunekart-menu-button").insertBefore(kommuneIcon, document.getElementById("kommunekart-menu-button").firstChild);
   var backButton=document.createElement("button");
   backButton.id="backToKommuneList";
-  backButton.innerHTML="<";
+  backButton.innerHTML="x";
   backButton.addEventListener("click", function(){
     goFromRasterLayerListToKommuneList();
   });
@@ -66,18 +66,38 @@ function setKommuneMenuHeader(target, kommuneName){
 
 function goFromRasterLayerListToKommuneList(){ //back button event
   menuState="kommuner";
-  //delete raster layer menu
   //delete back button and kommune icon: two first items
   document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
   document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
 
   //change inner html:
   document.getElementById("choose-kommune-text").innerHTML="Velg kommune";
-
   //delete raster layer list:
   $("#layerList").remove()
-  //make kommune list visible, toggle class
-  $("#kommuneList").toggleClass("dropdownVisible");
+
+  //Check if menu is open or not:
+  if($("#vectorLayers").hasClass("kommuneDropdownVisibleShowVectorLayers")){ //has this class whenever either kommunlist or rasterlist is open
+    //make kommune list visible, toggle class
+    $("#kommuneList").toggleClass("kommuneDropdownVisible");
+    $("#kommuneList").toggleClass("dropdownHide");
+    $("#kommunekart-menu").toggleClass("kommuneMenuSlideDown");
+
+    //make baselayer-menu show correctly: toggles already in other button event that is also fired, therefor timeout. TODO: find other solution
+    setTimeout(function(){
+      $("#select-baselayer").addClass("kommuneDropdownVisibleShowBaselayers");
+      $("#vectorLayers").addClass("kommuneDropdownVisibleShowVectorLayers");
+    }, 50);
+  }else{ //lists closed
+    console.log("closed menus!!!!!!!!!!!!!");
+    setTimeout(function(){
+      $("#kommuneList").removeClass("dropdownHide");
+      $("#menu-selector").removeClass("removeOverflow");
+      $("#kommuneList").removeClass("kommuneDropdownVisible");
+      $("#select-baselayer").removeClass("kommuneDropdownVisibleShowBaselayers");
+      $("#vectorLayers").removeClass("kommuneDropdownVisibleShowVectorLayers");
+    }, 50);
+  }
+
 
   createKommuneList();
 }
