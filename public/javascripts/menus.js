@@ -108,7 +108,7 @@ document.getElementById("kommunekart-menu-button").addEventListener("click", fun
 
   //see what list is active:
   if(menuState==="kommuner"){ //show hide kommuner
-    console.log("state is kommuner");
+    // console.log("state is kommuner");
     $("#kommuneList").toggleClass("kommuneDropdownVisible"); //starts closed
     $("#select-baselayer").toggleClass("kommuneDropdownVisibleShowBaselayers");
     $("#vectorLayers").toggleClass("kommuneDropdownVisibleShowVectorLayers");
@@ -215,7 +215,7 @@ $('.aerial').click(function(){
   mapStyle ="aerial";
   setTimeout(function(){
     addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "rasterOverlay", 10);
-   }, 3000);
+  }, 1000);
   console.log("loaded");
 
   wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
