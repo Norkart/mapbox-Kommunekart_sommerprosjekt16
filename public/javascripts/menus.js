@@ -22,6 +22,7 @@ function createKommuneList(){
       kommuneDiv.addEventListener("click", function(){
         flyTo(event.currentTarget.id);
         resetRasterOverlays();
+        console.log(event.currentTarget);
         setRasterOverlayMenu(event.currentTarget.getAttribute("nr"), event.currentTarget.id+"element");
         setKommuneMenuHeader(event.currentTarget, event.currentTarget.getAttribute("kommune"));
         menuState="rasterLayers";
@@ -31,6 +32,7 @@ function createKommuneList(){
       kommuneName.innerHTML=res[i].Name;
       var kommuneLogo=document.createElement("img");
       kommuneLogo.setAttribute("src", res[i].Logo);
+      kommuneDiv.setAttribute("kommuneSkiltLogo",res[i].Logo);
 
       kommuneDiv.appendChild(kommuneLogo);
       kommuneDiv.appendChild(kommuneName);
@@ -49,19 +51,37 @@ function removeKommuneListMenu(){
 }
 
 
-function setKommuneMenuHeader(target, kommuneName){
+function setKommuneMenuHeader(target, kommuneName, moveEvent){
   //set chosen kommune name above list, instead of "velg kommune"
   document.getElementById("choose-kommune-text").innerHTML=kommuneName;
+
   //add kommune icon
   var kommuneIcon=target.firstChild;
-  document.getElementById("kommunekart-menu-button").insertBefore(kommuneIcon, document.getElementById("kommunekart-menu-button").firstChild);
-  var backButton=document.createElement("button");
-  backButton.id="backToKommuneList";
-  backButton.innerHTML="x";
-  backButton.addEventListener("click", function(){
-    goFromRasterLayerListToKommuneList();
-  });
-  document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
+  console.log(kommuneIcon);
+  console.log(document.getElementById("kommunekart-menu-button").firstChild);
+  if(document.getElementById("kommuneHeaderImg")==undefined){
+    kommuneIcon.id="kommuneHeaderImg";
+    console.log("bilde finnes ikke fra for");
+    document.getElementById("kommunekart-menu-button").insertBefore(kommuneIcon, document.getElementById("kommunekart-menu-button").firstChild);
+  }else if(document.getElementById("kommuneHeaderImg") !=undefined){ //only change url for image
+    console.log("kun oppdater bilde");
+    var img=document.getElementById("kommuneHeaderImg");
+    img.setAttribute("src", kommuneIcon.getAttribute("src"));
+  }else{
+    console.log("WHY?");
+  }
+
+
+  if(document.getElementById("backToKommuneList")==undefined){
+      var backButton=document.createElement("button");
+      backButton.id="backToKommuneList";
+      backButton.innerHTML="x";
+      backButton.addEventListener("click", function(){
+      console.log("back to raster");
+      goFromRasterLayerListToKommuneList();
+    });
+    document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
+  }
 }
 
 function goFromRasterLayerListToKommuneList(){ //back button event
