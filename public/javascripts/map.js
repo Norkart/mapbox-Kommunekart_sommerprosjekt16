@@ -264,7 +264,7 @@ map.on('click', function (e) {
     // var lat =
     var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
     $("#WGSKoordinater").text(latLngString);
-    // getHeightAboveSeaLevel(lat,long);
+    getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng);
 
       if(map.getLayer("marker")!==undefined){
         map.removeLayer("marker");
@@ -306,12 +306,42 @@ function changeBackgroundMap(maptype) {
 }
 
 
-//HVORFOR virker ikke dette??
+//Update sideMenu
 function updateAdress(longitude, latitude, callback){
   var adressUrl= "https://kommunekart.com/api/WebPublisher/ReverseGeoCode?x="+latitude+"&y="+longitude+"&apiRoute=api%2FWebPublisher%2FReverseGeoCode&appId=Kommunekart";
   $.ajax({
     url: adressUrl,
     complete: callback
   });
-  console.log("utenfor");
 }
+
+//Change Municipality- mapmove
+map.on('moveend', function () {
+  if(map.getZoom()>=10){
+    var lat = map.getCenter().lat;
+    var lng = map.getCenter().lng;
+    console.log("kart har flyttet seg");
+    var adressUrl= "https://kommunekart.com/api/WebPublisher/ReverseGeoCode?x="+lat+"&y="+lng+"&apiRoute=api%2FWebPublisher%2FReverseGeoCode&appId=Kommunekart";
+    $.ajax({
+      url: adressUrl,
+      complete: function(res){
+        var result = JSON.parse(res.responseText).ReverseGeocodeResult.MunicipalityInfo
+        var kommuneId=result.Number;
+        var kommuneNavn=result.Name;
+        console.log(result);
+        console.log(kommuneId);
+        console.log(kommuneNavn);
+        var list=document.getElementById("kommuneList").children;
+        var target;
+        for(var i=0; i<list.length;i++){
+          var el= list[i];
+          if(el.children[0].getAttribute("nr")===kommuneId){
+            target=el.firstChild;
+            // goFromRasterLayerListToKommuneList();
+            setKommuneMenuHeader(target, kommuneNavn, true);
+          }
+        }
+      }
+    });
+  }
+});
