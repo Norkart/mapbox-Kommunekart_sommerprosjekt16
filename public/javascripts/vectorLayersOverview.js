@@ -12,7 +12,20 @@ var annetGroups=[
   "FKB_Bygning",
   "FKB_Veger",
   "Veger",
-  "ABAS_Grenser"
+  "ABAS_Grenser",
+  "Roads"
+];
+
+var annetLayersFlyfoto=[
+  "railway",
+  "n50-lysloeype",
+  "countour-index",
+  "Bygning",
+  "Myr",
+  "countour",
+  "railway-tracks",
+  "road-trunk",
+  "road-trunk-case"
 ];
 
 var bygninglayers = [

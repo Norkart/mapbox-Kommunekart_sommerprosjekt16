@@ -32,22 +32,10 @@ for(var group in annetLayerGroups){
   }
 }
 
+
 //Symbols listener:
 document.getElementById("symbolLayers").addEventListener("click", function(){
-  //go through all layers and see if either name is in symbolLayers or group is in groupIds:
-  if(mapStyle==="normal"){
-    var layerList=layers.layers;
-  }else if(mapStyle==="aerial"){
-    var layerList=flyfoto.layers;
-    //removing the ones that should never be toggled - always off
-    for(var i=0; i<layerList.length; i++){ //remove the ones that are always default
-      for(var j=0; j<defaultOffFlyfotoLayers.length; j++){
-        if(layerList[i].id === defaultOffFlyfotoLayers[j]){
-          layerList.splice(i, 1);
-        }
-      }
-    }
-  }
+  var layerList=getCorrectLayerList();
   //go through all layers and toggle them
   for(var i=0; i<layerList.length; i++){
     var layer=layerList[i];
@@ -58,14 +46,43 @@ document.getElementById("symbolLayers").addEventListener("click", function(){
   }
 });
 
+
 document.getElementById("otherLayers").addEventListener("click", function(){
-  var layerList=layers.layers;
+  var layerList=getCorrectLayerList();
   for(var i=0; i<layerList.length; i++){
     var layer=layerList[i];
-    toggleIfPartOfGroup(layer, annetGroupIDs);
+    var annetLayerNames;
+    if(mapStyle==="aerial"){
+      annetLayerNames=annetLayersFlyfoto;
+    }else{
+      annetLayerNames=annetLayers;
+    }
+    toggleIfPartOfGroup(layer, annetGroupIDs, annetLayerNames);
   }
 });
 
+
+function getFlyfotoLayerList(){
+  var layerList=flyfoto.layers;
+  //removing the ones that should never be toggled - always off
+  for(var i=0; i<layerList.length; i++){ //remove the ones that are always default
+    for(var j=0; j<defaultOffFlyfotoLayers.length; j++){
+      if(layerList[i].id === defaultOffFlyfotoLayers[j]){
+        layerList.splice(i, 1);
+      }
+    }
+  }
+  return layerList;
+}
+
+function getCorrectLayerList(){
+  if(mapStyle==="normal"){
+    var layerList=layers.layers;
+  }else if(mapStyle==="aerial"){
+    var layerList=getFlyfotoLayerList()
+  }
+  return layerList;
+}
 
 function toggleIfSymbol(layer, groupIDs){
   if(layer.id==="place-town"){
@@ -97,7 +114,7 @@ function toggleIfSymbol(layer, groupIDs){
   }
 }
 
-function toggleIfPartOfGroup(layer, groupIDs){
+function toggleIfPartOfGroup(layer, groupIDs, annetLayersNames){
   if(layer.metadata && layer.ref==undefined){ // if has a layer group defined
 
     for(var j=0; j<groupIDs.length; j++){ //for all groupIDs
@@ -117,10 +134,12 @@ function toggleIfPartOfGroup(layer, groupIDs){
     }
 
   }
-  toggleIfOtherLayer(layer, annetLayers); //layers to be hidden that is not in a group
+  toggleIfOtherLayer(layer, annetLayersNames); //layers to be hidden that is not in a group
 }
 
 function toggleIfOtherLayer(layer, layerList){
+  console.log("layerlist contains:");
+  console.log(layerList);
   if(layer.ref){ //if layer has ref, dont show or hide
     return;
   }

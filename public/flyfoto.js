@@ -3277,7 +3277,8 @@ var flyfoto={
                         ]
                     ]
                 },
-                "line-join": "round"
+                "line-join": "round",
+                "visibility":"visible"
             },
             "paint": {
                 "line-color": {
