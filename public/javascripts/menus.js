@@ -54,7 +54,7 @@ function removeKommuneListMenu(){
 function setKommuneMenuHeader(target, kommuneName, moveEvent){
   //set chosen kommune name above list, instead of "velg kommune"
   document.getElementById("choose-kommune-text").innerHTML=kommuneName;
-
+  console.log(target);
   //add kommune icon
   var kommuneIcon=target.firstChild;
   console.log(kommuneIcon);
@@ -64,9 +64,11 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
     console.log("bilde finnes ikke fra for");
     document.getElementById("kommunekart-menu-button").insertBefore(kommuneIcon, document.getElementById("kommunekart-menu-button").firstChild);
   }else if(document.getElementById("kommuneHeaderImg") !=undefined){ //only change url for image
-    console.log("kun oppdater bilde");
+    console.log("kun oppdater bilde med src: ");
     var img=document.getElementById("kommuneHeaderImg");
-    img.setAttribute("src", kommuneIcon.getAttribute("src"));
+    console.log(kommuneIcon);
+    console.log(kommuneIcon.getAttribute("src"));
+    img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
   }else{
     console.log("WHY?");
   }
