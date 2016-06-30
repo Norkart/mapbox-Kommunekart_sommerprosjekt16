@@ -227,7 +227,8 @@ $('.normal').click(function(){
 });
 
 $('.aerial').click(function(){
-  map.setStyle("mapbox://styles/keino/cips6baso001sdmm5qfbdurn8");
+  console.log("changing to flyfoto");
+  map.setStyle(flyfoto);
   if(mapStyle==="normal"){
     $('.aerial').toggleClass('selected');
     $('.normal').toggleClass('selected');

@@ -258,5 +258,6 @@ map.on('click', function (e) {
 function changeBackgroundMap(maptype) {
     var layerId = layer.target.id;
     //map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+    console.log(flyfoto);
     map.setStyle(flyfoto);
 }

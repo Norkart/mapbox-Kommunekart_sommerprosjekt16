@@ -4,15 +4,19 @@ var defaultOffFlyfotoLayers=[];
 
 map.on("load", function(){
   getDefaultOffLayers(flyfoto.layers, defaultOffFlyfotoLayers);
-  console.log(defaultOffFlyfotoLayers.length);
-})
+});
 
 function getDefaultOffLayers(layers, offLayers){
   for(var i=0; i<layers.length; i++){
     if(layers[i].layout !=undefined){
-      if(layers[i].layout.visibility==="none"){ //make sure visibility is a parameter
+      if(layers[i].layout.visibility==="none" || layers[i].layout.visibility==undefined){
+          if(print){
+            console.log("pushed to off layers :( ");
+          }
         offLayers.push(layers[i].id);
       }
+    }else{
+      console.log(layers[i].id);
     }
   }
 }
@@ -35,6 +39,7 @@ document.getElementById("symbolLayers").addEventListener("click", function(){
     var layerList=layers.layers;
   }else if(mapStyle==="aerial"){
     var layerList=flyfoto.layers;
+    //removing the ones that should never be toggled - always off
     for(var i=0; i<layerList.length; i++){ //remove the ones that are always default
       for(var j=0; j<defaultOffFlyfotoLayers.length; j++){
         if(layerList[i].id === defaultOffFlyfotoLayers[j]){
@@ -43,10 +48,13 @@ document.getElementById("symbolLayers").addEventListener("click", function(){
       }
     }
   }
-
+  //go through all layers and toggle them
   for(var i=0; i<layerList.length; i++){
     var layer=layerList[i];
-      toggleIfSymbol(layer);
+    if(layer.id==="place-town"){
+      console.log("in list!!!");
+    }
+    toggleIfSymbol(layer);
   }
 });
 
@@ -60,14 +68,31 @@ document.getElementById("otherLayers").addEventListener("click", function(){
 
 
 function toggleIfSymbol(layer, groupIDs){
+  if(layer.id==="place-town"){
+    console.log("in toggle");
+    var print=true;
+  }else{
+    var print=false;
+  }
   if(layer.type==="symbol"){ // if has a layer group, and type symbol
     if(map.getLayoutProperty(layer.id, 'visibility') ==="visible" ){ //visible
-      //console.log("trying to hide visible layers");
       map.setLayoutProperty(layer.id, 'visibility', 'none');
+      if(layer.id==="place-town"){
+        console.log("changed layout");
+        console.log(map.getLayoutProperty(layer.id, 'visibility') );
+      }
       //console.log(layer.layout);
     }else if( map.getLayoutProperty(layer.id, 'visibility')==="none" ){ //not visible
       console.log("trying to show hidden layers");
       map.setLayoutProperty(layer.id, 'visibility', 'visible');
+    }else{
+      // if(layer.id==="place-town"){
+        console.log("siste else");
+        console.log(layer.id);
+        console.log(layer.layout);
+        console.log(map.getLayer(layer.id).layout.visibility);
+        console.log(map.getLayoutProperty(layer.id , "visibility"));
+      // }
     }
   }
 }

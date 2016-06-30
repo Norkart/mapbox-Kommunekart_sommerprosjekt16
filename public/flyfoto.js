@@ -1,6 +1,6 @@
 var flyfoto={
     "version": 8,
-    "name": "HybridV9",
+    "name": "HybridTESTE!!!!!!!!!!!",
     "metadata": {
         "mapbox:autocomposite": true,
         "mapbox:type": "default",
@@ -1393,7 +1393,8 @@ var flyfoto={
                 ]
             ],
             "layout": {
-                "icon-image": "oneway-spaced-white-large"
+                "icon-image": "oneway-spaced-white-large",
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -1435,7 +1436,8 @@ var flyfoto={
                 ]
             ],
             "layout": {
-                "icon-image": "oneway-spaced-white-large"
+                "icon-image": "oneway-spaced-white-large",
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -1631,7 +1633,8 @@ var flyfoto={
                 "icon-image": "oneway-spaced-white-large",
                 "symbol-placement": "line",
                 "symbol-spacing": 150,
-                "icon-padding": 2
+                "icon-padding": 2,
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -1764,6 +1767,7 @@ var flyfoto={
             ],
             "layout": {
                 "text-field": "{name_en}",
+                "visibility": "visible",
                 "text-font": [
                     "DIN Offc Pro Medium",
                     "Arial Unicode MS Regular"
@@ -3170,7 +3174,8 @@ var flyfoto={
                 "symbol-placement": "line",
                 "symbol-spacing": 200,
                 "icon-padding": 2,
-                "icon-rotation-alignment": "map"
+                "icon-rotation-alignment": "map",
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -3229,7 +3234,8 @@ var flyfoto={
                 "symbol-placement": "line",
                 "symbol-spacing": 200,
                 "icon-padding": 2,
-                "icon-rotation-alignment": "map"
+                "icon-rotation-alignment": "map",
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -3465,7 +3471,8 @@ var flyfoto={
                 },
                 "symbol-placement": "line",
                 "symbol-spacing": 200,
-                "icon-padding": 2
+                "icon-padding": 2,
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -4609,7 +4616,8 @@ var flyfoto={
                 "symbol-placement": "line",
                 "symbol-spacing": 200,
                 "icon-padding": 2,
-                "icon-rotation-alignment": "map"
+                "icon-rotation-alignment": "map",
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -4662,7 +4670,8 @@ var flyfoto={
                 "symbol-placement": "line",
                 "symbol-spacing": 200,
                 "icon-padding": 2,
-                "icon-rotation-alignment": "map"
+                "icon-rotation-alignment": "map",
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -5674,7 +5683,8 @@ var flyfoto={
                 },
                 "symbol-placement": "line",
                 "symbol-spacing": 200,
-                "icon-padding": 2
+                "icon-padding": 2,
+                "visibility": "visible"
             },
             "paint": {}
         },
@@ -6223,6 +6233,7 @@ var flyfoto={
                     "Arial Unicode MS Regular"
                 ],
                 "symbol-placement": "line",
+                "visibility": "visible",
                 "text-max-angle": 30,
                 "text-size": {
                     "base": 1,
@@ -6331,7 +6342,8 @@ var flyfoto={
                 "text-anchor": "top",
                 "text-field": "{name_en}",
                 "text-letter-spacing": 0.01,
-                "text-max-width": 8
+                "text-max-width": 8,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 0%, 92%)",
@@ -6435,7 +6447,8 @@ var flyfoto={
                 "text-anchor": "top",
                 "text-field": "{name_en}",
                 "text-letter-spacing": 0.01,
-                "text-max-width": 8
+                "text-max-width": 8,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(100, 50%, 60%)",
@@ -6523,7 +6536,8 @@ var flyfoto={
                 },
                 "text-letter-spacing": 0.01,
                 "icon-padding": 0,
-                "text-max-width": 7
+                "text-max-width": 7,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 0%, 92%)",
@@ -6639,7 +6653,8 @@ var flyfoto={
                             10
                         ]
                     ]
-                }
+                },
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 0%, 92%)",
@@ -6701,7 +6716,8 @@ var flyfoto={
                 "text-rotation-alignment": "viewport",
                 "text-field": "{name_en}",
                 "text-letter-spacing": 0.01,
-                "text-max-width": 8
+                "text-max-width": 8,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 100%, 100%)",
@@ -6873,7 +6889,8 @@ var flyfoto={
                 "text-padding": 3,
                 "text-field": "{name_en}",
                 "text-letter-spacing": 0.1,
-                "text-max-width": 7
+                "text-max-width": 7,
+                "visibility": "visible"
             },
             "paint": {
                 "text-halo-color": {
@@ -6982,7 +6999,8 @@ var flyfoto={
                     ]
                 },
                 "text-field": "{name_en}",
-                "text-max-width": 7
+                "text-max-width": 7,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 100%, 100%)",
@@ -7052,6 +7070,7 @@ var flyfoto={
                     ]
                 },
                 "icon-image": "dot-9",
+                "visibility": "visible",
                 "text-font": {
                     "base": 1,
                     "stops": [
@@ -7179,7 +7198,8 @@ var flyfoto={
                 "text-rotation-alignment": "viewport",
                 "text-field": "{name_en}",
                 "text-letter-spacing": 0.01,
-                "text-max-width": 7
+                "text-max-width": 7,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 100%, 100%)",
@@ -7259,7 +7279,8 @@ var flyfoto={
                 "symbol-placement": "line",
                 "text-field": "{name_en}",
                 "text-letter-spacing": 0.1,
-                "text-max-width": 5
+                "text-max-width": 5,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(224, 29%, 40%)"
@@ -7291,6 +7312,7 @@ var flyfoto={
             ],
             "layout": {
                 "text-field": "{name_en}",
+                "visibility": "visible",
                 "text-max-width": 5,
                 "text-letter-spacing": 0.1,
                 "text-line-height": 1.5,
@@ -7364,7 +7386,8 @@ var flyfoto={
                 "symbol-placement": "line",
                 "text-field": "{name_en}",
                 "text-letter-spacing": 0.15,
-                "text-max-width": 5
+                "text-max-width": 5,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(224, 29%, 40%)"
@@ -7416,7 +7439,8 @@ var flyfoto={
                             20
                         ]
                     ]
-                }
+                },
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(224, 29%, 40%)"
@@ -7468,7 +7492,8 @@ var flyfoto={
                     "DIN Offc Pro Italic",
                     "Arial Unicode MS Regular"
                 ],
-                "text-letter-spacing": 0.25
+                "text-letter-spacing": 0.25,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(224, 29%, 40%)"
@@ -7519,7 +7544,8 @@ var flyfoto={
                             30
                         ]
                     ]
-                }
+                },
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(224, 29%, 40%)"
@@ -7574,7 +7600,8 @@ var flyfoto={
                     ]
                 },
                 "text-letter-spacing": 0.15,
-                "text-max-width": 5
+                "text-max-width": 5,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 0%, 100%)",
@@ -7640,7 +7667,8 @@ var flyfoto={
                     ]
                 },
                 "text-letter-spacing": 0.15,
-                "text-max-width": 6
+                "text-max-width": 6,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 0%, 100%)",
@@ -7698,7 +7726,8 @@ var flyfoto={
                     ]
                 },
                 "text-letter-spacing": 0.15,
-                "text-max-width": 6
+                "text-max-width": 6,
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 0%, 100%)",
@@ -7742,7 +7771,8 @@ var flyfoto={
                             22
                         ]
                     ]
-                }
+                },
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "hsl(0, 0%, 100%)",
@@ -7784,6 +7814,7 @@ var flyfoto={
                 4
             ],
             "layout": {
+                "visibility":"visible",
                 "text-field": {
                     "base": 1,
                     "stops": [
@@ -7856,6 +7887,7 @@ var flyfoto={
                 2
             ],
             "layout": {
+                "visibility":"visible",
                 "text-field": "{name}",
                 "text-max-width": {
                     "base": 1,
@@ -12272,7 +12304,8 @@ var flyfoto={
                     0,
                     0.85
                 ],
-                "text-transform": "uppercase"
+                "text-transform": "uppercase",
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "#fff",
@@ -14938,7 +14971,8 @@ var flyfoto={
                     "Arial Unicode MS Regular"
                 ],
                 "symbol-placement": "line",
-                "text-rotation-alignment": "map"
+                "text-rotation-alignment": "map",
+                "visibility": "visible"
             },
             "paint": {
                 "text-color": "#fff",
@@ -15322,7 +15356,8 @@ var flyfoto={
                 "text-justify": "center",
                 "symbol-placement": "line",
                 "text-rotation-alignment": "map",
-                "text-letter-spacing": 0.02
+                "text-letter-spacing": 0.02,
+                "visibility": "visible"
             },
             "paint": {
                 "text-halo-color": "#000",
@@ -15377,7 +15412,8 @@ var flyfoto={
                 "text-font": [
                     "DIN Offc Pro Cond Medium",
                     "Arial Unicode MS Regular"
-                ]
+                ],
+                "visibility": "visible"
             },
             "paint": {
                 "text-halo-color": "#000",
