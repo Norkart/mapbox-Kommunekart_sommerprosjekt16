@@ -1,40 +1,8 @@
-var norBorder={
+{
   "type": "FeatureCollection",
-  "geocoding": {
-    "creation_date": "2016-01-09",
-    "generator": {
-      "author": {
-        "name": "Mapzen"
-      },
-      "package": "fences-builder",
-      "version": "0.1.2"
-    },
-    "license": "ODbL (see http://www.openstreetmap.org/copyright)"
-  },
   "features": [
     {
-      "id": 2978650,
-      "osm_type": "relation",
       "type": "Feature",
-      "name": "Norge",
-      "properties": {
-        "flag": "http://upload.wikimedia.org/wikipedia/commons/d/d9/Flag_of_Norway.svg",
-        "name": "Norge",
-        "note": "This relation represents the full country, including its dependencies; different timezones are observed",
-        "wikidata": "Q20",
-        "ISO3166-1": "NO",
-        "wikipedia": "no:Norge",
-        "population": "5165802",
-        "admin_level": "2",
-        "official_name": "Kongeriket Norge",
-        "name:be-tarask": "Нарвэгія",
-        "population:date": "2013",
-        "ISO3166-1:alpha2": "NO",
-        "ISO3166-1:alpha3": "NOR",
-        "official_name:fr": "Royaume de Norvège",
-        "ISO3166-1:numeric": "578",
-        "source:population": "wikipedia"
-      },
       "geometry": {
         "type": "MultiPolygon",
         "coordinates": [
@@ -751,7 +719,26 @@ var norBorder={
             ]
           ]
         ]
-      }
+      },
+      "properties": {
+        "flag": "http://upload.wikimedia.org/wikipedia/commons/d/d9/Flag_of_Norway.svg",
+        "name": "Norge",
+        "note": "This relation represents the full country, including its dependencies; different timezones are observed",
+        "wikidata": "Q20",
+        "ISO3166-1": "NO",
+        "wikipedia": "no:Norge",
+        "population": "5165802",
+        "admin_level": "2",
+        "official_name": "Kongeriket Norge",
+        "name:be-tarask": "Нарвэгія",
+        "population:date": "2013",
+        "ISO3166-1:alpha2": "NO",
+        "ISO3166-1:alpha3": "NOR",
+        "official_name:fr": "Royaume de Norvège",
+        "ISO3166-1:numeric": "578",
+        "source:population": "wikipedia"
+      },
+      "id": 2978650
     }
   ]
-};
+}

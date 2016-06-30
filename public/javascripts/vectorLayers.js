@@ -11,12 +11,12 @@ function getDefaultOffLayers(layers, offLayers){
     if(layers[i].layout !=undefined){
       if(layers[i].layout.visibility==="none" || layers[i].layout.visibility==undefined){
           if(print){
-            console.log("pushed to off layers :( ");
+            //console.log("pushed to off layers :( ");
           }
         offLayers.push(layers[i].id);
       }
     }else{
-      console.log(layers[i].id);
+      // console.log(layers[i].id);
     }
   }
 }
@@ -40,7 +40,7 @@ document.getElementById("symbolLayers").addEventListener("click", function(){
   for(var i=0; i<layerList.length; i++){
     var layer=layerList[i];
     if(layer.id==="place-town"){
-      console.log("in list!!!");
+      // console.log("in list!!!");
     }
     toggleIfSymbol(layer);
   }
@@ -86,7 +86,7 @@ function getCorrectLayerList(){
 
 function toggleIfSymbol(layer, groupIDs){
   if(layer.id==="place-town"){
-    console.log("in toggle");
+    // console.log("in toggle");
     var print=true;
   }else{
     var print=false;
@@ -95,20 +95,20 @@ function toggleIfSymbol(layer, groupIDs){
     if(map.getLayoutProperty(layer.id, 'visibility') ==="visible" ){ //visible
       map.setLayoutProperty(layer.id, 'visibility', 'none');
       if(layer.id==="place-town"){
-        console.log("changed layout");
-        console.log(map.getLayoutProperty(layer.id, 'visibility') );
+        // console.log("changed layout");
+        // console.log(map.getLayoutProperty(layer.id, 'visibility') );
       }
       //console.log(layer.layout);
     }else if( map.getLayoutProperty(layer.id, 'visibility')==="none" ){ //not visible
-      console.log("trying to show hidden layers");
+      // console.log("trying to show hidden layers");
       map.setLayoutProperty(layer.id, 'visibility', 'visible');
     }else{
       // if(layer.id==="place-town"){
-        console.log("siste else");
-        console.log(layer.id);
-        console.log(layer.layout);
-        console.log(map.getLayer(layer.id).layout.visibility);
-        console.log(map.getLayoutProperty(layer.id , "visibility"));
+        // console.log("siste else");
+        // console.log(layer.id);
+        // console.log(layer.layout);
+        // console.log(map.getLayer(layer.id).layout.visibility);
+        // console.log(map.getLayoutProperty(layer.id , "visibility"));
       // }
     }
   }
@@ -138,21 +138,21 @@ function toggleIfPartOfGroup(layer, groupIDs, annetLayersNames){
 }
 
 function toggleIfOtherLayer(layer, layerList){
-  console.log("layerlist contains:");
-  console.log(layerList);
+  // console.log("layerlist contains:");
+  // console.log(layerList);
   if(layer.ref){ //if layer has ref, dont show or hide
     return;
   }
   for(var j=0; j<layerList.length; j++){
     if(layer.id===layerList[j]){
-      console.log("layer in layerList");
-      console.log(layer.id);
+      // console.log("layer in layerList");
+      // console.log(layer.id);
       if(map.getLayoutProperty(layer.id, 'visibility')==="visible"){
         map.setLayoutProperty(layer.id, 'visibility', 'none');
       }else if(map.getLayoutProperty(layer.id, 'visibility')==="none"){
         map.setLayoutProperty(layer.id, 'visibility', 'visible');
       }else{
-        console.log("why");
+        // console.log("why");
       }
     }
   }
