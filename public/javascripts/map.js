@@ -36,6 +36,7 @@ map.addControl(new mapboxgl.Geolocate({position: 'bottom-right'}));
 // });
 
 
+
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
   var layerList=layers.layers;
   var osmGroup="1452169018974.0132";
@@ -210,13 +211,13 @@ function addMeasurementsLayerToMap(geojson){
 //called when kommune is clicked
 function flyTo(kommuneIndex){
   var kommune=kommuneList[kommuneIndex];
-  console.log(kommune);
+  // console.log(kommune);
   var zoomTo=kommune.StartZoom;
   if(zoomTo==-1){
     zoomTo=14;
   }
   console.log("zoomTo");
-  console.log(zoomTo);
+  // console.log(zoomTo);
   var startEast=kommune.StartEast;
   if(startEast==0){
     //find middle point of bounding box
@@ -227,8 +228,8 @@ function flyTo(kommuneIndex){
   if(startNorth==0){
     startNorth = kommune.South + ((kommune.North-kommune.South)/2);
   }
-  console.log(startNorth);
-  console.log(startEast);
+  // console.log(startNorth);
+  // console.log(startEast);
 
   map.flyTo({
     center:[startEast,startNorth],
@@ -238,17 +239,59 @@ function flyTo(kommuneIndex){
 
 //Adding popup info
 map.on('click', function (e) {
-  console.log(mapmodus);
+  // console.log(mapmodus);
   // Populate the popup and set its coordinates
   //var utmCoord=getUTMCoordinates(e.lngLat.lat, e.lngLat.lng);
   //var utmString=_makeUtmCoordinateString(utmCoord.lat, utmCoord.lng);
+  var adresse;
+  var postnr;
   if(mapmodus === "popup"){
+    updateAdress(e.lngLat.lng,e.lngLat.lat,
+      function(result){
+        var result = JSON.parse(result.responseText).ReverseGeocodeResult;
+        console.log(result.NearestAddress.MunicipalityNo);
+        adresse = result.NearestAddress.House;
+        console.log(result.NearestAddress.Zip);
+        console.log(result.NearestAddress.PostalPlace);
+        postnr = result.NearestAddress.Zip + " "+ result.NearestAddress.PostalPlace;
+        distance =result.NearestAddress.Distance;
+        $("#punktAdresse").text(adresse);
+        $("#punktPostnr").text(postnr);
+        $("#punktDistance").text(distance +" m");
+      }
+    );
+
+    // var lat =
     var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
-    var popup = new mapboxgl.Popup()
-    //e.point: x and y for point
-    .setLngLat(e.lngLat)
-    .setHTML(latLngString)
-    .addTo(map);
+    $("#WGSKoordinater").text(latLngString);
+    // getHeightAboveSeaLevel(lat,long);
+
+      if(map.getLayer("marker")!==undefined){
+        map.removeLayer("marker");
+        map.removeSource("marker");
+      }
+      console.log("skal adde source");
+      map.addSource("marker", {
+          "type": "geojson",
+          "data": {
+              "type": "FeatureCollection",
+              "features": [{
+                  "type": "Feature",
+                  "geometry": {
+                      "type": "Point",
+                      "coordinates": [e.lngLat.lng,e.lngLat.lat]
+                  }
+              }]
+          }
+      });
+      map.addLayer({
+          "id": "marker",
+          "type": "symbol",
+          "source": "marker",
+          "layout": {
+              "icon-image": "marker-15",
+          }
+      });
   }
   else{
     return false;
@@ -260,4 +303,15 @@ function changeBackgroundMap(maptype) {
     //map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
     console.log(flyfoto);
     map.setStyle(flyfoto);
+}
+
+
+//HVORFOR virker ikke dette??
+function updateAdress(longitude, latitude, callback){
+  var adressUrl= "https://kommunekart.com/api/WebPublisher/ReverseGeoCode?x="+latitude+"&y="+longitude+"&apiRoute=api%2FWebPublisher%2FReverseGeoCode&appId=Kommunekart";
+  $.ajax({
+    url: adressUrl,
+    complete: callback
+  });
+  console.log("utenfor");
 }

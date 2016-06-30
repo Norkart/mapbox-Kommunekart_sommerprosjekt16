@@ -1,14 +1,13 @@
 
 var wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=";
 var activeLayerNames=[];
+var layerArea; //name for url for area of different layers
+var layerName; //end of url for specific raster layer
 
 function setRasterOverlayMenu(kommuneId, idForKommuneListElement){
 
   var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;
-  console.log(layersUrl);
-
-  var layerArea; //name for url for area of different layers
-  var layerName; //end of url for specific raster layer
+  // console.log(layersUrl);
   $.ajax({
     url:layersUrl
   }).done(function(res){
@@ -16,8 +15,6 @@ function setRasterOverlayMenu(kommuneId, idForKommuneListElement){
     createRasterLayerMenu(res);
   });
 }
-
-
 
 function formatName(name){
   var formattedName=name.toLowerCase();
@@ -32,7 +29,7 @@ function createRasterLayerMenu(layerInfoJson){
   var rasterMenu=document.createElement("ul");
   rasterMenu.id="layerList";
   rasterMenu.className="sideMenuLists";
-  console.log(layerInfoJson);
+
 
   layerArea=layerInfoJson[0].Name;
   for(var i=0; i<layerInfoJson[0].Layers.length; i++){
@@ -76,6 +73,7 @@ function rasterLayerClickEvent(){
     event.currentTarget.className="activeRasterElement";
   }
   updateRasterView(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
+  // updateInformationSideMenu(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
 }
 
 
@@ -189,4 +187,36 @@ function resetRasterOverlays(){
     list.parentNode.removeChild(list);
   }
   removeRaster("rasterOverlay");
+}
+
+function getKommuneId(){
+  
+}
+
+function mapClickMoreInfoEvent(kommuneId){
+  var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;
+  // console.log(layersUrl);
+  $.ajax({
+    url:layersUrl
+  }).done(function(res){
+    console.log(res);
+    updateInformationSideMenu(res);
+  });
+}
+
+//Featureinfo for sidemenu:
+function updateInformationSideMenu(response){
+
+  // removeRaster("rasterOverlay", activeLayerNames);
+  // var layerString=activeLayerNames[0]; //Adding first layer here to be able to add a comma before each insertion inside the for loop
+
+  // if(activeLayerNames.length>0){
+  //   for(var i=1; i<activeLayerNames.length; i++){
+  //
+  //     layerString+=","+activeLayerNames[i];
+  //   }
+  //   var FeatureinfoUrl="http://www.webatlas.no/wacloudtest/servicerepository/FeatureInfoService.svc/json/GetFeatureInfo?x={X}&y={Y}&srs=EPSG:4326&tolerance=1&querylayers="+layerArea+":"+layerString;
+  //   console.log("URL "+FeatureinfoUrl);
+  // }
+
 }

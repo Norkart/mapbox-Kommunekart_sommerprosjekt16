@@ -128,7 +128,7 @@ document.getElementById("kommunekart-menu-button").addEventListener("click", fun
 
   //see what list is active:
   if(menuState==="kommuner"){ //show hide kommuner
-    console.log("state is kommuner");
+    // console.log("state is kommuner");
     $("#kommuneList").toggleClass("kommuneDropdownVisible"); //starts closed
     $("#select-baselayer").toggleClass("kommuneDropdownVisibleShowBaselayers");
     $("#vectorLayers").toggleClass("kommuneDropdownVisibleShowVectorLayers");
