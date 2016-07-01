@@ -261,34 +261,39 @@ map.on('click', function (e) {
     // var lat =
     var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
     $("#WGSKoordinater").text(latLngString);
-    // getHeightAboveSeaLevel(lat,long);
-
-      if(map.getLayer("marker")!==undefined){
-        map.removeLayer("marker");
-        map.removeSource("marker");
+    getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
+      function(result){
+        var result = result;
+        console.log(result);
       }
-      console.log("skal adde source");
-      map.addSource("marker", {
-          "type": "geojson",
-          "data": {
-              "type": "FeatureCollection",
-              "features": [{
-                  "type": "Feature",
-                  "geometry": {
-                      "type": "Point",
-                      "coordinates": [e.lngLat.lng,e.lngLat.lat]
-                  }
-              }]
+    );
+
+    if(map.getLayer("marker")!==undefined){
+      map.removeLayer("marker");
+      map.removeSource("marker");
+    }
+    console.log("skal adde source");
+    map.addSource("marker", {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": [{
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [e.lngLat.lng,e.lngLat.lat]
           }
-      });
-      map.addLayer({
-          "id": "marker",
-          "type": "symbol",
-          "source": "marker",
-          "layout": {
-              "icon-image": "marker-15",
-          }
-      });
+        }]
+      }
+    });
+    map.addLayer({
+      "id": "marker",
+      "type": "symbol",
+      "source": "marker",
+      "layout": {
+        "icon-image": "marker-15",
+      }
+    });
   }
   else{
     return false;
@@ -296,8 +301,8 @@ map.on('click', function (e) {
 });
 
 function changeBackgroundMap(maptype) {
-    var layerId = layer.target.id;
-    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+  var layerId = layer.target.id;
+  map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
 }
 
 
