@@ -4,15 +4,15 @@ var activeLayerNames=[];
 var layerArea; //name for url for area of different layers
 var layerName; //end of url for specific raster layer
 
-function setRasterOverlayMenu(kommuneId, idForKommuneListElement){
-
+function setRasterOverlayMenu(kommuneId){
   var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;
-  // console.log(layersUrl);
   $.ajax({
     url:layersUrl
   }).done(function(res){
-    removeKommuneListMenu();
+    hideKommuneMenuContent("kommune");
+    //removeKommuneListMenu();
     createRasterLayerMenu(res);
+    showKommuneMenuContent("raster");
   });
 }
 
@@ -22,36 +22,6 @@ function formatName(name){
   formattedName=formattedName.replace(formattedName.charAt(0),formattedName.charAt(0).toUpperCase());
   formattedName=formattedName.split("_").join(" ");
   return formattedName;
-}
-
-function createRasterLayerMenu(layerInfoJson){
-
-  var rasterMenu=document.createElement("ul");
-  rasterMenu.id="layerList";
-  rasterMenu.className="sideMenuLists";
-
-
-  layerArea=layerInfoJson[0].Name;
-  for(var i=0; i<layerInfoJson[0].Layers.length; i++){
-    var rasterElement = document.createElement("li");
-    layerName=layerInfoJson[0].Layers[i].Name;
-    layerNameMenu=layerInfoJson[0].Layers[i].Description;
-    formattedLayerName=formatName(layerNameMenu);
-    rasterElement.setAttribute("name",layerName);
-    rasterElement.setAttribute("area",layerArea);
-    rasterElement.setAttribute("active", false);
-    rasterElement.innerHTML=formattedLayerName;
-
-    rasterElement.addEventListener("click", function(){
-      rasterLayerClickEvent();
-    });
-
-    //adding raster element to raster list:
-    rasterMenu.appendChild(rasterElement);
-  }
-  //adding the raster overlays list two kommune element
-  document.getElementById("kommunekart-menu").appendChild(rasterMenu);
-  $("#layerList").addClass("kommuneDropdownVisible");
 }
 
 
@@ -180,7 +150,6 @@ function removeFromList(element, list){
 function resetRasterOverlays(){
   activeLayerNames=[];
   var kommuneElements=document.getElementsByClassName('kommuneElement');
-
   //delete layerList for kommune with "open" raster menu
   var list=document.getElementById("layerList");
   if(list){
@@ -190,7 +159,7 @@ function resetRasterOverlays(){
 }
 
 function getKommuneId(){
-  
+
 }
 
 function mapClickMoreInfoEvent(kommuneId){

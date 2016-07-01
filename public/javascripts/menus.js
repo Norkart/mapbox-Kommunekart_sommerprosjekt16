@@ -1,32 +1,36 @@
-var menuState="kommuner";
+var menuState={
+  "kommuneMenuOpen": false, //true
+  "type": "kommune", //raster
+  "chosenKommuneId": false, //id to active kommune
+  "sideNavOpen":true
+};
 
-//get kommuner fra db to display in menu
-
+//get kommuner fra db to display in menu - same always
 createKommuneList();
+
 
 function createKommuneList(){
   $.ajax({
     url:"https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetRegisteredAppCustomers?appID=VectortilesDemo",
   }).done(function(res){
-    console.log(res);
     for(var i=0; i<res.length; i++){
-      kommuneList.push(res[i]);
+      var kommuneId=res[i].Number;
+      kommuneObjectList[kommuneId]=res[i]; //save kommune object to list for later use (kommune on click event ++)
+      // kommuneObjectList.push(res[i]);
       var kommuneElement=document.createElement("li");
       kommuneElement.className="kommuneElement";
       kommuneElement.id=i+"element";
       var kommuneDiv=document.createElement("div");
-      kommuneDiv.id=i;
       kommuneDiv.setAttribute("kommune",res[i].Name);
       kommuneDiv.setAttribute("nr", res[i].Number);
       //adding on click event for choosing kommune - fly to and create menu
       kommuneDiv.addEventListener("click", function(){
-        flyTo(event.currentTarget.id);
         resetRasterOverlays();
-        console.log(event.currentTarget);
-        setRasterOverlayMenu(event.currentTarget.getAttribute("nr"), event.currentTarget.id+"element");
+        setRasterOverlayMenu(event.currentTarget.getAttribute("nr"));
         setKommuneMenuHeader(event.currentTarget, event.currentTarget.getAttribute("kommune"));
-        menuState="rasterLayers";
-
+        menuState.chosenKommuneId=event.currentTarget.getAttribute("nr");
+        menuState.type="raster";
+        flyTo();
       });
       var kommuneName=document.createElement("h4");
       kommuneName.innerHTML=res[i].Name;
@@ -44,37 +48,51 @@ function createKommuneList(){
   });
 }
 
-function removeKommuneListMenu(){
-  //hide kommuneList element
-  $("#kommuneList").empty();
-  $("#kommuneList").addClass("dropdownHide");
+function createRasterLayerMenu(layerInfoJson){
+  var rasterMenu=document.createElement("ul");
+  rasterMenu.id="layerList";
+  rasterMenu.className="sideMenuLists";
+
+  layerArea=layerInfoJson[0].Name;
+  for(var i=0; i<layerInfoJson[0].Layers.length; i++){
+    var rasterElement = document.createElement("li");
+    layerName=layerInfoJson[0].Layers[i].Name;
+    layerNameMenu=layerInfoJson[0].Layers[i].Description;
+    formattedLayerName=formatName(layerNameMenu);
+    rasterElement.setAttribute("name",layerName);
+    rasterElement.setAttribute("area",layerArea);
+    rasterElement.setAttribute("active", false);
+    rasterElement.innerHTML=formattedLayerName;
+    rasterElement.addEventListener("click", function(){
+      rasterLayerClickEvent();
+    });
+    //adding raster element to raster list:
+    rasterMenu.appendChild(rasterElement);
+    menuState.type="raster";
+  }
+  //adding the raster overlays list to kommune element
+  document.getElementById("kommunekart-menu").appendChild(rasterMenu);
+  //$("#layerList").addClass("kommuneDropdownVisible");
 }
+
+//TODO: delete - should just hide instead
 
 
 function setKommuneMenuHeader(target, kommuneName, moveEvent){
   //set chosen kommune name above list, instead of "velg kommune"
   document.getElementById("choose-kommune-text").innerHTML=kommuneName;
-  console.log(target);
   //add kommune icon
-  var kommuneIcon=target.firstChild;
-  console.log(kommuneIcon);
-  console.log(document.getElementById("kommunekart-menu-button").firstChild);
+  var kommuneIcon=target.firstChild.cloneNode(true);
   if(document.getElementById("kommuneHeaderImg")==undefined){
     kommuneIcon.id="kommuneHeaderImg";
-    console.log("bilde finnes ikke fra for");
     document.getElementById("kommunekart-menu-button").insertBefore(kommuneIcon, document.getElementById("kommunekart-menu-button").firstChild);
   }else if(document.getElementById("kommuneHeaderImg") !=undefined){ //only change url for image
-    console.log("kun oppdater bilde med src: ");
     var img=document.getElementById("kommuneHeaderImg");
-    console.log(kommuneIcon);
-    console.log(kommuneIcon.getAttribute("src"));
     img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
-  }else{
-    console.log("WHY?");
   }
-
-
-  if(document.getElementById("backToKommuneList")==undefined){
+//TODO
+  if(menuState.chosenKommuneId==false){
+      console.log("no active kommune yet");
       var backButton=document.createElement("button");
       backButton.id="backToKommuneList";
       backButton.innerHTML="x";
@@ -87,44 +105,58 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
 }
 
 function goFromRasterLayerListToKommuneList(){ //back button event
-  menuState="kommuner";
+  menuState.type="kommune";
   //delete back button and kommune icon: two first items
   document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
   document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
 
   //change inner html:
   document.getElementById("choose-kommune-text").innerHTML="Velg kommune";
-  //delete raster layer list:
-  $("#layerList").remove()
-
-  //Check if menu is open or not:
-  if($("#vectorLayers").hasClass("kommuneDropdownVisibleShowVectorLayers")){ //has this class whenever either kommunlist or rasterlist is open
-    //make kommune list visible, toggle class
-    $("#kommuneList").toggleClass("kommuneDropdownVisible");
-    $("#kommuneList").toggleClass("dropdownHide");
-    $("#kommunekart-menu").toggleClass("kommuneMenuSlideDown");
-
-    //make baselayer-menu show correctly: toggles already in other button event that is also fired, therefor timeout. TODO: find other solution
-    setTimeout(function(){
-      $("#select-baselayer").addClass("kommuneDropdownVisibleShowBaselayers");
-      $("#vectorLayers").addClass("kommuneDropdownVisibleShowVectorLayers");
-    }, 50);
-  }else{ //lists closed
-    console.log("closed menus!!!!!!!!!!!!!");
-    setTimeout(function(){
-      $("#kommuneList").removeClass("dropdownHide");
-      $("#menu-selector").removeClass("removeOverflow");
-      $("#kommuneList").removeClass("kommuneDropdownVisible");
-      $("#select-baselayer").removeClass("kommuneDropdownVisibleShowBaselayers");
-      $("#vectorLayers").removeClass("kommuneDropdownVisibleShowVectorLayers");
-    }, 50);
+  hideKommuneMenuContent("raster");
+  if(menuState.kommuneMenuOpen){
+    showKommuneMenuContent("kommune");
   }
-
-
-  createKommuneList();
+  menuState.chosenKommuneId=false;
 }
 
-var kommuneList=[];
+
+function hideKommuneMenuContent(type){
+  $("#menu-selector").removeClass("removeOverflow"); //Make it not scroll
+  //slide down baselayers and off/on vector layers (annet, symboler)
+  $("#kommuneListPointer").removeClass("pointer-down");
+  $("#kommuneListPointer").addClass("pointer-right");
+  //slide down baselayers and off/on vector layers (annet, symboler)
+  $("#select-baselayer").removeClass("kommuneDropdownVisibleShowBaselayers");
+  $("#vectorLayers").removeClass("kommuneDropdownVisibleShowVectorLayers");
+  $("#kommuneList").removeClass("kommuneDropdownVisible");
+  if(type==="kommune"){
+    $("#kommunekart-menu").removeClass("kommuneMenuSlideDown");
+  }else if(type==="raster"){
+    $("#layerList").addClass("dropdownHide");
+    $("#layerList").removeClass("kommuneDropdownVisible");
+  }
+  menuState.kommuneMenuOpen=false;
+}
+
+function showKommuneMenuContent(type){
+  $("#menu-selector").addClass("removeOverflow"); //Make it not scroll
+  //slide down baselayers and off/on vector layers (annet, symboler)
+  $("#kommuneListPointer").removeClass("pointer-right");
+  $("#kommuneListPointer").addClass("pointer-down");
+  //make baselayer selector always show at bottom of sidemeny, and hide the rest
+  $("#select-baselayer").addClass("kommuneDropdownVisibleShowBaselayers");
+  $("#vectorLayers").addClass("kommuneDropdownVisibleShowVectorLayers");
+  if(type ==="kommune"){
+    $("#kommuneList").addClass("kommuneDropdownVisible");
+    $("#kommunekart-menu").addClass("kommuneMenuSlideDown");
+  }else if(type === "raster"){
+    $("#layerList").removeClass("dropdownHide");
+    $("#layerList").addClass("kommuneDropdownVisible");
+    $("#kommuneList").removeClass("kommuneDropdownVisible");
+
+  }
+  menuState.kommuneMenuOpen=true;
+}
 
 
 //LISTENERS: ------------------------------------------------------------------------------------
@@ -132,52 +164,34 @@ var kommuneList=[];
 //on click sidemenu: if overflow -add padding, if not -remove padding
 document.getElementById('menu-selector').addEventListener("click", function(){
   var el=document.getElementById('menu-selector');
-  // if(el.scrollHeight > el.clientHeight){
-  //   $("#menu-selector").addClass("scrollPadding");
-  // }else{
-  //   $("#menu-selector").removeClass("scrollPadding");
-  // }
 });
 
 //"Velg kommune" is clicked, kommunelist shown/hidden
 document.getElementById("kommunekart-menu-button").addEventListener("click", function(){
-  //$("#side-menu-toggle-button").removeClass("sidenavOpen");
-  $("#kommuneListPointer").toggleClass("pointer-right pointer-down");
-  //make baselayer selector always show at bottom of sidemeny, and hide the rest
-  $("#menu-selector").toggleClass("removeOverflow");
-  //$("#kommuneList").toggleClass()
-
-
-  //see what list is active:
-  if(menuState==="kommuner"){ //show hide kommuner
-    // console.log("state is kommuner");
-    $("#kommuneList").toggleClass("kommuneDropdownVisible"); //starts closed
-    $("#select-baselayer").toggleClass("kommuneDropdownVisibleShowBaselayers");
-    $("#vectorLayers").toggleClass("kommuneDropdownVisibleShowVectorLayers");
-    $("#kommunekart-menu").toggleClass("kommuneMenuSlideDown");
-
-  }else if(menuState==="rasterLayers"){//show hide raster for kommune
-    console.log("state is rasters");
-    $("#layerList").toggleClass("dropdownHide"); //starts open
-    $("#kommuneList").toggleClass("kommuneDropdownVisible"); //starts closed
-    $("#select-baselayer").toggleClass("kommuneDropdownVisibleShowBaselayers");
-    $("#vectorLayers").toggleClass("kommuneDropdownVisibleShowVectorLayers");
+  if(event.target.id ==="backToKommuneList"){
+    return; //dont fire this event
+  }
+  if(menuState.kommuneMenuOpen){
+    hideKommuneMenuContent(menuState.type);
+  }else{
+    showKommuneMenuContent(menuState.type);
   }
 });
 
 //when toggle side menu button is clicked: side menu hidden/shown
 document.getElementById("side-menu-toggle-button").addEventListener("click", function(){
   $("#menu-selector").toggleClass("sidenavOpen");
-  $("#baselayerselector").toggleClass("baselayersHidden");
-
-  //if kommunemenu is down, baseselector have to have togge of styling
-  if($("#kommunekart-menu").hasClass("kommuneMenuSlideDown")){
-    $("#select-baselayer").toggleClass("kommuneDropdownVisibleShowBaselayers");
-    $("#vectorLayers").toggleClass("kommuneDropdownVisibleShowVectorLayers");
-  }
-
-  if($("#kommuneList").is(":visible")){
-    $("#kommuneList").removeClass("dropdownVisible");
+  if(menuState.sideNavOpen){
+    var actualMenuState=menuState.kommuneMenuOpen;
+    hideKommuneMenuContent(menuState.type);
+    menuState.kommuneMenuOpen=actualMenuState;
+    menuState.sideNavOpen=false;
+  }else{
+    console.log(menuState.kommuneMenuOpen);
+    if(menuState.kommuneMenuOpen){
+      showKommuneMenuContent(menuState.type);
+    }
+    menuState.sideNavOpen=true;
   }
 });
 
