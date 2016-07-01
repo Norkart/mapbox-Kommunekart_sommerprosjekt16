@@ -153,26 +153,6 @@ body{
     transition: 0.5s;
   }
 
-  .tool-button{
-    background-size: 24px 24px;
-    border-bottom:1px solid rgba(0,0,0,0.1);
-    color: white;
-    background-position: 12px 12px;
-    height:48px;
-    padding-left:48px;
-    width:260px;
-    text-align: -webkit-match-parent;
-    background-color: rgba(42, 42, 42, 0.71);
-    background-repeat: no-repeat;
-    border: 0 none;
-  }
-
-  .tool-button:hover{
-    background-color:rgb(60, 60, 60) ;
-  }
-  .tool-button:active{
-    background-color: rgb(115, 115, 115);
-  }
   .selectedToolElement{
     opacity: 1;
   }
@@ -541,7 +521,6 @@ body{
 }
 
 #infoSidebar{
-  //width:260px;
   width:0px;
   float:right;
   z-index: 10;
@@ -552,16 +531,66 @@ body{
   margin-top:42px;
   overflow-x: hidden;
   transition: 0.5s;
-  color:white;
-  #adresse{
+  color:black;
+  .boble{
+    margin:10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(255,255,255,0.60);
+  }
+  #punktInfo{
+    #adresse{
+      padding-left: 0px;
+      list-style-type: none;
+      font-size: 12px;
+    }
     #punktAdresse{
       font-weight: bold;
-    }
-    label {
-      font-size:12px;
+      font-size: 14px;
     }
     span{
       font-size: 12px;
     }
   }
+}
+
+.tool-button{
+  background-size: 24px 24px;
+  border-bottom:1px solid rgba(0,0,0,0.1);
+  color: white;
+  background-position: 12px 12px;
+  height:48px;
+  padding-left:48px;
+  width:260px;
+  text-align: -webkit-match-parent;
+  background-color: rgba(42, 42, 42, 0.71);
+  background-repeat: no-repeat;
+  border: 0 none;
+  cursor: pointer;
+}
+
+.tool-button:hover{
+  background-color:rgb(60, 60, 60) ;
+}
+.tool-button:active{
+  background-color: rgb(115, 115, 115);
+}
+
+#availableFeaturesList{
+  padding: 0px;
+  list-style-type: none;
+}
+
+.featureListElement{
+  height:30px;
+  border-bottom:1px solid #565252;
+  padding-left: 10px;
+  .check{
+    display: inline;
+  }
+}
+#featureHeader{
+  margin-left:10px;
+  font-size: 16px;
+  color:white;
 }

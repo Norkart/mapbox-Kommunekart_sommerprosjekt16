@@ -74,20 +74,21 @@
     </div>
     <div id = "navbar-top">
       <div id ="infoSidebar">
-        <div id ="adresse">
-          <span id="punktAdresse">Adresse</span><br><span id="punktPostnr">postnr</span><br>
-          <label>Avstand til adresse: </label><span id="punktDistance">Heiheihakloo</span> <br><br>
+        <div id ="punktInfo" class ="boble">
+          <ul id="adresse"></ul>
           <label>Koordinater: </label><br>
-          <span id="WGSKoordinater">Heiheihakloo</span><br>
-          <span id="UTMKoordinater">Heiheihakloo</span><br>
-
+          <span id="WGSKoordinater"></span><br>
+          <span id="UTMKoordinater"></span><br><br>
+          <span id="heightAboveSea"></span><br>
         </div>
+        <div id ="availableFeatureInformation">
+        </div>
+        <btn id ="closeInfoSidebar">Lukk</button>
       </div>
       <div id ="side-menu-toggle">
         <button id ="side-menu-toggle-button" type ="button"></button>
         <div name ="menu-content" class = "show-menu">
           <ul id ="menu-selector" class="sidenavOpen">
-
             <li name="kommunekartMeny">
               <div id ="kommunekart-menu">
                 <button id ="kommunekart-menu-button" type = "button">
@@ -202,7 +203,6 @@
   <script src="../javascripts/rasterOverlay.js"></script>
   <script src="../javascripts/menus.js"></script>
   <script src="../javascripts/vectorLayers.js"></script>
-  <script src="../javascripts/coordinates.js"></script>
 
 
   <script src='../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script>

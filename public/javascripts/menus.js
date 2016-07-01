@@ -2,7 +2,8 @@ var menuState={
   "kommuneMenuOpen": false, //true
   "type": "kommune", //raster
   "chosenKommuneId": false, //id to active kommune
-  "sideNavOpen":true
+  "sideNavOpen":true,
+  "infoSidebarStatus":false
 };
 
 //get kommuner fra db to display in menu - same always
@@ -109,7 +110,6 @@ function goFromRasterLayerListToKommuneList(){ //back button event
   //delete back button and kommune icon: two first items
   document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
   document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
-
   //change inner html:
   document.getElementById("choose-kommune-text").innerHTML="Velg kommune";
   hideKommuneMenuContent("raster");
@@ -276,4 +276,8 @@ $('.aerial').click(function(){
   console.log("loaded");
 
   wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
+});
+$('#closeInfoSidebar').click(function(){
+  menuState.infoSidebarStatus = false;
+  $("#infoSidebar").toggleClass("sidenavOpen");
 });

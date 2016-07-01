@@ -53,8 +53,6 @@ function mapMoveEvent(){
 
 map.on('move', throttle(mapMoveEvent, 500));
 
-
-
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
 var layerList=layers.layers;
 var osmGroup="1452169018974.0132";
@@ -250,32 +248,67 @@ function flyTo(){
 
 //Adding popup info
 map.on('click', function (e) {
+  if(!menuState.infoSidebarStatus){
+    if(menuState.sideNavOpen){
+      $("#menu-selector").toggleClass("sidenavOpen");
+      menuState.sideNavOpen = false;
+    }
+    menuState.infoSidebarStatus = true;
+    $("#infoSidebar").toggleClass("sidenavOpen");
+  }
   // console.log(mapmodus);
   // Populate the popup and set its coordinates
   //var utmCoord=getUTMCoordinates(e.lngLat.lat, e.lngLat.lng);
   //var utmString=_makeUtmCoordinateString(utmCoord.lat, utmCoord.lng);
-  var adresse;
-  var postnr;
+  var adresse = null;
   if(mapmodus === "popup"){
     updateAdress(e.lngLat.lng,e.lngLat.lat,
       function(result){
         var result = JSON.parse(result.responseText).ReverseGeocodeResult;
-        console.log(result.NearestAddress.MunicipalityNo);
-        adresse = result.NearestAddress.House;
-        console.log(result.NearestAddress.Zip);
-        console.log(result.NearestAddress.PostalPlace);
-        postnr = result.NearestAddress.Zip + " "+ result.NearestAddress.PostalPlace;
-        distance =result.NearestAddress.Distance;
-        $("#punktAdresse").text(adresse);
-        $("#punktPostnr").text(postnr);
-        $("#punktDistance").text(distance +" m");
+        console.log(result.MunicipalityInfo.Name);
+        // console.log(result.NearestAddress.House);
+        document.getElementById("adresse").innerHTML="";
+        if(result.NearestAddress==null){
+          var kommuneNavn = document.createElement("h3");
+          kommuneNavn.id="kommuneNavn";
+          kommuneNavn.innerHTML = result.MunicipalityInfo.Name + " kommune";
+          document.getElementById("adresse").appendChild(kommuneNavn);
+        }else{
+          var punktAdresse = document.createElement("li");
+          punktAdresse.id="punktAdresse";
+          punktAdresse.innerHTML = result.NearestAddress.House;
+          var postnr = document.createElement("li");
+          postnr.id="punktPostnr";
+          postnr.innerHTML = result.NearestAddress.Zip + " "+ result.NearestAddress.PostalPlace;
+          var distance = document.createElement("li");
+          distance.id="distance";
+          distance.innerHTML = "Avstand til adresse: "+result.NearestAddress.Distance.toFixed(0)+" m";
+          // kommuneElement.id=i+"element";
+          var kommuneDiv=document.createElement("div");
+          document.getElementById("adresse").appendChild(punktAdresse);
+          document.getElementById("adresse").appendChild(postnr);
+          document.getElementById("adresse").appendChild(distance);
+        }
+        getFeaturesForSideMenu(result.MunicipalityInfo.Number, e.lngLat.lat, e.lngLat.lng);
       }
     );
-
-    // var lat =
     var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
     $("#WGSKoordinater").text(latLngString);
-    getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng);
+    // getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng);
+    getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
+      function(result){
+        var result = JSON.parse(result.responseText).coordinate;
+        console.log(result.north);
+        var utmString = "UTM 32N: "+result.north.toFixed(1) +"N, "+result.east.toFixed(1)+"Ø";
+        $("#UTMKoordinater").text(utmString);
+      }
+    );
+    getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng,
+      function(result){
+        var result = JSON.parse(result.responseText).valuelist[0].v;
+        $("#heightAboveSea").text(result.toFixed(0)+ " m.o.h");
+      }
+    );
 
     if(map.getLayer("marker")!==undefined){
       map.removeLayer("marker");
