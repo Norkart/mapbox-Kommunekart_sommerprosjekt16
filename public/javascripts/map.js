@@ -1,3 +1,10 @@
+var menuState={
+  "kommuneMenuOpen": false, //true
+  "type": "kommune", //raster
+  "chosenKommuneId": false, //id to active kommune
+  "sideNavOpen":true,
+  "infoSidebarStatus":false
+};
 
 var mapmodus = "popup";
 var mapStyle = "normal";
@@ -31,6 +38,7 @@ var throttle = function(func, time) {
   };
 };
 
+
 function mapMoveEvent(){
   console.log("running");
   //check border intersection between norway and bounding box of the view
@@ -51,25 +59,26 @@ function mapMoveEvent(){
 }
 
 
-map.on('move', throttle(mapMoveEvent, 500));
+
+map.on('move', throttle(mapMoveEvent, 500)); //make sure it doesn't run too often
 
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
-var layerList=layers.layers;
-var osmGroup="1452169018974.0132";
-for(var i=0; i<layerList.length; i++){
-  var layer=layerList[i];
-  if(layer.metadata){
-    if(layer.metadata["mapbox:group"] === osmGroup){
-      if(visible){// make layers visible
-        map.setLayoutProperty(layer.id, 'visibility', 'visible');
-      }else{
-        console.log("change layer to visibility none:");
-        map.setLayoutProperty(layer.id, 'visibility', 'none');
-        map.getLayoutProperty(layer.id, 'visibility');
+  var layerList=layers.layers;
+  var osmGroup="1452169018974.0132";
+  for(var i=0; i<layerList.length; i++){
+    var layer=layerList[i];
+    if(layer.metadata){
+      if(layer.metadata["mapbox:group"] === osmGroup){
+        if(visible){// make layers visible
+          map.setLayoutProperty(layer.id, 'visibility', 'visible');
+        }else{
+          console.log("change layer to visibility none:");
+          map.setLayoutProperty(layer.id, 'visibility', 'none');
+          map.getLayoutProperty(layer.id, 'visibility');
+        }
       }
     }
   }
-}
 }
 
 function getBBoxPol(){
@@ -358,6 +367,126 @@ function updateAdress(longitude, latitude, callback){
     complete: callback
   });
 }
+
+
+//draw grey background outside of choosen kommune
+var currentKommune=false;
+var kommuneElementClicked=false;
+map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
+
+function drawDarkAroundKommuneBorder(){
+  var name="outsideKommune";
+  console.log(kommuneElementClicked);
+  // if(map.getZoom()<10 && kommuneElementClicked==false){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
+  // setTimeout(function(){
+    //wait for zoomlevel to change //TODO: better fix, tried to see if kommune clicked, but difficult to know how to change the variable back to false.
+    //since this fires multiple times while zooms in, and therefore the boolen variable for click is changed back to false before it is drawn
+  // }, 1000);
+  console.log(map.getZoom());
+  if(map.getZoom()<9.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
+    //if area drawn, remove it:
+    console.log("not drawing area, removing if zoomed out");
+    if(map.getLayer(name)!=undefined){
+      map.removeSource(name);
+      map.removeLayer(name);
+      currentKommune=false;
+    }
+    return;
+  }
+  var lat = map.getCenter().lat;
+  var lng = map.getCenter().lng;
+  // var url="http://www.webatlas.no/wacloudtest/servicerepository/GeoNameService.svc/json/FindMunicipalityWithGeometry?x="+lat+"&y="+lng+"srs=EPSG:4326";
+  var url="http://www.webatlas.no/wacloudtest/servicerepository/GeoNameService.svc/json/FindMunicipalityWithGeometry?srs=EPSG:4326&east="+lng+"&north="+lat;
+  $.ajax({
+    url:url
+  }).done(function(res){
+    if(currentKommune===res.Name && map.getLayer(name)!=undefined){//same as last kommune and something is drawn
+      console.log("same kommune");
+      console.log(res.Name);
+      return; //do nothing if still inside same kommune
+    }
+    var bboxExpanded=getBboxExpanded();
+    console.log(bboxExpanded);
+    var kommunePol=makeGeojsonFeature(res.Geometries);
+    var paintGreyPolygon=turf.erase(bboxExpanded, kommunePol);
+    if(map.getLayer(name)!=undefined){
+      map.removeSource(name);
+      map.removeLayer(name);
+    }
+    var sourceObj=getSourceObj(paintGreyPolygon);
+    map.addSource(name,sourceObj);
+    var layerObj=getLayerObj(name);
+    map.addLayer(layerObj);
+    currentKommune=res.Name;
+  });
+}
+
+
+function getSourceObj(geojson, name){
+  var sourceObj= {
+    "type": "geojson",
+    "data": geojson
+  };
+  return sourceObj;
+}
+function getLayerObj(name){
+  var lObj= {
+    "id": name,
+    "type": "fill",
+    "source": name,
+    "source-layer": name,
+    "paint": {
+      "fill-color": "rgba(36, 35, 36, 0.20)"
+    }
+  };
+  return lObj;
+}
+
+function makeGeojsonFeature(coordinatesObj){
+  console.log(coordinatesObj);
+  var coordArr=[];
+  //TODO: tror det er det andre arrayet, ikke sikker hva det første er fra
+  //var obj=(coordinatesObj[0]);
+  var obj=(coordinatesObj[0]);
+  // console.log(obj);
+  var list=(coordinatesObj[0].Positions);
+  for(var i=0; i<list.length; i++){
+    var el=list[i];
+    var coordElementArr=[];
+    var x= el.X;
+    var y= el.Y;
+    coordElementArr.push(x);
+    coordElementArr.push(y);
+    coordArr.push(coordElementArr);
+  }
+  //add first coordinates at end as well
+  var coordEl=[list[0].X, list[0].Y];
+  coordArr.push(coordEl);
+
+  // console.log(coordArr);
+  var geo={
+    "type": "Feature",
+    "properties":{},
+    "geometry": {
+      "type": "MultiPolygon",
+      "coordinates": [[
+        coordArr
+      ]]
+    }
+  }
+  console.log((geo));
+  return geo;
+}
+
+function getBboxExpanded(){
+  var pol=getBBoxPol();
+  console.log(pol);
+  var newPol=turf.buffer(pol, 5, 'meter');
+  console.log(JSON.stringify(newPol.features[0]));
+  return newPol.features[0];
+  // return pol;
+}
+
 
 //Change Municipality- mapmove
 var kommuneList;

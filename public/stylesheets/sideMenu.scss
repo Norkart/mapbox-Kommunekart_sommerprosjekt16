@@ -364,6 +364,7 @@ body{
       background-color: grey;
     }
   }
+  
   img{
     width:24px; //19%
     padding-top: 12px;
@@ -394,6 +395,11 @@ body{
       div{
         display: flex;
       }
+    }
+    #kommuneSearchDiv{
+      width: 250px;
+      position: relative;
+      height: 42px;
     }
   }
 

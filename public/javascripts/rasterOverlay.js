@@ -5,6 +5,7 @@ var layerArea; //name for url for area of different layers
 var layerName; //end of url for specific raster layer
 
 function setRasterOverlayMenu(kommuneId){
+  console.log(kommuneId);
   var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;
   $.ajax({
     url:layersUrl
