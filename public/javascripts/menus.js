@@ -72,7 +72,7 @@ function createRasterLayerMenu(layerInfoJson){
 }
 
 //if zoomeLevel is lower than 9.5 --> unselect kommune, go back to "Velg kommune" text, and remove raster layer: same as x functionality?
-map.on('move', function(){
+map.on('moveend', function(){
   if(map.getZoom()<9.5  && menuState.chosenKommuneId!=false){
     unselectKommune();
   }

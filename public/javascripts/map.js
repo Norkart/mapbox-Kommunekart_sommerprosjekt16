@@ -336,7 +336,7 @@ function updateAdress(longitude, latitude, callback){
 //draw grey background outside of choosen kommune
 var currentKommune=false;
 var kommuneElementClicked=false;
-map.on('move', throttle(drawDarkAroundKommuneBorder, 500));
+map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
 
 function drawDarkAroundKommuneBorder(){
   var name="outsideKommune";
