@@ -1,9 +1,4 @@
-var menuState={
-  "kommuneMenuOpen": false, //true
-  "type": "kommune", //raster
-  "chosenKommuneId": false, //id to active kommune
-  "sideNavOpen":true
-};
+
 
 //get kommuner fra db to display in menu - same always
 createKommuneList();
@@ -25,6 +20,7 @@ function createKommuneList(){
       kommuneDiv.setAttribute("nr", res[i].Number);
       //adding on click event for choosing kommune - fly to and create menu
       kommuneDiv.addEventListener("click", function(){
+        kommuneElementClicked=true;
         resetRasterOverlays();
         setRasterOverlayMenu(event.currentTarget.getAttribute("nr"));
         setKommuneMenuHeader(event.currentTarget, event.currentTarget.getAttribute("kommune"));
@@ -75,8 +71,12 @@ function createRasterLayerMenu(layerInfoJson){
   //$("#layerList").addClass("kommuneDropdownVisible");
 }
 
-//TODO: delete - should just hide instead
-
+//if zoomeLevel is lower than 9.5 --> unselect kommune, go back to "Velg kommune" text, and remove raster layer: same as x functionality?
+map.on('move', function(){
+  if(map.getZoom()<9.5  && menuState.chosenKommuneId!=false){
+    unselectKommune();
+  }
+});
 
 function setKommuneMenuHeader(target, kommuneName, moveEvent){
   //set chosen kommune name above list, instead of "velg kommune"
@@ -90,7 +90,6 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
     var img=document.getElementById("kommuneHeaderImg");
     img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
   }
-//TODO
   if(menuState.chosenKommuneId==false){
       console.log("no active kommune yet");
       var backButton=document.createElement("button");
@@ -98,13 +97,13 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
       backButton.innerHTML="x";
       backButton.addEventListener("click", function(){
       console.log("back to raster");
-      goFromRasterLayerListToKommuneList();
+      unselectKommune();
     });
     document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
   }
 }
 
-function goFromRasterLayerListToKommuneList(){ //back button event
+function unselectKommune(){ //back button event
   menuState.type="kommune";
   //delete back button and kommune icon: two first items
   document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
