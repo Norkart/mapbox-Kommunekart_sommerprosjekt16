@@ -109,7 +109,9 @@ function setRasterOverlayMenu(kommuneId){
     saveZoomLevelForLayers(res[0].Layers);
     hideKommuneMenuContent("kommune");
     createRasterLayerMenu(res);
-    showKommuneMenuContent("raster");
+    if(menuState.sideNavOpen){
+      showKommuneMenuContent("raster");
+    }
   });
 }
 
