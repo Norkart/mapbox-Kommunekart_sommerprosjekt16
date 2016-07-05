@@ -7,6 +7,8 @@ function createKommuneList(){
   $.ajax({
     url:"https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetRegisteredAppCustomers?appID=VectortilesDemo",
   }).done(function(res){
+    var list=document.createElement("ul");
+    list.className="list";
     for(var i=0; i<res.length; i++){
       var kommuneId=res[i].Number;
       kommuneObjectList[kommuneId]=res[i]; //save kommune object to list for later use (kommune on click event ++)
@@ -28,6 +30,7 @@ function createKommuneList(){
         flyTo();
       });
       var kommuneName=document.createElement("h4");
+      kommuneName.className="kommunename";
       kommuneName.innerHTML=res[i].Name;
       var kommuneLogo=document.createElement("img");
       kommuneLogo.setAttribute("src", res[i].Logo);
@@ -38,8 +41,18 @@ function createKommuneList(){
       kommuneElement.appendChild(kommuneDiv);
 
       var kommuner=document.getElementById("kommuneList");
-      kommuner.appendChild(kommuneElement);
+      //testing div around all kommune elements:
+      // var kommunerDiv=document.createElement("div");
+      // kommunerDiv.id="searchList";
+
+      list.appendChild(kommuneElement);
     }
+    kommuner.appendChild(list);
+    //make searchable
+    var options={
+      valueNames:['kommunename']
+    };
+    var kommuneList=new List('kommuneList', options);
   });
 }
 
@@ -96,6 +109,7 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
       backButton.innerHTML="x";
       backButton.addEventListener("click", function(){
       console.log("back to raster");
+      map.setZoom(9.4);
       unselectKommune();
     });
     document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
@@ -125,6 +139,7 @@ function hideKommuneMenuContent(type){
   //slide down baselayers and off/on vector layers (annet, symboler)
   $("#select-baselayer").removeClass("kommuneDropdownVisibleShowBaselayers");
   $("#vectorLayers").removeClass("kommuneDropdownVisibleShowVectorLayers");
+
   $("#kommuneList").removeClass("kommuneDropdownVisible");
   if(type==="kommune"){
     $("#kommunekart-menu").removeClass("kommuneMenuSlideDown");

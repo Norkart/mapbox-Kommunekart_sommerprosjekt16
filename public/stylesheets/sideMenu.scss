@@ -1,6 +1,49 @@
 body{
   height: 100%;
 }
+
+input[type="text"] {
+  margin-top: 12px;
+  border: none;
+  outline: none;
+  color: white;
+  position: absolute;
+  background: none;
+  z-index: 3;
+  width: 180px;
+  margin-left: 10px;
+}
+input[type="text"]:focus {
+  z-index: 1;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #BBB;
+  cursor: text;
+}
+input[type="submit"] {
+  height: 34px;
+  width: 24px;
+  display: inline-block;
+  float: right;
+  background: url("../images/search.png");
+  background-size: 24px;
+  background-repeat: no-repeat;
+  text-indent: -10000px;
+  border: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  cursor: pointer;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity .4s ease;
+  margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+  opacity: 1;
+}
+
 #navbar-top{
   #searchBox{
     width:300px;
@@ -10,57 +53,58 @@ body{
     width:300px;
     margin-left: 100px;
     top:10px;
-  }
-  input[type="text"] {
-    margin-top: 12px;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 3px;
-    padding-right: 60px;
-    width: 0px;
-    position: absolute;
-    right: 0;
-    background: none;
-    z-index: 3;
-    transition: width .4s cubic-bezier(0.000, 0.795, 0.000, 1.000);
-    cursor: pointer;
-  }
 
-  input[type="text"]:focus:hover {
-    border-bottom: 1px solid #BBB;
-  }
+    input[type="text"] {
+      margin-top: 12px;
+      border: none;
+      outline: none;
+      color: white;
+      padding: 3px;
+      padding-right: 60px;
+      width: 0px;
+      position: absolute;
+      right: 0;
+      background: none;
+      z-index: 3;
+      transition: width .4s cubic-bezier(0.000, 0.795, 0.000, 1.000);
+      cursor: pointer;
+    }
 
-  input[type="text"]:focus {
-    width: 230px;
-    z-index: 1;
-    border-bottom: 1px solid #BBB;
-    margin-top: 14px;
-    cursor: text;
-  }
-  input[type="submit"] {
-    height: 34px;
-    width: 24px;
-    display: inline-block;
-    float: right;
-    background: url("../images/search.png");
-    background-size: 24px;
-    background-repeat: no-repeat;
-    text-indent: -10000px;
-    border: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    cursor: pointer;
-    opacity: 0.8;
-    cursor: pointer;
-    transition: opacity .4s ease;
-    margin-top: 10px;
-  }
+    input[type="text"]:focus:hover {
+      border-bottom: 1px solid #BBB;
+    }
 
-  input[type="submit"]:hover {
-    opacity: 1;
+    input[type="text"]:focus {
+      width: 230px;
+      z-index: 1;
+      border-bottom: 1px solid #BBB;
+      margin-top: 14px;
+      cursor: text;
+    }
+    input[type="submit"] {
+      height: 34px;
+      width: 24px;
+      display: inline-block;
+      float: right;
+      background: url("../images/search.png");
+      background-size: 24px;
+      background-repeat: no-repeat;
+      text-indent: -10000px;
+      border: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 2;
+      cursor: pointer;
+      opacity: 0.8;
+      cursor: pointer;
+      transition: opacity .4s ease;
+      margin-top: 10px;
+    }
+
+    input[type="submit"]:hover {
+      opacity: 1;
+    }
   }
 }
 .show-menu ul li{
@@ -363,8 +407,15 @@ body{
     .activeRasterElement{
       background-color: grey;
     }
+    #advarsel{
+      padding: 0;
+      float: right;
+      margin-right: 20px;
+      width:16px;
+      height: 16px;
+    }
   }
-  
+
   img{
     width:24px; //19%
     padding-top: 12px;
@@ -376,6 +427,7 @@ body{
 
   #kommuneList{
     margin-top: -5px;
+    // padding-top: 45px; //give room for search input
     height: 0;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -400,6 +452,9 @@ body{
       width: 250px;
       position: relative;
       height: 42px;
+    }
+    .list{
+      padding:0;
     }
   }
 

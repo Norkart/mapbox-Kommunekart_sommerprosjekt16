@@ -9,6 +9,7 @@
   <script src='../../../node_modules/turf-difference/node_modules/jsts/dist/jsts.min.js'></script>
   <script src='../../../node_modules/turf-simplify/node_modules/simplify-js/simplify.js'></script>
   <script src='../../../node_modules/turf-buffer/node_modules/jsts/dist/jsts.min.js'></script>
+
   <script src='../norwayBorder.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.css' rel='stylesheet' />
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -19,7 +20,7 @@
   <link href='../stylesheets/main.min.css' rel='stylesheet' />
   <link href='../stylesheets/sideMenu.min.css' rel='stylesheet' />
   <link href='../stylesheets/top-nav-bar.min.css' rel='stylesheet' />
-    <link href="../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.css" rel="stylesheet" />
+  <link href="../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.css" rel="stylesheet" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
@@ -48,23 +49,23 @@
           <a href="#" name="privacy_link">Personvernerklæring</a>
           <div class="about-gap-big"></div>
           <div class="about-attribution">
-              Rettighetshavere kartdata<br>
-              © 2015 Geovekst og Kommunene<br>
-              © 2015 Norkart AS<br>
-              © 2015 Statens Kartverk<br>
-              © 2015 OpenStreetMap and contributors<br>
+            Rettighetshavere kartdata<br>
+            © 2015 Geovekst og Kommunene<br>
+            © 2015 Norkart AS<br>
+            © 2015 Statens Kartverk<br>
+            © 2015 OpenStreetMap and contributors<br>
           </div>
           <div class ="about-gap"></div>
           <div class ="about-close-button" name ="close_button">Lukk</div>
           <div class="about-thirdparty">
-              Tredjepartsbiblioteker<br>
-              Leaflet,
-              Leaflet draw,
-              Placeholders,
-              jQuery,
-              Handlebars,
-              Mootools
-            </div>
+            Tredjepartsbiblioteker<br>
+            Leaflet,
+            Leaflet draw,
+            Placeholders,
+            jQuery,
+            Handlebars,
+            Mootools
+          </div>
         </div>
       </div>
     </div>
@@ -85,136 +86,139 @@
         <div id ="availableFeatureInformation">
         </div>
         <btn id ="closeInfoSidebar">Lukk</button>
-      </div>
-      <div id ="side-menu-toggle">
-        <button id ="side-menu-toggle-button" type ="button"></button>
-        <div name ="menu-content" class = "show-menu">
-          <ul id ="menu-selector" class="sidenavOpen">
-            <li name="kommunekartMeny">
-              <div id ="kommunekart-menu">
-                <button id ="kommunekart-menu-button" type = "button">
-                  <h4 id ="choose-kommune-text">Velg kommune</h4>
-                  <div id="kommuneListPointer" class ="pointer pointer-right"></div>
-                </button>
-                <ul id="kommuneList" class="sideMenuLists">
-                  <li id ="kommuneSearchDiv">
-                    <!-- <div class ="kommunekart-search kommunekart-control" id ="searchBox"> -->
-                      <input id="KommuneSearch" name="search" type="text" placeholder="Søk etter kommune">
-                      <input id="search_submit" type="submit">
-                    <!-- </div> -->
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li id="baselayerselector"name ="baselayerselector">
-              <div class="select-baselayer" id="select-baselayer">
-                <button name ="normal" class ="baselayer-button normal selected" type="button">
-                  <span>Kart</span>
-                </button>
-                <button name ="aerial" class ="baselayer-button aerial" id ="aerial" type="button">
-                  <span>Flyfoto</span>
-                </button>
-                <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
-                  <span>3D-kart</span>
-                </button>
-              </div>
-            </li>
-            <li id="vectorLayers">
-              <input id="symbolLayers" type="checkbox" checked>
-                <label for="symbolLayers"><span></span>Symboler</label>
-              <input id="otherLayers" type="checkbox" checked>
-                <label for="otherLayers"><span></span>Annet</label>
-            </li>
-            <div class="tools" name="verktøy">
-              <div id="toolHeader">
-                <h4>Verktøy</h4>
-                <div id="toolPointer" class="pointer pointer-right"></div>
-              </div>
-              <div id="toolList" class="hide">
-                <li>
-                  <div id="del">
-                    <button class="tool-button tool-button-del" name ="share" type="button">Del</button>
-                    <div id="del-info" class="sideMenuToolDropdown">
-                      <input id ="shareLink" value ="Link skal deles her"></input>
-                      <div id="socialMedia">
-                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/FB_72.png">
-                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/GooglePlus_72.png">
-                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/Twitter_72.png">
+        </div>
+        <div id ="side-menu-toggle">
+          <button id ="side-menu-toggle-button" type ="button"></button>
+          <div name ="menu-content" class = "show-menu">
+            <ul id ="menu-selector" class="sidenavOpen">
+              <li name="kommunekartMeny">
+                <div id ="kommunekart-menu">
+                  <button id ="kommunekart-menu-button" type = "button">
+                    <h4 id ="choose-kommune-text">Velg kommune</h4>
+                    <div id="kommuneListPointer" class ="pointer pointer-right"></div>
+                  </button>
+
+                    <div id="kommuneList" class="list sideMenuLists">
+                      <div id ="kommuneSearchDiv">
+                        <!-- <div class ="kommunekart-search kommunekart-control" id ="searchBox"> -->
+                        <input id="KommuneSearch" class="search" name="search" type="text" placeholder="Søk etter kommune">
+                        <input id="search_submit" type="submit">
+                        <!-- </div> -->
                       </div>
+                      <!-- adding list from js here -->
                     </div>
                   </div>
-                </li>
-                <li>
-                  <button class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
-                  <div id ="avstand-info" class="sideMenuToolDropdown">
-                    <span>Avstandinfo</span>
-                  </div>
-                </li>
-                <li>
-                  <button class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
-                  <div id ="print-info" class="sideMenuToolDropdown">
-                  </div>
-                </li>
-                <li>
-                  <button class="tool-button tool-button-draw" name ="draw" type="button">Påtegning</button>
-                  <div id ="draw-info" class="sideMenuToolDropdown">
-                  </div>
-                </li>
-                <li>
-                  <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
-                  <div id ="navigation-info" class="sideMenuToolDropdown">
-                    <div class="kommunekart-search kommunekart-control">
+              </li>
+              <li id="baselayerselector"name ="baselayerselector">
+                <div class="select-baselayer" id="select-baselayer">
+                  <button name ="normal" class ="baselayer-button normal selected" type="button">
+                    <span>Kart</span>
+                  </button>
+                  <button name ="aerial" class ="baselayer-button aerial" id ="aerial" type="button">
+                    <span>Flyfoto</span>
+                  </button>
+                  <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
+                    <span>3D-kart</span>
+                  </button>
+                </div>
+              </li>
+              <li id="vectorLayers">
+                <input id="symbolLayers" type="checkbox" checked>
+                <label for="symbolLayers"><span></span>Symboler</label>
+                <input id="otherLayers" type="checkbox" checked>
+                <label for="otherLayers"><span></span>Annet</label>
+              </li>
+              <div class="tools" name="verktøy">
+                <div id="toolHeader">
+                  <h4>Verktøy</h4>
+                  <div id="toolPointer" class="pointer pointer-right"></div>
+                </div>
+                <div id="toolList" class="hide">
+                  <li>
+                    <div id="del">
+                      <button class="tool-button tool-button-del" name ="share" type="button">Del</button>
+                      <div id="del-info" class="sideMenuToolDropdown">
+                        <input id ="shareLink" value ="Link skal deles her"></input>
+                        <div id="socialMedia">
+                          <img class ="smSymbol" src="https://www.kommunekart.com/Images/FB_72.png">
+                          <img class ="smSymbol" src="https://www.kommunekart.com/Images/GooglePlus_72.png">
+                          <img class ="smSymbol" src="https://www.kommunekart.com/Images/Twitter_72.png">
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <button class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
+                    <div id ="avstand-info" class="sideMenuToolDropdown">
+                      <span>Avstandinfo</span>
+                    </div>
+                  </li>
+                  <li>
+                    <button class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
+                    <div id ="print-info" class="sideMenuToolDropdown">
+                    </div>
+                  </li>
+                  <li>
+                    <button class="tool-button tool-button-draw" name ="draw" type="button">Påtegning</button>
+                    <div id ="draw-info" class="sideMenuToolDropdown">
+                    </div>
+                  </li>
+                  <li>
+                    <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
+                    <div id ="navigation-info" class="sideMenuToolDropdown">
+                      <div class="kommunekart-search kommunekart-control">
                         <button name="submit_button" type="button" title="Søk" class="btnNavigation btnSearch"></button>
                         <button name="route_planning_switch_direction_button" class="kommunekart-switch-nav switch-direction-icon" title="Bytt retning" style="display: block;" type="button"></button>
                         <div name="search_input_container" class="kommunekart-search-form">
-                            <input name="search_input_1" input="text" class="kommunekart-search-input" placeholder="Fra...">
-                            <input name="search_input_2" input="text" class="kommunekart-search-input" placeholder="Til...">
+                          <input name="search_input_1" input="text" class="kommunekart-search-input" placeholder="Fra...">
+                          <input name="search_input_2" input="text" class="kommunekart-search-input" placeholder="Til...">
                         </div>
                         <button name="route_planning_back_to_normal_search_button" class="btnNavigation icon-remove" style="display: block;" type="button"></button>
+                      </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <button class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
-                  <div class="sideMenuToolDropdown">
-                  </div>
-                </li>
-                <li>
-                  <button class="tool-button tool-button-om" name ="about" type="button">Om</button>
-                  <div class="sideMenuToolDropdown">
-                  </div>
-                </li>
-              </div>
-            </div> <!--end of tools-->
-            <li id="norkartLogo">
-              <a  href="http://norkart.no" title="Forsiden"></a>
-            </li>
-          </ul>
+                  </li>
+                  <li>
+                    <button class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
+                    <div class="sideMenuToolDropdown">
+                    </div>
+                  </li>
+                  <li>
+                    <button class="tool-button tool-button-om" name ="about" type="button">Om</button>
+                    <div class="sideMenuToolDropdown">
+                    </div>
+                  </li>
+                </div>
+              </div> <!--end of tools-->
+              <li id="norkartLogo">
+                <a  href="http://norkart.no" title="Forsiden"></a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <div id ="searchToggle">
-        <div class ="kommunekart-search kommunekart-control" id ="searchBox">
-          <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom."><input id="search_submit" type="submit">
+        <div id ="searchToggle">
+          <div class ="kommunekart-search kommunekart-control" id ="searchBox">
+            <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom."><input id="search_submit" type="submit">
+          </div>
         </div>
-      </div>
-      <div id ="kommunekart-header">
-        <h3>KOMMUNEKART</h3>
-        <div class="logo"></div>
+        <div id ="kommunekart-header">
+          <h3>KOMMUNEKART</h3>
+          <div class="logo"></div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script src="../javascripts/infoSidebar.js"></script>
-  <script src="../javascripts/vectorLayersOverview.js"></script>
-  <script src="../javascripts/map.js"></script>
-  <script src="../javascripts/rasterOverlay.js"></script>
-  <script src="../javascripts/menus.js"></script>
-  <script src="../javascripts/vectorLayers.js"></script>
+    <script src="../javascripts/infoSidebar.js"></script>
+    <script src="../javascripts/vectorLayersOverview.js"></script>
+    <script src="../javascripts/map.js"></script>
+    <script src="../javascripts/rasterOverlay.js"></script>
+    <script src="../javascripts/menus.js"></script>
+    <script src="../javascripts/vectorLayers.js"></script>
 
 
-  <script src='../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script>
-  <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
+    <script src='../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
+    <script src='../../../node_modules/list.js/dist/list.min.js'></script>
 
-</body>
-</html>
+  </body>
+  </html>

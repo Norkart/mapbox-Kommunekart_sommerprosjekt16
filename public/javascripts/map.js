@@ -358,7 +358,6 @@ function changeBackgroundMap(maptype) {
   map.setStyle(flyfoto);
 }
 
-
 //Update sideMenu
 function updateAdress(longitude, latitude, callback){
   var adressUrl= "https://kommunekart.com/api/WebPublisher/ReverseGeoCode?x="+latitude+"&y="+longitude+"&apiRoute=api%2FWebPublisher%2FReverseGeoCode&appId=Kommunekart";
@@ -509,7 +508,7 @@ map.on('moveend', function () {
         console.log(result);
         console.log(kommuneId);
         console.log(kommuneNavn);
-        kommuneList=document.getElementById("kommuneList").children;
+        kommuneList=document.getElementById("kommuneList").children[1].children;
         console.log(kommuneList);
         var target;
         for(var i=0; i<kommuneList.length;i++){
@@ -517,6 +516,7 @@ map.on('moveend', function () {
           if(el.children[0].getAttribute("nr")===kommuneId){
             console.log("found kommune");
             target=el.firstChild;
+            console.log(target);
             setKommuneMenuHeader(target, kommuneNavn, true);
             resetRasterOverlays();
             setRasterOverlayMenu(kommuneId);
