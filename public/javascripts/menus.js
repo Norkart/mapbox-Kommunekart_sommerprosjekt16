@@ -83,9 +83,12 @@ function createRasterLayerMenu(layerInfoJson){
   //$("#layerList").addClass("kommuneDropdownVisible");
 }
 
-//if zoomeLevel is lower than 9.5 --> unselect kommune, go back to "Velg kommune" text, and remove raster layer: same as x functionality?
+//if zoomLevel is lower than 9.5 --> unselect kommune, go back to "Velg kommune" text, and remove raster layer: same as x functionality?
 map.on('moveend', function(){
-  if(map.getZoom()<9.5  && menuState.chosenKommuneId!=false){
+  console.log("moveend");
+  // console.log(event.currentTarget);
+  // && event.currentTarget.id!== "backToKommuneList"
+  if(map.getZoom()<9.5  && menuState.chosenKommuneId!=false){ //if back clicke, unselect already happens
     unselectKommune();
   }
 });
@@ -117,12 +120,16 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
 }
 
 function unselectKommune(){ //back button event
+  console.log("unselect");
+  console.log(document.getElementById("kommunekart-menu-button").children.length);
   menuState.type="kommune";
   //delete back button and kommune icon: two first items
-  document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
-  document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
+  if(document.getElementById("kommunekart-menu-button").children.length===4){ //means that the header is set to a kommune
+    document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
+    document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
+    document.getElementById("choose-kommune-text").innerHTML="Velg kommune";
+  }
   //change inner html:
-  document.getElementById("choose-kommune-text").innerHTML="Velg kommune";
   hideKommuneMenuContent("raster");
   if(menuState.kommuneMenuOpen){
     showKommuneMenuContent("kommune");
