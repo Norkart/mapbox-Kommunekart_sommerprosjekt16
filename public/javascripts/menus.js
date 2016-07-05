@@ -110,7 +110,8 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
       backButton.innerHTML="x";
       backButton.addEventListener("click", function(){
       //console.log("back to raster");
-      map.setZoom(9.4);
+      map.flyTo({zoom:9});
+      // map.setZoom(9.4);
       unselectKommune();
     });
     document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);

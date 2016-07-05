@@ -251,7 +251,8 @@ function flyTo(){
   }
   map.flyTo({
     center:[startEast,startNorth],
-    zoom:zoomTo-5
+    // zoom:zoomTo-5
+    zoom:10
   });
 }
 
