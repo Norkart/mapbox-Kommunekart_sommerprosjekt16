@@ -84,14 +84,12 @@ function createRasterLayerMenu(layerInfoJson){
 }
 
 //if zoomLevel is lower than 9.5 --> unselect kommune, go back to "Velg kommune" text, and remove raster layer: same as x functionality?
-map.on('moveend', function(){
-  console.log("moveend");
-  // console.log(event.currentTarget);
-  // && event.currentTarget.id!== "backToKommuneList"
-  if(map.getZoom()<9.5  && menuState.chosenKommuneId!=false){ //if back clicke, unselect already happens
-    unselectKommune();
-  }
-});
+// map.on('moveend', function(){
+//   console.log("moveend");
+//   // console.log(event.currentTarget);
+//   // && event.currentTarget.id!== "backToKommuneList"
+//
+// });
 
 function setKommuneMenuHeader(target, kommuneName, moveEvent){
   //set chosen kommune name above list, instead of "velg kommune"
@@ -106,12 +104,12 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
     img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
   }
   if(menuState.chosenKommuneId==false){
-      console.log("no active kommune yet");
+      // console.log("no active kommune yet");
       var backButton=document.createElement("button");
       backButton.id="backToKommuneList";
       backButton.innerHTML="x";
       backButton.addEventListener("click", function(){
-      console.log("back to raster");
+      //console.log("back to raster");
       map.setZoom(9.4);
       unselectKommune();
     });
@@ -120,8 +118,8 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
 }
 
 function unselectKommune(){ //back button event
-  console.log("unselect");
-  console.log(document.getElementById("kommunekart-menu-button").children.length);
+  //console.log("unselect");
+  //console.log(document.getElementById("kommunekart-menu-button").children.length);
   menuState.type="kommune";
   //delete back button and kommune icon: two first items
   if(document.getElementById("kommunekart-menu-button").children.length===4){ //means that the header is set to a kommune
@@ -206,12 +204,13 @@ document.getElementById("side-menu-toggle-button").addEventListener("click", fun
     menuState.kommuneMenuOpen=actualMenuState;
     menuState.sideNavOpen=false;
   }else{
-    console.log(menuState.kommuneMenuOpen);
+    // //console.log(menuState.kommuneMenuOpen);
     if(menuState.kommuneMenuOpen){
       showKommuneMenuContent(menuState.type);
     }
     menuState.sideNavOpen=true;
   }
+  updateTopKommuneHeader();
 });
 
 //Logo on the map
@@ -282,7 +281,7 @@ $('.normal').click(function(){
 });
 
 $('.aerial').click(function(){
-  console.log("changing to flyfoto");
+  //console.log("changing to flyfoto");
   map.setStyle(flyfoto);
   if(mapStyle==="normal"){
     $('.aerial').toggleClass('selected');

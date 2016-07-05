@@ -40,17 +40,17 @@ var throttle = function(func, time) {
 
 
 function mapMoveEvent(){
-  console.log("running");
+  // console.log("running");
   //check border intersection between norway and bounding box of the view
   var bboxPol= getBBoxPol();
   var norwayPol=norBorder.features[0];
   var difference=turf.erase(bboxPol, norwayPol);
   if(difference==undefined && osmActive){ //i norge, osm på --> skru av
-    console.log("turning off osm");
+    // console.log("turning off osm");
     toggleOSM(false); //turn off
     osmActive=false;
   }else if(difference!=undefined && osmActive ==false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
-    console.log("turning on osm");
+    // console.log("turning on osm");
     toggleOSM(true); //turn on
     osmActive=true;
   }else{
@@ -72,7 +72,7 @@ function toggleOSM(visible){ //change visibility for open street map layers depe
         if(visible){// make layers visible
           map.setLayoutProperty(layer.id, 'visibility', 'visible');
         }else{
-          console.log("change layer to visibility none:");
+          // console.log("change layer to visibility none:");
           map.setLayoutProperty(layer.id, 'visibility', 'none');
           map.getLayoutProperty(layer.id, 'visibility');
         }
@@ -274,7 +274,7 @@ map.on('click', function (e) {
     updateAdress(e.lngLat.lng,e.lngLat.lat,
       function(result){
         var result = JSON.parse(result.responseText).ReverseGeocodeResult;
-        console.log(result.MunicipalityInfo.Name);
+        // console.log(result.MunicipalityInfo.Name);
         // console.log(result.NearestAddress.House);
         document.getElementById("adresse").innerHTML="";
         if(result.NearestAddress==null){
@@ -323,7 +323,7 @@ map.on('click', function (e) {
       map.removeLayer("marker");
       map.removeSource("marker");
     }
-    console.log("skal adde source");
+    // console.log("skal adde source");
     map.addSource("marker", {
       "type": "geojson",
       "data": {
@@ -375,16 +375,11 @@ map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
 
 function drawDarkAroundKommuneBorder(){
   var name="outsideKommune";
-  console.log(kommuneElementClicked);
-  // if(map.getZoom()<10 && kommuneElementClicked==false){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
-  // setTimeout(function(){
-    //wait for zoomlevel to change //TODO: better fix, tried to see if kommune clicked, but difficult to know how to change the variable back to false.
-    //since this fires multiple times while zooms in, and therefore the boolen variable for click is changed back to false before it is drawn
-  // }, 1000);
-  console.log(map.getZoom());
-  if(map.getZoom()<9.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
+  // console.log(kommuneElementClicked);
+  // console.log(map.getZoom());
+  if(map.getZoom()<=9.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
     //if area drawn, remove it:
-    console.log("not drawing area, removing if zoomed out");
+    // console.log("not drawing area, removing if zoomed out");
     if(map.getLayer(name)!=undefined){
       map.removeSource(name);
       map.removeLayer(name);
@@ -400,12 +395,12 @@ function drawDarkAroundKommuneBorder(){
     url:url
   }).done(function(res){
     if(currentKommune===res.Name && map.getLayer(name)!=undefined){//same as last kommune and something is drawn
-      console.log("same kommune");
-      console.log(res.Name);
+      // console.log("same kommune");
+      // console.log(res.Name);
       return; //do nothing if still inside same kommune
     }
     var bboxExpanded=getBboxExpanded();
-    console.log(bboxExpanded);
+    // console.log(bboxExpanded);
     var kommunePol=makeGeojsonFeature(res.Geometries);
     var paintGreyPolygon=turf.erase(bboxExpanded, kommunePol);
     if(map.getLayer(name)!=undefined){
@@ -442,7 +437,7 @@ function getLayerObj(name){
 }
 
 function makeGeojsonFeature(coordinatesObj){
-  console.log(coordinatesObj);
+  // console.log(coordinatesObj);
   var coordArr=[];
   //TODO: tror det er det andre arrayet, ikke sikker hva det første er fra
   //var obj=(coordinatesObj[0]);
@@ -473,15 +468,15 @@ function makeGeojsonFeature(coordinatesObj){
       ]]
     }
   }
-  console.log((geo));
+  // console.log((geo));
   return geo;
 }
 
 function getBboxExpanded(){
   var pol=getBBoxPol();
-  console.log(pol);
+  // console.log(pol);
   var newPol=turf.buffer(pol, 5, 'meter');
-  console.log(JSON.stringify(newPol.features[0]));
+  // console.log(JSON.stringify(newPol.features[0]));
   return newPol.features[0];
   // return pol;
 }
@@ -490,42 +485,83 @@ function getBboxExpanded(){
 //Change Municipality- mapmove
 var kommuneList;
 var first=true;
+
 map.on('moveend', function () {
-  if(map.getZoom()>=10){
-    var lat = map.getCenter().lat;
-    var lng = map.getCenter().lng;
-    console.log("kart har flyttet seg");
-    var adressUrl= "https://kommunekart.com/api/WebPublisher/ReverseGeoCode?x="+lat+"&y="+lng+"&apiRoute=api%2FWebPublisher%2FReverseGeoCode&appId=Kommunekart";
-    $.ajax({
-      url: adressUrl,
-      complete: function(res){
-        var result = JSON.parse(res.responseText).ReverseGeocodeResult.MunicipalityInfo
-        var kommuneId=result.Number;
-        if(kommuneId===menuState.chosenKommuneId){
-          return; //do nothing
-        }
-        var kommuneNavn=result.Name;
-        console.log(result);
-        console.log(kommuneId);
-        console.log(kommuneNavn);
-        kommuneList=document.getElementById("kommuneList").children[1].children;
-        console.log(kommuneList);
-        var target;
-        for(var i=0; i<kommuneList.length;i++){
-          var el=kommuneList[i];
-          if(el.children[0].getAttribute("nr")===kommuneId){
-            console.log("found kommune");
-            target=el.firstChild;
-            console.log(target);
-            setKommuneMenuHeader(target, kommuneNavn, true);
-            resetRasterOverlays();
-            setRasterOverlayMenu(kommuneId);
-            menuState.chosenKommuneId=kommuneId;
-            console.log(menuState.chosenKommuneId);
-            menuState.type="raster";
-          }
-        }
-      }
-    });
+  if(map.getZoom()>=9.5){
+    selectKommune();
+    console.log("selectKommune() started");
+    //wait for select kommune to finish, otherwise we wont know what to set header to
+    setTimeout(function(){
+      updateTopKommuneHeader();
+    }, 500);
+  }else if(menuState.chosenKommuneId!=false){ //if back click, unselect already happens
+    unselectKommune();
+    removeTopKommuneHeader();
   }
 });
+
+function updateTopKommuneHeader(){
+  console.log("update header");
+  if(menuState.chosenKommuneId!=false && menuState.sideNavOpen==false){
+    console.log("kommune valgt, sidenav lukket");
+    if(document.getElementById("kommuneTopHeader")==undefined){
+      //set kommune name header on top nav
+      console.log("set header!!!!!!!!!");
+      setTopKommuneHeader();
+      menuState.topHeader=true;
+    }else{ //update it
+      removeTopKommuneHeader();
+      setTopKommuneHeader();
+      console.log("remove header");
+    }
+  }else if(menuState.sideNavOpen==true){
+    removeTopKommuneHeader();
+  }
+}
+
+function setTopKommuneHeader(){
+  console.log("set kommune top header");
+  var kommuneName=document.getElementById("kommunekart-menu-button").children[2].cloneNode(true);
+  console.log(kommuneName);
+  var kommuneIcon=document.getElementById("kommunekart-menu-button").children[1].cloneNode(true);
+  var div=document.createElement("div");
+  div.id="kommuneTopHeader";
+  div.appendChild(kommuneIcon);
+  div.appendChild(kommuneName);
+  console.log(div);
+  document.getElementById('navbar-top').insertBefore(div, document.getElementById("searchToggle"));
+}
+function removeTopKommuneHeader(){
+  $("#kommuneTopHeader").remove();
+}
+
+function selectKommune(){
+  var lat = map.getCenter().lat;
+  var lng = map.getCenter().lng;
+  var adressUrl= "https://kommunekart.com/api/WebPublisher/ReverseGeoCode?x="+lat+"&y="+lng+"&apiRoute=api%2FWebPublisher%2FReverseGeoCode&appId=Kommunekart";
+  $.ajax({
+    url: adressUrl,
+    complete: function(res){
+      var result = JSON.parse(res.responseText).ReverseGeocodeResult.MunicipalityInfo
+      var kommuneId=result.Number;
+      if(kommuneId===menuState.chosenKommuneId){
+        return; //do nothing
+      }
+      var kommuneNavn=result.Name;
+      kommuneList=document.getElementById("kommuneList").children[1].children;
+      var target;
+      for(var i=0; i<kommuneList.length;i++){
+        var el=kommuneList[i];
+        if(el.children[0].getAttribute("nr")===kommuneId){
+          // console.log("found kommune");
+          target=el.firstChild;
+          setKommuneMenuHeader(target, kommuneNavn, true);
+          resetRasterOverlays();
+          setRasterOverlayMenu(kommuneId);
+          menuState.chosenKommuneId=kommuneId;
+          menuState.type="raster";
+        }
+      }
+    }
+  });
+}
