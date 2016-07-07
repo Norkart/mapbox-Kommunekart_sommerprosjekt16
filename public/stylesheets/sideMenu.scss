@@ -641,7 +641,7 @@ input[type="submit"]:hover {
   background-color: rgb(115, 115, 115);
 }
 
-#availableFeaturesList{
+.sideBarList{
   padding: 0px;
   list-style-type: none;
 }
@@ -654,8 +654,23 @@ input[type="submit"]:hover {
     display: inline;
   }
 }
+.subFeatureListElement {
+  height:25px;
+  padding-left: 15px;
+  border-bottom:1px solid #565252;
+  background-color: rgba(42,42,42,0.50);
+  .check{
+    display: inline;
+  }
+}
 #featureHeader{
   margin-left:10px;
   font-size: 16px;
   color:white;
+}
+
+.udefinert{
+  background-color: rgb(60, 60, 60);
+  color:rgb(125, 125, 125);
+  cursor: default;
 }

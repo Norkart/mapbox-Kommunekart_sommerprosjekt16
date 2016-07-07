@@ -10,6 +10,7 @@ var mapmodus = "popup";
 var mapStyle = "normal";
 var osmActive=true;
 var kommuneObjectList={};
+var kommune;
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vpbm8iLCJhIjoiOE5oc094SSJ9.DHxjhFy2Ef33iP8yqIm5cA';
 var map = new mapboxgl.Map({
@@ -115,7 +116,6 @@ function startMeasureModus(){
 
   //click during measurements
   map.on('click', function(e) {
-
     var linestring = {
       "type": "Feature",
       "geometry": {
@@ -271,7 +271,6 @@ map.on('click', function (e) {
   // Populate the popup and set its coordinates
   //var utmCoord=getUTMCoordinates(e.lngLat.lat, e.lngLat.lng);
   //var utmString=_makeUtmCoordinateString(utmCoord.lat, utmCoord.lng);
-  var adresse = null;
   if(mapmodus === "popup"){
     if(!menuState.infoSidebarStatus){
       if(menuState.sideNavOpen){
@@ -287,13 +286,18 @@ map.on('click', function (e) {
         var result = JSON.parse(result.responseText).ReverseGeocodeResult;
         // console.log(result.MunicipalityInfo.Name);
         // console.log(result.NearestAddress.House);
+        // if(result.MunicipalityInfo.Name==kommune){
+        //   return;
+        // }
         document.getElementById("adresse").innerHTML="";
+
         if(result.NearestAddress==null){
           var kommuneNavn = document.createElement("h3");
           kommuneNavn.id="kommuneNavn";
           kommuneNavn.innerHTML = result.MunicipalityInfo.Name + " kommune";
           document.getElementById("adresse").appendChild(kommuneNavn);
         }else{
+          console.log(result.MunicipalityInfo.Name);
           var punktAdresse = document.createElement("li");
           punktAdresse.id="punktAdresse";
           punktAdresse.innerHTML = result.NearestAddress.House;
@@ -309,11 +313,12 @@ map.on('click', function (e) {
           document.getElementById("adresse").appendChild(postnr);
           document.getElementById("adresse").appendChild(distance);
         }
-        getFeaturesForSideMenu(result.MunicipalityInfo.Number, e.lngLat.lat, e.lngLat.lng);
+        getCapabilitiesForSideMenu(result.MunicipalityInfo.Number, e.lngLat.lat, e.lngLat.lng);
       }
     );
     var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
     $("#WGSKoordinater").text(latLngString);
+
     // getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng);
     getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
       function(result){
@@ -335,27 +340,35 @@ map.on('click', function (e) {
       map.removeSource("marker");
     }
     // console.log("skal adde source");
+    console.log("skal adde source");
+    //Adder marker
+    if(map.getLayer("marker")!==undefined){
+      map.removeLayer("marker");
+      map.removeSource("marker");
+    }
     map.addSource("marker", {
-      "type": "geojson",
-      "data": {
-        "type": "FeatureCollection",
-        "features": [{
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [e.lngLat.lng,e.lngLat.lat]
-          }
-        }]
-      }
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [e.lngLat.lng,e.lngLat.lat]
+                }
+            }]
+        }
     });
+
     map.addLayer({
-      "id": "marker",
-      "type": "symbol",
-      "source": "marker",
-      "layout": {
-        "icon-image": "marker-15",
-      }
+        "id": "marker",
+        "type": "symbol",
+        "source": "marker",
+        "layout": {
+            "icon-image": "test4"
+        }
     });
+    console.log("adder marker");
   }
   else{
     return false;
@@ -400,7 +413,6 @@ function drawDarkAroundKommuneBorder(){
   }
   var lat = map.getCenter().lat;
   var lng = map.getCenter().lng;
-  // var url="http://www.webatlas.no/wacloudtest/servicerepository/GeoNameService.svc/json/FindMunicipalityWithGeometry?x="+lat+"&y="+lng+"srs=EPSG:4326";
   var url="http://www.webatlas.no/wacloudtest/servicerepository/GeoNameService.svc/json/FindMunicipalityWithGeometry?srs=EPSG:4326&east="+lng+"&north="+lat;
   $.ajax({
     url:url
