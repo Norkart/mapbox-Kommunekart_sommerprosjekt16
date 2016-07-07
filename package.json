@@ -1,0 +1,29 @@
+{
+  "name": "norkart16",
+  "version": "1.0.0",
+  "description": "\"new kommunekart with mapbox-gl\"",
+  "main": "index.html",
+  "dependencies": {
+    "list.js": "^1.2.0",
+    "mapbox-gl": "^0.20.0",
+    "mapbox-gl-draw": "^0.10.0",
+    "turf-difference": "^3.0.12",
+    "turf-buffer": "^3.0.10",
+    "turf-intersect": "^3.0.10",
+    "turf-simplify": "^3.0.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathildor/norkartSommer16.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mathildor/norkartSommer16/issues"
+  },
+  "homepage": "https://github.com/mathildor/norkartSommer16#readme"
+}
