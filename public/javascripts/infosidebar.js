@@ -79,21 +79,8 @@ function getList(availableFeatures){
 function insertListContent(availableFeatures){
   //Putting elements into availableFeaturesList:
   for (var i = 0; i < availableFeatures.length; i++) {
-    var className = "featureListElement";
+    var className = "mainElement";
     addListElement(availableFeaturesList, availableFeatures[i].Description, className, availableFeatures[i].Name);
-    // var listElement = document.createElement("li");
-    // availableFeaturesList.appendChild(listElement);
-    //
-    // var featureElement = document.createElement("button"); //button
-    // featureElement.className="tool-button";
-    // $(featureElement).addClass("featureListElement");
-    // featureElement.setAttribute("elementFeatureName",availableFeatures[i].Name);
-    //
-    // var featureText = document.createElement("span"); //Button text
-    // featureText.innerHTML= availableFeatures[i].Description;
-    // featureElement.appendChild(featureText);
-    //
-    // listElement.appendChild(featureElement); //Adding button to listelement
     targets.push(availableFeatures[i].Name);
   }
 }
@@ -143,6 +130,7 @@ function updateElementsInList(listItem){
     else{
       console.log(tjenesteObjects[name]);
       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
+      console.log(tjenesteObjects[name].length);
       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
         // addCheckBox(currListElement);
         addSubList(currListElement,tjenesteObjects[name]);
@@ -152,6 +140,7 @@ function updateElementsInList(listItem){
       }
     }
   }
+  checkEvent();
 
 }
 
@@ -159,6 +148,7 @@ function updateElementsInList(listItem){
 function addSubList(currListItem,tjenesteObjects){
   var newList = document.createElement("ul");
   $(newList).addClass("sideBarList");
+  $(newList).addClass("subSideBarList");
   currListItem.appendChild(newList);
   addSublistElements(tjenesteObjects, newList);
 }
@@ -176,8 +166,6 @@ function addSublistElements(tjenesteObjects, newList){
 function disableButton(currentBtn){
   $(currentBtn).addClass("udefinert");
   $(currentBtn).attr("disabled", true);
-  // deleteCheckbox(currentBtn);
-
 }
 
 function activateButton(listItem){
@@ -190,9 +178,10 @@ function addListElement(list, label, className, objectInfo){
   listElement.id = label;
   list.appendChild(listElement);
 
-  var btn = document.createElement("button"); //button
+  var btn = document.createElement("div"); //button
   btn.className="tool-button";
   $(btn).addClass(className);
+  $(btn).addClass("featureListElement");
   if (objectInfo != null){
     btn.setAttribute("elementFeatureName",objectInfo);
   }
@@ -204,14 +193,23 @@ function addListElement(list, label, className, objectInfo){
   addCheckBox(listElement);
 }
 
+var checkBoxCounter = 0;
 function addCheckBox(currentListElement){
   var btn = currentListElement.children[0];
-  var span = currentListElement.children[0].children[0];
-  var listCheckBox = document.createElement("input");//checkbox inside button
-  listCheckBox.type ="checkbox";
+  var listCheckBox = document.createElement("button");//checkbox inside button
+  // listCheckBox.type ="checkbox";
   listCheckBox.className ="check";
-  btn.insertBefore(listCheckBox, span);
+  listCheckBox.id = checkBoxCounter+"check";
+  checkBoxCounter++;
+  btn.appendChild(listCheckBox);
 }
+// function addCheckBox(currentListElement){
+//   var btn = currentListElement.children[0];
+//   var listCheckBox = document.createElement("input");//checkbox inside button
+//   listCheckBox.type ="checkbox";
+//   listCheckBox.className ="check";
+//   btn.appendChild(listCheckBox);
+// }
 
 function deleteCheckbox(btn){
   btn.remove('.check');
@@ -242,8 +240,8 @@ function doFeatureQuery(featureUrl){
 // $(".featureListElement").click(function(){
 //   alert("Knappen er klikket");
 // });
-var myFunction = function() {
-    alert("Knappen er klikket");
+function myFunction(name) {
+    alert("Knappen er klikket " + name);
 }
 
 function btnEvent(){
@@ -252,7 +250,12 @@ function btnEvent(){
       // className[i].
       // classname[i].addEventListener('click', myFunction, false);
       classname[i].addEventListener('click', function(){
-        myFunction();
+        if(event.target.parentNode.parentNode.children[1]){
+          $(event.target.parentNode.parentNode.children[1]).toggleClass("visMeny");
+        }else{
+          // myFunction("Har ikke meny");
+        }
+        // console.log(event.target.parent.lastChild);
       });
 
   }
@@ -263,3 +266,20 @@ function btnEvent(){
 //     console.log(result);
 //   }
 // );
+// $(".check").click(function(){
+//
+//   $(event.target).toggleClass("checked");
+// });
+
+function checkEvent(){
+  var classname = document.getElementsByClassName("check");
+  for (var i = 0; i < classname.length; i++) {
+    classname[i].addEventListener('click', function(){
+      console.log(event.target);
+      console.log("Checket");
+      $(event.target).toggleClass("checked");
+      event.stopPropagation();
+
+    });
+  }
+}

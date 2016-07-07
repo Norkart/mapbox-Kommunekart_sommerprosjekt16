@@ -637,31 +637,71 @@ input[type="submit"]:hover {
 .tool-button:hover{
   background-color:rgb(60, 60, 60) ;
 }
-.tool-button:active{
-  background-color: rgb(115, 115, 115);
-}
+// .tool-button:active{
+//   background-color: rgb(115, 115, 115);
+// }
 
 .sideBarList{
   padding: 0px;
   list-style-type: none;
+}
+.subSideBarList{
+  display: none;
+  li{
+    margin: 0px;
+    height:30px;
+    padding:0px;
+  }
 }
 
 .featureListElement{
   height:30px;
   border-bottom:1px solid #565252;
   padding-left: 10px;
+  padding-right: 0px;
+  font: 13.3333px Arial;
   .check{
     display: inline;
+  }
+  span{
+    width:228px;
+    float:left;
+    height:24px;
+    padding-top: 6px;
+  }
+  .check{
+    height:20px;
+    width:20px;
+    margin-top:4px;
+    border:none;
+    background: none;
+    background-image: url("../images/notChosen.png");
+    background-size: 20px;
+    cursor:pointer;
+  }
+  .checked{
+    background-image: url("../images/chosen.png");
+    background-size: 20px;
   }
 }
 .subFeatureListElement {
-  height:25px;
+  // height:25px;
+  padding:0px;
   padding-left: 15px;
+  margin:0px;
   border-bottom:1px solid #565252;
+  height: 30px;
   background-color: rgba(42,42,42,0.50);
+  span{
+    width:223px;
+  }
   .check{
     display: inline;
   }
+  // li{
+  //   height: 30px;
+  //   border-bottom:1px solid #565252;
+  // }
 }
 #featureHeader{
   margin-left:10px;
@@ -673,4 +713,12 @@ input[type="submit"]:hover {
   background-color: rgb(60, 60, 60);
   color:rgb(125, 125, 125);
   cursor: default;
+  margin:0px;
+  .check{
+    visibility: hidden;
+  }
+}
+
+.visMeny{
+  display:list-item;
 }
