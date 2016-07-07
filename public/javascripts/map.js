@@ -10,6 +10,7 @@ var mapmodus = "popup";
 var mapStyle = "normal";
 var osmActive=true;
 var kommuneObjectList={};
+var kommune;
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vpbm8iLCJhIjoiOE5oc094SSJ9.DHxjhFy2Ef33iP8yqIm5cA';
 var map = new mapboxgl.Map({
@@ -115,7 +116,6 @@ function startMeasureModus(){
 
   //click during measurements
   map.on('click', function(e) {
-
     var linestring = {
       "type": "Feature",
       "geometry": {
@@ -269,20 +269,22 @@ map.on('click', function (e) {
   // Populate the popup and set its coordinates
   //var utmCoord=getUTMCoordinates(e.lngLat.lat, e.lngLat.lng);
   //var utmString=_makeUtmCoordinateString(utmCoord.lat, utmCoord.lng);
-  var adresse = null;
   if(mapmodus === "popup"){
     updateAdress(e.lngLat.lng,e.lngLat.lat,
       function(result){
         var result = JSON.parse(result.responseText).ReverseGeocodeResult;
-        console.log(result.MunicipalityInfo.Name);
-        // console.log(result.NearestAddress.House);
+        // if(result.MunicipalityInfo.Name==kommune){
+        //   return;
+        // }
         document.getElementById("adresse").innerHTML="";
+
         if(result.NearestAddress==null){
           var kommuneNavn = document.createElement("h3");
           kommuneNavn.id="kommuneNavn";
           kommuneNavn.innerHTML = result.MunicipalityInfo.Name + " kommune";
           document.getElementById("adresse").appendChild(kommuneNavn);
         }else{
+          console.log(result.MunicipalityInfo.Name);
           var punktAdresse = document.createElement("li");
           punktAdresse.id="punktAdresse";
           punktAdresse.innerHTML = result.NearestAddress.House;
@@ -298,7 +300,7 @@ map.on('click', function (e) {
           document.getElementById("adresse").appendChild(postnr);
           document.getElementById("adresse").appendChild(distance);
         }
-        getFeaturesForSideMenu(result.MunicipalityInfo.Number, e.lngLat.lat, e.lngLat.lng);
+        getCapabilitiesForSideMenu(result.MunicipalityInfo.Number, e.lngLat.lat, e.lngLat.lng);
       }
     );
     var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
@@ -324,27 +326,34 @@ map.on('click', function (e) {
       map.removeSource("marker");
     }
     console.log("skal adde source");
+    //Adder marker
+    if(map.getLayer("marker")!==undefined){
+      map.removeLayer("marker");
+      map.removeSource("marker");
+    }
     map.addSource("marker", {
-      "type": "geojson",
-      "data": {
-        "type": "FeatureCollection",
-        "features": [{
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [e.lngLat.lng,e.lngLat.lat]
-          }
-        }]
-      }
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [e.lngLat.lng,e.lngLat.lat]
+                }
+            }]
+        }
     });
+
     map.addLayer({
-      "id": "marker",
-      "type": "symbol",
-      "source": "marker",
-      "layout": {
-        "icon-image": "marker-15",
-      }
+        "id": "marker",
+        "type": "symbol",
+        "source": "marker",
+        "layout": {
+            "icon-image": "test4"
+        }
     });
+    console.log("adder marker");
   }
   else{
     return false;
@@ -379,8 +388,8 @@ function drawDarkAroundKommuneBorder(){
   console.log(kommuneElementClicked);
   // if(map.getZoom()<10 && kommuneElementClicked==false){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
   // setTimeout(function(){
-    //wait for zoomlevel to change //TODO: better fix, tried to see if kommune clicked, but difficult to know how to change the variable back to false.
-    //since this fires multiple times while zooms in, and therefore the boolen variable for click is changed back to false before it is drawn
+  //wait for zoomlevel to change //TODO: better fix, tried to see if kommune clicked, but difficult to know how to change the variable back to false.
+  //since this fires multiple times while zooms in, and therefore the boolen variable for click is changed back to false before it is drawn
   // }, 1000);
   console.log(map.getZoom());
   if(map.getZoom()<9.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
@@ -395,7 +404,6 @@ function drawDarkAroundKommuneBorder(){
   }
   var lat = map.getCenter().lat;
   var lng = map.getCenter().lng;
-  // var url="http://www.webatlas.no/wacloudtest/servicerepository/GeoNameService.svc/json/FindMunicipalityWithGeometry?x="+lat+"&y="+lng+"srs=EPSG:4326";
   var url="http://www.webatlas.no/wacloudtest/servicerepository/GeoNameService.svc/json/FindMunicipalityWithGeometry?srs=EPSG:4326&east="+lng+"&north="+lat;
   $.ajax({
     url:url
