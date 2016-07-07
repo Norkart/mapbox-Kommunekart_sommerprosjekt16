@@ -305,6 +305,7 @@ map.on('click', function (e) {
     );
     var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
     $("#WGSKoordinater").text(latLngString);
+
     // getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng);
     getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
       function(result){
