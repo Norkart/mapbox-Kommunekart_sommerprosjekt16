@@ -141,6 +141,7 @@ function updateElementsInList(listItem){
       disableButton(currentListButton);
     }
     else{
+      console.log(tjenesteObjects[name]);
       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
         // addCheckBox(currListElement);
@@ -175,7 +176,7 @@ function addSublistElements(tjenesteObjects, newList){
 function disableButton(currentBtn){
   $(currentBtn).addClass("udefinert");
   $(currentBtn).attr("disabled", true);
-  deleteCheckbox(currentBtn);
+  // deleteCheckbox(currentBtn);
 
 }
 
@@ -249,7 +250,11 @@ function btnEvent(){
   var classname = document.getElementsByClassName("featureListElement");
   for (var i = 0; i < classname.length; i++) {
       // className[i].
-      classname[i].addEventListener('click', myFunction, false);
+      // classname[i].addEventListener('click', myFunction, false);
+      classname[i].addEventListener('click', function(){
+        myFunction();
+      });
+
   }
 }
 // getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,

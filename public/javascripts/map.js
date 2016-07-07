@@ -59,8 +59,6 @@ function mapMoveEvent(){
   }
 }
 
-
-
 map.on('move', throttle(mapMoveEvent, 500)); //make sure it doesn't run too often
 
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
