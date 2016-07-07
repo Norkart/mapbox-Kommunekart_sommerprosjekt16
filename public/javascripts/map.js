@@ -256,22 +256,32 @@ function flyTo(){
   });
 }
 
+function toggleSlideOfMapCtrl(){
+  if( $(".mapboxgl-ctrl-group").hasClass("ctrl-slide-out") ){
+    $(".mapboxgl-ctrl-group").removeClass("ctrl-slide-out");
+
+  }else{
+    $(".mapboxgl-ctrl-group").addClass("ctrl-slide-out");
+  }
+}
+
 //Adding popup info
 map.on('click', function (e) {
-  if(!menuState.infoSidebarStatus){
-    if(menuState.sideNavOpen){
-      $("#menu-selector").toggleClass("sidenavOpen");
-      menuState.sideNavOpen = false;
-    }
-    menuState.infoSidebarStatus = true;
-    $("#infoSidebar").toggleClass("sidenavOpen");
-  }
   // console.log(mapmodus);
   // Populate the popup and set its coordinates
   //var utmCoord=getUTMCoordinates(e.lngLat.lat, e.lngLat.lng);
   //var utmString=_makeUtmCoordinateString(utmCoord.lat, utmCoord.lng);
   var adresse = null;
   if(mapmodus === "popup"){
+    if(!menuState.infoSidebarStatus){
+      if(menuState.sideNavOpen){
+        $("#menu-selector").toggleClass("sidenavOpen");
+        menuState.sideNavOpen = false;
+      }
+      menuState.infoSidebarStatus = true;
+      $("#infoSidebar").toggleClass("sidenavOpen");
+      toggleSlideOfMapCtrl();
+    }
     updateAdress(e.lngLat.lng,e.lngLat.lat,
       function(result){
         var result = JSON.parse(result.responseText).ReverseGeocodeResult;

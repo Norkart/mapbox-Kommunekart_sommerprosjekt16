@@ -9,6 +9,9 @@
   <script src='../../../node_modules/turf-difference/node_modules/jsts/dist/jsts.min.js'></script>
   <script src='../../../node_modules/turf-simplify/node_modules/simplify-js/simplify.js'></script>
   <script src='../../../node_modules/turf-buffer/node_modules/jsts/dist/jsts.min.js'></script>
+  <script src='../../../node_modules/mapbox-gl-draw/dist/mapbox-gl-draw.js'></script>
+  <!-- <script src='../../../node_modules/mapbox-gl-draw-master/index.js'></script> -->
+  <!-- <script src='../../../node_modules/mapbox-gl-draw-master/dist/mapbox-gl-draw.js'></script> -->
 
   <script src='../norwayBorder.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.css' rel='stylesheet' />
@@ -20,6 +23,7 @@
   <link href='../stylesheets/main.min.css' rel='stylesheet' />
   <link href='../stylesheets/sideMenu.min.css' rel='stylesheet' />
   <link href='../stylesheets/top-nav-bar.min.css' rel='stylesheet' />
+  <link href='../stylesheets/draw.min.css' rel='stylesheet' />
   <link href="../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.css" rel="stylesheet" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
@@ -159,7 +163,7 @@
                     </div>
                   </li>
                   <li>
-                    <button class="tool-button tool-button-draw" name ="draw" type="button">Påtegning</button>
+                    <button class="tool-button tool-button-draw" id="tool-button-draw" name ="draw" type="button">Påtegning</button>
                     <div id ="draw-info" class="sideMenuToolDropdown">
                     </div>
                   </li>
@@ -214,9 +218,10 @@
     <script src="../javascripts/rasterOverlay.js"></script>
     <script src="../javascripts/menus.js"></script>
     <script src="../javascripts/vectorLayers.js"></script>
+    <script src="../javascripts/draw.js"></script>
 
 
-    <script src='../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script>
+    <!-- <script src='../../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script> -->
     <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
     <script src='../../../node_modules/list.js/dist/list.min.js'></script>
 

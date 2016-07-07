@@ -226,6 +226,14 @@ $("#toolHeader").click(function(){
 })
 
 //Different tools:
+
+function enableToolButton(toolId){
+  $("#"+toolId).removeClass("toolChosen");
+}
+function disableToolButton(toolId){
+  $("#"+toolId).addClass("toolChosen");
+}
+
 //Del verktoy
 $('.tool-button-del').click(function(){
   $('#del-info').toggleClass("toolMenuOpen");
@@ -239,9 +247,18 @@ $('.tool-button-avstand').click(function(){
 $('.tool-button-print').click(function(){
   $('#print-info').toggleClass("toolMenuOpen");
 });
+
 $('.tool-button-draw').click(function(){
-  $('#draw-info').toggleClass("toolMenuOpen");
+  // $('#draw-info').toggleClass("toolMenuOpen");
+  if($("#tool-button-draw").hasClass("toolChosen")){ //tool chosen
+    enableToolButton("tool-button-draw");
+    disableDraw();
+  }else{
+    disableToolButton("tool-button-draw");
+    enableDraw();
+  }
 });
+
 $('.tool-button-navigation').click(function(){
   $('#navigation-info').toggleClass("toolMenuOpen");
 });
@@ -299,4 +316,5 @@ $('.aerial').click(function(){
 $('#closeInfoSidebar').click(function(){
   menuState.infoSidebarStatus = false;
   $("#infoSidebar").toggleClass("sidenavOpen");
+  toggleSlideOfMapCtrl();
 });

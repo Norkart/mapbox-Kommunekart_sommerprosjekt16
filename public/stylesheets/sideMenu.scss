@@ -1,6 +1,3 @@
-body{
-  height: 100%;
-}
 
 input[type="text"] {
   margin-top: 12px;
@@ -42,6 +39,10 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
   opacity: 1;
+}
+
+.ctrl-slide-out{
+  margin-right: 267px!important;
 }
 
 #navbar-top{
@@ -213,6 +214,9 @@ input[type="submit"]:hover {
   }
   .toolListHidden{ //not in use, didnt work:(
     height: 0!important;
+  }
+  .toolChosen{
+    background-color: rgba(117, 117, 117, 0.58);
   }
 }
 
