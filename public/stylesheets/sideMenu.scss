@@ -1,5 +1,5 @@
 //color variables:
-$sidemenuListColor: rgba(42, 42, 42, 0.39);
+$sidemenuListColor: rgba(42, 42, 42, 0.29);
 $sidemenuListHover: rgba(125, 125, 125, 0.54);
 
 input[type="text"] {
@@ -173,7 +173,7 @@ input[type="submit"]:hover {
 
 .mainButton:hover{
   cursor:pointer;
-  
+
 }
 
 .mainButton{ //Velg kommune & verktøy buttons
@@ -403,6 +403,7 @@ input[type="submit"]:hover {
     height: auto;
     //position: absolute;
     padding:0;
+    background-color: $sidemenuListColor;
     li{
       transition: 0.5s;
       border-bottom: #656363 solid 1px;
