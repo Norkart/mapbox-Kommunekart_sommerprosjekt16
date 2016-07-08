@@ -127,22 +127,18 @@ function formatName(name){
 function rasterLayerClickEvent(){
   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
   var activeLayer=event.currentTarget.getAttribute("active");
-  console.log(activeLayer);
   if(activeLayer==="true"){
-    console.log("remove");
     removeFromList(event.currentTarget.getAttribute("name"), activeLayerNames);
     event.currentTarget.setAttribute("active", false);
     event.currentTarget.className="";
     toggleWarningSign(false, event.currentTarget.getAttribute("name"));
   }else{
-    console.log("add");
     activeLayerNames.push(event.currentTarget.getAttribute("name"));
     event.currentTarget.setAttribute("active", true);
     event.currentTarget.className="activeRasterElement";
     toggleWarningSign(!isRasterVisible(event.currentTarget.getAttribute("name")), event.currentTarget.getAttribute("name"));
   }
   updateRasterView(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
-  console.log(isRasterVisible(event.currentTarget.getAttribute("name")));
 
   // updateInformationSideMenu(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
 }

@@ -114,6 +114,7 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
       map.flyTo({zoom:9});
       // map.setZoom(9.4);
       unselectKommune();
+      showKommuneMenuContent(menuState.type);
     });
     document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
   }
