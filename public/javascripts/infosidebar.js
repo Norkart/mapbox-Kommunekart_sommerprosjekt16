@@ -1,5 +1,6 @@
 var targets =[];
 var tjenesteObjects={};
+var activeKommuneData=[];
 
 //Transform WGS to UTM coordinates
 function getUTMCoordinates(latitude, longitude, callback){
@@ -32,7 +33,7 @@ function getCapabilitiesForSideMenu(kommuneId, lat, long){
     if(res.length ==0){
       return;
     } else{
-      console.log(res);
+      // console.log(res);
       createCapabilitylist(res, lat, long, kommuneId);
     }
   });
@@ -118,9 +119,11 @@ function updateElementsInList(listItem){
     var currListElement = listItem[i]; //Current subListElement
     var currentListButton = currListElement.children[0];
     var name =currentListButton.getAttribute("elementfeatureName").toString();
-    // if($(currListElement).hasClass("udefinert")){ //If listElement is deactivated
-    //   activateButton(currListElement);
-    // }
+
+    if(exsistsInList(activeKommuneData, name)){
+      console.log(currentListButton.children[1]);
+      $(currentListButton.children[1]).toggleClass("checked");
+    }
     console.log(name);
     console.log(tjenesteObjects[name]);
     if(tjenesteObjects[name] == undefined){ //If no FeatureInfo for listObject
@@ -128,7 +131,10 @@ function updateElementsInList(listItem){
       disableButton(currentListButton);
     }
     else{
-      console.log(tjenesteObjects[name]);
+      // console.log(tjenesteObjects[name][0]);
+      // console.log(tjenesteObjects[name][0].AttributesList);
+      // var attributes = tjenesteObjects[name]
+      // console.log(tjenesteObjects[name]);
       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
       console.log(tjenesteObjects[name].length);
       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
@@ -141,9 +147,7 @@ function updateElementsInList(listItem){
     }
   }
   checkEvent();
-
 }
-
 
 function addSubList(currListItem,tjenesteObjects){
   var newList = document.createElement("ul");
@@ -203,22 +207,13 @@ function addCheckBox(currentListElement){
   checkBoxCounter++;
   btn.appendChild(listCheckBox);
 }
-// function addCheckBox(currentListElement){
-//   var btn = currentListElement.children[0];
-//   var listCheckBox = document.createElement("input");//checkbox inside button
-//   listCheckBox.type ="checkbox";
-//   listCheckBox.className ="check";
-//   btn.appendChild(listCheckBox);
-// }
-
-function deleteCheckbox(btn){
-  btn.remove('.check');
-}
 
 function doFeatureQuery(featureUrl){
+console.log("starting query");
   $.ajax({
     url: featureUrl,
     complete: function(res){
+      console.log("query finish");
       var response=JSON.parse(res.responseText);
       for (var j = 0; j < targets.length; j++) {
         var list=[];
@@ -231,17 +226,27 @@ function doFeatureQuery(featureUrl){
           tjenesteObjects[targets[j]]=list;
         }
       }
-      console.log(tjenesteObjects);
+      // console.log(tjenesteObjects);
       updateSideMenu();
     }
   });
 }
 
-// $(".featureListElement").click(function(){
-//   alert("Knappen er klikket");
-// });
-function myFunction(name) {
-    alert("Knappen er klikket " + name);
+function showInformation(listElement) {
+  // console.log(listElement.getAttribute("element"));
+  // alert(listElement.getAttribute("element"));
+  console.log(listElement.getAttribute("element"));
+  var attributes = listElement.getAttribute("element")[0].AttributesList;
+  console.log(attributes);
+  var stringen = "";
+  for (var attributen in attributes) {
+    console.log(attributen.Name);
+    console.log(attributen.Value);
+    stringen+=attributen.Name;
+    stringen += ": ";
+    stringen+=attributen.Value;
+    stringen+="--"
+  }
 }
 
 function btnEvent(){
@@ -250,36 +255,41 @@ function btnEvent(){
       // className[i].
       // classname[i].addEventListener('click', myFunction, false);
       classname[i].addEventListener('click', function(){
+        var listElement = event.target.parentNode.parentNode;
         if(event.target.parentNode.parentNode.children[1]){
           $(event.target.parentNode.parentNode.children[1]).toggleClass("visMeny");
         }else{
-          // myFunction("Har ikke meny");
+          showInformation(listElement);
         }
-        // console.log(event.target.parent.lastChild);
       });
 
   }
 }
-// getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
-//   function(result){
-//     var result = result;
-//     console.log(result);
-//   }
-// );
-// $(".check").click(function(){
-//
-//   $(event.target).toggleClass("checked");
-// });
 
 function checkEvent(){
   var classname = document.getElementsByClassName("check");
   for (var i = 0; i < classname.length; i++) {
     classname[i].addEventListener('click', function(){
-      console.log(event.target);
-      console.log("Checket");
+      var checkName = event.target.parentNode.getAttribute("elementfeatureName").toString();
+      if(!$(event.target).hasClass("checked")){
+        activeKommuneData.push(checkName);
+      } else{
+        var index = activeKommuneData.indexOf(checkName);
+        activeKommuneData.splice(index, 1);
+      }
       $(event.target).toggleClass("checked");
+      console.log("Checkboxen er: "+event.target);
       event.stopPropagation();
-
+      console.log(activeKommuneData);
     });
   }
+}
+
+function exsistsInList(list, element){
+  for (var i = 0; i < list.length; i++) {
+    if(list[i]==element){
+      return(true);
+    }
+  }
+  return(false);
 }
