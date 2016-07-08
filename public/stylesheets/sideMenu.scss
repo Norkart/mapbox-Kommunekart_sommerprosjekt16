@@ -633,7 +633,17 @@ input[type="submit"]:hover {
     background-color: rgba(255,255,255,0.60);
   }
   #punktInfo{
+    #markerPos{
+      width:30px;
+      height:60px;
+      float:left;
+      background: url("../images/marker.png");
+      background-repeat: no-repeat;;
+      background-size: 30px;
+      margin-top: 15px;
+    }
     #adresse{
+      width:180px;
       padding-left: 0px;
       list-style-type: none;
       font-size: 12px;
