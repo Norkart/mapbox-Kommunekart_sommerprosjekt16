@@ -32,7 +32,7 @@
         <img id ="about-logo" src="https://www.kommunekart.com//Images/NORKART_LOGO_positiv_digital_medium.png">
         <div id = "info-content">
           <div id ="about-appname">Norkart webclient</div>
-          <span>1.5</span>
+          <span>1.6</span>
           <div class ="about-gap-big"></div>
           <span>Utviklet av</span>
           <div class ="about-gap"></div>
@@ -57,15 +57,13 @@
             © 2015 OpenStreetMap and contributors<br>
           </div>
           <div class ="about-gap"></div>
-          <div class ="about-close-button" name ="close_button">Lukk</div>
+          <div class ="about-close-button" name ="close_button">X</div>
           <div class="about-thirdparty">
             Tredjepartsbiblioteker<br>
-            Leaflet,
-            Leaflet draw,
-            Placeholders,
-            jQuery,
-            Handlebars,
-            Mootools
+            Mapbox GL,
+            Mapbog GL draw,
+            Turf,
+            jQuery
           </div>
         </div>
       </div>
@@ -217,13 +215,14 @@
 
       <div id ="searchToggle">
         <div class ="kommunekart-search kommunekart-control" id ="searchBox">
-          <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom."><input id="search_submit" type="submit">
+          <input id="search_submit" type="submit">
+          <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom.">
         </div>
       </div>
-      <div id ="kommunekart-header">
+      <!-- <div id ="kommunekart-header">
         <h3>KOMMUNEKART</h3>
         <div class="logo"></div>
-      </div>
+      </div> -->
     </div>
   </div>
 
