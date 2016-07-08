@@ -2,7 +2,7 @@
 var Draw = mapboxgl.Draw();
 map.addControl(Draw);
 disableDraw();
-//enableDraw();//just while working
+// enableDraw();//just while working
 
 
 //expand controller:

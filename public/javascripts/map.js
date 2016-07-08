@@ -274,8 +274,7 @@ map.on('click', function (e) {
   if(mapmodus === "popup"){
     if(!menuState.infoSidebarStatus){
       if(menuState.sideNavOpen){
-        $("#menu-selector").toggleClass("sidenavOpen");
-        menuState.sideNavOpen = false;
+        toggleSideMenu();
       }
       menuState.infoSidebarStatus = true;
       $("#infoSidebar").toggleClass("sidenavOpen");

@@ -20,12 +20,12 @@ function createKommuneList(){
       kommuneDiv.setAttribute("kommune",res[i].Name);
       kommuneDiv.setAttribute("nr", res[i].Number);
       //adding on click event for choosing kommune - fly to and create menu
-      kommuneDiv.addEventListener("click", function(){
+      kommuneElement.addEventListener("click", function(){
         kommuneElementClicked=true;
         resetRasterOverlays();
-        setRasterOverlayMenu(event.currentTarget.getAttribute("nr"));
-        setKommuneMenuHeader(event.currentTarget, event.currentTarget.getAttribute("kommune"));
-        menuState.chosenKommuneId=event.currentTarget.getAttribute("nr");
+        setRasterOverlayMenu(event.currentTarget.firstChild.getAttribute("nr"));
+        setKommuneMenuHeader(event.currentTarget.firstChild, event.currentTarget.firstChild.getAttribute("kommune"));
+        menuState.chosenKommuneId=event.currentTarget.firstChild.getAttribute("nr");
         menuState.type="raster";
         flyTo();
       });
@@ -107,7 +107,8 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
       // console.log("no active kommune yet");
       var backButton=document.createElement("button");
       backButton.id="backToKommuneList";
-      backButton.innerHTML="x";
+      backButton.className="pointer";
+      // backButton.innerHTML="x";
       backButton.addEventListener("click", function(){
       //console.log("back to raster");
       map.flyTo({zoom:9});
@@ -138,15 +139,11 @@ function unselectKommune(){ //back button event
 
 
 function hideKommuneMenuContent(type){
+  $("#kommuneList").removeClass("kommuneDropdownVisible");
   $("#menu-selector").removeClass("removeOverflow"); //Make it not scroll
-  //slide down baselayers and off/on vector layers (annet, symboler)
   $("#kommuneListPointer").removeClass("pointer-down");
   $("#kommuneListPointer").addClass("pointer-right");
-  //slide down baselayers and off/on vector layers (annet, symboler)
-  $("#select-baselayer").removeClass("kommuneDropdownVisibleShowBaselayers");
-  $("#vectorLayers").removeClass("kommuneDropdownVisibleShowVectorLayers");
 
-  $("#kommuneList").removeClass("kommuneDropdownVisible");
   if(type==="kommune"){
     $("#kommunekart-menu").removeClass("kommuneMenuSlideDown");
   }else if(type==="raster"){
@@ -162,8 +159,8 @@ function showKommuneMenuContent(type){
   $("#kommuneListPointer").removeClass("pointer-right");
   $("#kommuneListPointer").addClass("pointer-down");
   //make baselayer selector always show at bottom of sidemeny, and hide the rest
-  $("#select-baselayer").addClass("kommuneDropdownVisibleShowBaselayers");
-  $("#vectorLayers").addClass("kommuneDropdownVisibleShowVectorLayers");
+  // $("#select-baselayer").addClass("kommuneDropdownVisibleShowBaselayers");
+  // $("#vectorLayers").addClass("kommuneDropdownVisibleShowVectorLayers");
   if(type ==="kommune"){
     $("#kommuneList").addClass("kommuneDropdownVisible");
     $("#kommunekart-menu").addClass("kommuneMenuSlideDown");
@@ -196,8 +193,7 @@ document.getElementById("kommunekart-menu-button").addEventListener("click", fun
   }
 });
 
-//when toggle side menu button is clicked: side menu hidden/shown
-document.getElementById("side-menu-toggle-button").addEventListener("click", function(){
+function toggleSideMenu(){
   $("#menu-selector").toggleClass("sidenavOpen");
   if(menuState.sideNavOpen){
     var actualMenuState=menuState.kommuneMenuOpen;
@@ -212,6 +208,10 @@ document.getElementById("side-menu-toggle-button").addEventListener("click", fun
     menuState.sideNavOpen=true;
   }
   updateTopKommuneHeader();
+}
+//when toggle side menu button is clicked: side menu hidden/shown
+document.getElementById("side-menu-toggle-button").addEventListener("click", function(){
+  toggleSideMenu();
 });
 
 //Logo on the map

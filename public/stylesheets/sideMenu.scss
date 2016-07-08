@@ -1,3 +1,6 @@
+//color variables:
+$sidemenuListColor: rgba(42, 42, 42, 0.39);
+$sidemenuListHover: rgba(125, 125, 125, 0.54);
 
 input[type="text"] {
   margin-top: 12px;
@@ -111,6 +114,9 @@ input[type="submit"]:hover {
 .show-menu ul li{
   border-bottom: 1px solid #565252;
 }
+#kommunekartMeny{
+  // border-bottom: none;
+}
 //Generat classes used different places in side menu
 .pointer{
   background-size: 24px;
@@ -165,37 +171,56 @@ input[type="submit"]:hover {
   width:260px!important;
 }
 
+.mainButton:hover{
+  cursor:pointer;
+  
+}
+
+.mainButton{ //Velg kommune & verktøy buttons
+  border: 0 none;
+  border-bottom:solid 1px rgba(118, 118, 118, 0.5);
+  width: 100%;
+  background-color:rgba(42,42,42,0.44);
+  color: white;
+  height:47px;
+  position: relative;
+  h4{
+    margin-top: 12px;
+    width:136px;
+    float:left;
+    display: flex;
+    margin-left: 5px;
+    font-size:17px;
+    font-weight: 600;
+  }
+  .pointer{
+    position: absolute;
+    right: 0;
+  }
+}
 
 #menu-selector{ //styling of tool buttons
   list-style-type: none;
-  background-color: rgba(33,34,34,0.72);
+  background-color: rgba(33,34,34,0.72); //backgorund of whole sidemenu!
   margin-top: 42px;
   margin-left: -10px;
   height: 100vh;
   width: 0;
   overflow-x: hidden;
-  transition: 0.5s;
+  // transition: 0.5s;
+  transition: max-height 0.5s;
   overflow-y: auto;
   padding:0;
 
-
-  #toolHeader{
-    color: white;
-    margin-top: 45px;
-    display: flex;
-    cursor: pointer;
-    h4{
-      width:138px;
-      font:17px Arial;
-      margin:0;
-      padding-left: 17px;
-      margin-bottom: 10px;
-      padding-top: 10px;
-      font-weight: 600;
-    }
-  }
   #toolList{
-    transition: 0.5s;
+    background-color: $sidemenuListColor;
+    // transition: 0.5s;
+    transition: max-height 0.5s;
+    margin-top: -2px;
+    li:hover{
+      background-color: $sidemenuListHover;
+      cursor:pointer;
+    }
   }
 
   .selectedToolElement{
@@ -208,7 +233,8 @@ input[type="submit"]:hover {
     color: white;
     height: 0;
     overflow-y: hidden;
-    transition: 0.5s;
+    // transition: 0.5s;
+    transition: max-height 0.5s;
     overflow-x: auto;
     padding:0;
   }
@@ -358,30 +384,6 @@ input[type="submit"]:hover {
 
 #kommunekart-menu{
   transition: 0.5s;
-  background-position: 8px 12px;
-  cursor:pointer;
-  margin-top:0px;
-  vertical-align:middle;
-  padding:0;
-  float:left;
-  button{
-    border: 0 none;
-    background-color: transparent;
-    color: white;
-    cursor:pointer;
-    height:47px;
-    position: relative;
-    h4{
-      margin-top: 12px;
-      width:138px;
-      float:left;
-      //height: 40px;
-      display: flex;
-      margin-left: 5px;
-      font-size:17px;
-      font-weight: 600;
-    }
-  }
 
   .sideMenuLists{
     z-index: 10;
@@ -389,10 +391,10 @@ input[type="submit"]:hover {
     font: 13.3333px Arial;
     transition: 0.5s;
     margin-top: 2px;
-    background-color: rgb(51, 51, 51);
+    // background-color: rgba(89, 87, 87, 0.68);
     color: white;
     padding: 0;
-    box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+    // box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
     overflow-y: auto;
   }
 
@@ -402,14 +404,20 @@ input[type="submit"]:hover {
     //position: absolute;
     padding:0;
     li{
+      transition: 0.5s;
       border-bottom: #656363 solid 1px;
       height: 23px!important;
       padding-left: 16px;
       height: auto;
       padding-top: 11px;
     }
+    li:hover{
+      background-color: $sidemenuListHover;
+      cursor:pointer;
+
+    }
     .activeRasterElement{
-      background-color: grey;
+      background-color: rgba(204, 200, 200, 0.46);
     }
     #advarsel{
       padding: 0;
@@ -433,52 +441,74 @@ input[type="submit"]:hover {
     margin-top: -5px;
     // padding-top: 45px; //give room for search input
     height: 0;
+    max-height: 0;
+    overflow-y: hidden;
     overflow-x: hidden;
-    overflow-y: scroll;
-    div{
-      //display: flex;
-    }
-    li{
-      //display: inherit;
-    }
+    background-color: $sidemenuListColor;
     .kommuneElement{
-      border-bottom: #969696 solid 1px;
+      padding-left:5px;
+      border-bottom: rgba(150, 150, 150, 0.4) solid 1px;
       width: 250px;
       display: flex;
       img{
-        height:0%;
+        display: flex;
+        height:30px;
       }
       div{
         display: flex;
       }
     }
     #kommuneSearchDiv{
-      width: 250px;
+      width: 100%;
+      border-bottom: 1px solid rgba(128, 128, 128, 0.38);
       position: relative;
       height: 42px;
+      // background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+
+      input{
+        margin-left:22px;
+      }
     }
     .list{
+      height: 100vh;
       padding:0;
+      overflow-y: scroll;
+      li:hover{
+        background-color: $sidemenuListHover;
+        cursor:pointer;
+
+      }
     }
   }
 
   #backToKommuneList{
-    float:left;
+    border: none;
+    position: relative;
+    background-color: transparent;
+    background-image: url("../Images/venstrepil.png");
+    background-repeat: no-repeat;
+    margin-top: 2px;
+    width: 26px;
+    margin-left: -5px;
+    margin-right: 5px;
   }
 
   .kommuneDropdownVisible{
-    height: 100vh !important;
-    transition: 0.5s;
+    height: 100% !important;
+    max-height: 1000px!important;
+    // height: 100vh !important;
+    transition: max-height 0.5s;
   }
   .dropdownVisible{
     //height: 60%!important;
     height: auto!important;
-    transition: 0.5s;
+    transition: max-height 0.5s;
     //position: fixed;
     //margin-bottom: 60%;
   }
   .dropdownHide{
     height: 0!important;
+    max-height: 0!important;
   }
 }
 .kommuneDropdownVisibleShowBaselayers{
@@ -508,66 +538,64 @@ input[type="submit"]:hover {
 }
 
 #baselayerselector{
-  width: inherit;
-  display: inline-table;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  border-bottom: none;
 
   .baselayer-button{
-    display: block;
+    position: static;
     float: left;
-    height: 60px;
-    width: 33.33%;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    background-color: transparent;
+    // width: 24.33%;
     border: none;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    border-right: 1px solid #858A90;
-    background-size: calc(100% - 8px);
-    background-position: 4px 4px;
-    background-repeat: no-repeat;
-    background-color: rgba(42,42,42,0.44);
-    color:white;
+    color:rgba(231, 231, 231, 0.74);
+
+    img{
+      padding-top: 5px;
+      height: 41px;
+      width:47px;
+      border-radius:7%;
+    }
+    h4{
+      text-shadow: #363636 2px 2px 6px;
+      margin-top: -31px;
+      // position: absolute;
+    }
   }
   .baselayer-button:hover{
-    background-color:rgb(60, 60, 60) ;
+    // background-color:rgb(60, 60, 60) ;
     cursor: pointer;
   }
   .baselayer-button.selected{
-    background-color: #E8E8E8;
-    color:#2A2A2A;
+    // background-color: #E8E8E8;
     font-weight:bold;
-  }
-  .baselayer-button span {
-    position: relative;
-    display: block;
-    bottom: -20px;
-    cursor:pointer;
+    color: white;
   }
 
   //basemap selector
-  .normal{
-    background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_normal_transp_bw.png");
+  .normal img{
+    content:  url("https://kommunekart.com/Images/bg_layer_thumb_normal_transp_bw.png");
   }
-  .normal:hover, .normal.selected{
-    background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_normal.png");
+  .normal:hover img, .normal.selected img{
+    content:  url("https://kommunekart.com/Images/bg_layer_thumb_normal.png");
   }
-  .aerial{
-    background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_aerial_transp_bw.png");
+  .aerial img{
+    content:  url("https://kommunekart.com/Images/bg_layer_thumb_aerial_transp_bw.png");
   }
-  .aerial:hover, .aerial.selected{
-    background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_aerial.png");
+  .aerial:hover img, .aerial.selected img{
+    content:  url("https://kommunekart.com/Images/bg_layer_thumb_aerial.png");
   }
-  .hybrid{
-    background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_hybrid_transp_bw.png");
+  .hybrid img{
+    content:  url("https://kommunekart.com/Images/bg_layer_thumb_hybrid_transp_bw.png");
   }
-  .hybrid:hover, .hybrid.selected{
-    background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_hybrid.png");
+  .hybrid:hover img, .hybrid.selected img{
+    content:  url("https://kommunekart.com/Images/bg_layer_thumb_hybrid.png");
   }
-  .threeD{
-    background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_3D_HC_transp_bw.png");
+  .threeD img{
+    content:  url("https://kommunekart.com/Images/bg_layer_thumb_3D_HC_transp_bw.png");
   }
-  .threeD:hover, .threeD.selected{
-    background-image:  url("https://kommunekart.com/Images/bg_layer_thumb_3D.png");
+  .threeD:hover img, .threeD.selected img{
+    content:  url("https://kommunekart.com/Images/bg_layer_thumb_3D.png");
   }
 
 }
@@ -577,11 +605,11 @@ input[type="submit"]:hover {
 
 #vectorLayers{
   color: white;
-  background-color: rgba(42,42,42,0.44);
-  padding:10px 0px;
-  margin-top: -3px;
+  // background-color: rgba(42,42,42,0.44);
+  padding-top: 7px;
   label{
-    padding-left: 10px;
+    // padding-left: 10px;
+    padding-left: 6px;
   }
 }
 
@@ -619,6 +647,10 @@ input[type="submit"]:hover {
   }
 }
 
+.tools{
+  margin-top: 2px;
+}
+
 .tool-button{
   background-size: 24px 24px;
   border-bottom:1px solid rgba(0,0,0,0.1);
@@ -628,15 +660,13 @@ input[type="submit"]:hover {
   padding-left:48px;
   width:260px;
   text-align: -webkit-match-parent;
-  background-color: rgba(42, 42, 42, 0.71);
+  // background-color: rgba(42, 42, 42, 0.71);
+  background-color: transparent;;
   background-repeat: no-repeat;
   border: 0 none;
   cursor: pointer;
 }
 
-.tool-button:hover{
-  background-color:rgb(60, 60, 60) ;
-}
 .tool-button:active{
   background-color: rgb(115, 115, 115);
 }
