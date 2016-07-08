@@ -1,5 +1,6 @@
 var targets =[];
 var tjenesteObjects={};
+var activeKommuneData=[];
 
 //Transform WGS to UTM coordinates
 function getUTMCoordinates(latitude, longitude, callback){
@@ -32,7 +33,7 @@ function getCapabilitiesForSideMenu(kommuneId, lat, long){
     if(res.length ==0){
       return;
     } else{
-      console.log(res);
+      // console.log(res);
       createCapabilitylist(res, lat, long, kommuneId);
     }
   });
@@ -79,21 +80,8 @@ function getList(availableFeatures){
 function insertListContent(availableFeatures){
   //Putting elements into availableFeaturesList:
   for (var i = 0; i < availableFeatures.length; i++) {
-    var className = "featureListElement";
+    var className = "mainElement";
     addListElement(availableFeaturesList, availableFeatures[i].Description, className, availableFeatures[i].Name);
-    // var listElement = document.createElement("li");
-    // availableFeaturesList.appendChild(listElement);
-    //
-    // var featureElement = document.createElement("button"); //button
-    // featureElement.className="tool-button";
-    // $(featureElement).addClass("featureListElement");
-    // featureElement.setAttribute("elementFeatureName",availableFeatures[i].Name);
-    //
-    // var featureText = document.createElement("span"); //Button text
-    // featureText.innerHTML= availableFeatures[i].Description;
-    // featureElement.appendChild(featureText);
-    //
-    // listElement.appendChild(featureElement); //Adding button to listelement
     targets.push(availableFeatures[i].Name);
   }
 }
@@ -131,9 +119,11 @@ function updateElementsInList(listItem){
     var currListElement = listItem[i]; //Current subListElement
     var currentListButton = currListElement.children[0];
     var name =currentListButton.getAttribute("elementfeatureName").toString();
-    // if($(currListElement).hasClass("udefinert")){ //If listElement is deactivated
-    //   activateButton(currListElement);
-    // }
+
+    if(exsistsInList(activeKommuneData, name)){
+      console.log(currentListButton.children[1]);
+      $(currentListButton.children[1]).toggleClass("checked");
+    }
     console.log(name);
     console.log(tjenesteObjects[name]);
     if(tjenesteObjects[name] == undefined){ //If no FeatureInfo for listObject
@@ -141,7 +131,12 @@ function updateElementsInList(listItem){
       disableButton(currentListButton);
     }
     else{
+      // console.log(tjenesteObjects[name][0]);
+      // console.log(tjenesteObjects[name][0].AttributesList);
+      // var attributes = tjenesteObjects[name]
+      // console.log(tjenesteObjects[name]);
       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
+      console.log(tjenesteObjects[name].length);
       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
         // addCheckBox(currListElement);
         addSubList(currListElement,tjenesteObjects[name]);
@@ -151,13 +146,13 @@ function updateElementsInList(listItem){
       }
     }
   }
-
+  checkEvent();
 }
-
 
 function addSubList(currListItem,tjenesteObjects){
   var newList = document.createElement("ul");
   $(newList).addClass("sideBarList");
+  $(newList).addClass("subSideBarList");
   currListItem.appendChild(newList);
   addSublistElements(tjenesteObjects, newList);
 }
@@ -175,8 +170,6 @@ function addSublistElements(tjenesteObjects, newList){
 function disableButton(currentBtn){
   $(currentBtn).addClass("udefinert");
   $(currentBtn).attr("disabled", true);
-  deleteCheckbox(currentBtn);
-
 }
 
 function activateButton(listItem){
@@ -189,9 +182,10 @@ function addListElement(list, label, className, objectInfo){
   listElement.id = label;
   list.appendChild(listElement);
 
-  var btn = document.createElement("button"); //button
+  var btn = document.createElement("div"); //button
   btn.className="tool-button";
   $(btn).addClass(className);
+  $(btn).addClass("featureListElement");
   if (objectInfo != null){
     btn.setAttribute("elementFeatureName",objectInfo);
   }
@@ -203,23 +197,23 @@ function addListElement(list, label, className, objectInfo){
   addCheckBox(listElement);
 }
 
+var checkBoxCounter = 0;
 function addCheckBox(currentListElement){
   var btn = currentListElement.children[0];
-  var span = currentListElement.children[0].children[0];
-  var listCheckBox = document.createElement("input");//checkbox inside button
-  listCheckBox.type ="checkbox";
+  var listCheckBox = document.createElement("button");//checkbox inside button
+  // listCheckBox.type ="checkbox";
   listCheckBox.className ="check";
-  btn.insertBefore(listCheckBox, span);
-}
-
-function deleteCheckbox(btn){
-  btn.remove('.check');
+  listCheckBox.id = checkBoxCounter+"check";
+  checkBoxCounter++;
+  btn.appendChild(listCheckBox);
 }
 
 function doFeatureQuery(featureUrl){
+console.log("starting query");
   $.ajax({
     url: featureUrl,
     complete: function(res){
+      console.log("query finish");
       var response=JSON.parse(res.responseText);
       for (var j = 0; j < targets.length; j++) {
         var list=[];
@@ -232,29 +226,70 @@ function doFeatureQuery(featureUrl){
           tjenesteObjects[targets[j]]=list;
         }
       }
-      console.log(tjenesteObjects);
+      // console.log(tjenesteObjects);
       updateSideMenu();
     }
   });
 }
 
-// $(".featureListElement").click(function(){
-//   alert("Knappen er klikket");
-// });
-var myFunction = function() {
-    alert("Knappen er klikket");
+function showInformation(listElement) {
+  // console.log(listElement.getAttribute("element"));
+  // alert(listElement.getAttribute("element"));
+  console.log(listElement.getAttribute("element"));
+  var attributes = listElement.getAttribute("element")[0].AttributesList;
+  console.log(attributes);
+  var stringen = "";
+  for (var attributen in attributes) {
+    console.log(attributen.Name);
+    console.log(attributen.Value);
+    stringen+=attributen.Name;
+    stringen += ": ";
+    stringen+=attributen.Value;
+    stringen+="--"
+  }
 }
 
 function btnEvent(){
   var classname = document.getElementsByClassName("featureListElement");
   for (var i = 0; i < classname.length; i++) {
       // className[i].
-      classname[i].addEventListener('click', myFunction, false);
+      // classname[i].addEventListener('click', myFunction, false);
+      classname[i].addEventListener('click', function(){
+        var listElement = event.target.parentNode.parentNode;
+        if(event.target.parentNode.parentNode.children[1]){
+          $(event.target.parentNode.parentNode.children[1]).toggleClass("visMeny");
+        }else{
+          showInformation(listElement);
+        }
+      });
+
   }
 }
-// getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
-//   function(result){
-//     var result = result;
-//     console.log(result);
-//   }
-// );
+
+function checkEvent(){
+  var classname = document.getElementsByClassName("check");
+  for (var i = 0; i < classname.length; i++) {
+    classname[i].addEventListener('click', function(){
+      var checkName = event.target.parentNode.getAttribute("elementfeatureName").toString();
+      if(!$(event.target).hasClass("checked")){
+        activeKommuneData.push(checkName);
+      } else{
+        var index = activeKommuneData.indexOf(checkName);
+        activeKommuneData.splice(index, 1);
+      }
+      $(event.target).toggleClass("checked");
+      console.log("Checkboxen er: "+event.target);
+      event.stopPropagation();
+      console.log(activeKommuneData);
+    });
+  }
+}
+
+function exsistsInList(list, element){
+  for (var i = 0; i < list.length; i++) {
+    if(list[i]==element){
+      return(true);
+    }
+  }
+  return(false);
+}
