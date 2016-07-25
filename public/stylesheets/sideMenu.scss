@@ -590,9 +590,10 @@ input[type="submit"]:hover {
   color:black;
   .boble{
     margin:10px;
+    color:black;
     padding: 10px;
     border-radius: 10px;
-    background-color: rgba(255,255,255,0.60);
+    background-color: rgba(255,255,255,0.75);
   }
   #punktInfo{
     #markerPos{
@@ -643,7 +644,9 @@ input[type="submit"]:hover {
   cursor: pointer;
 }
 
-
+.tool-button:hover{
+  background-color: $sidemenuListHover;
+}
 .tool-button:active{
   background-color: rgb(115, 115, 115);
 }
@@ -670,10 +673,16 @@ input[type="submit"]:hover {
     display: inline;
   }
   span{
-    width:228px;
+    width:190px;
     float:left;
     height:24px;
     padding-top: 6px;
+  }
+
+  .backgrImage{
+    width:15px;
+    float:left;
+    margin:6px;
   }
   .check{
     height:20px;
@@ -684,6 +693,7 @@ input[type="submit"]:hover {
     background-image: url("../images/notChosen.png");
     background-size: 20px;
     cursor:pointer;
+    float:left;
   }
   .checked{
     background-image: url("../images/chosen.png");
@@ -699,10 +709,13 @@ input[type="submit"]:hover {
   height: 30px;
   background-color: rgba(42,42,42,0.50);
   span{
-    width:223px;
+    width:190px;
   }
   .check{
     display: inline;
+  }
+  .backgrImage{
+    width:20px;
   }
   // li{
   //   height: 30px;
@@ -727,4 +740,21 @@ input[type="submit"]:hover {
 
 .visMeny{
   display:list-item;
+}
+
+.gfiInfo{
+  padding: 5px 15px;
+  margin:0px;
+  background-color: $sidemenuListHover;
+}
+.activeInfoBox{
+  background-color: rgba(226, 226, 226, 0.3);
+  color:rgb(46, 46, 46);
+  font-weight:bold;
+}
+
+#closeInfoSidebar{
+  color:white;
+  margin:10px;
+  cursor:pointer;
 }
