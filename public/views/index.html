@@ -74,6 +74,7 @@
   </div> -->
   <div id = "navbar-top">
     <div id ="infoSidebar">
+      <btn id ="closeInfoSidebar">X</button>
       <div id ="punktInfo" class ="boble">
         <div id ="markerPos"></div>
         <ul id="adresse"></ul>
@@ -84,7 +85,6 @@
       </div>
       <div id ="availableFeatureInformation">
       </div>
-      <btn id ="closeInfoSidebar">Lukk</button>
       </div>
       <div id ="side-menu-toggle">
         <button id ="side-menu-toggle-button" type ="button"></button>
@@ -225,13 +225,14 @@
     </div>
   </div>
 
+  <script src="../javascripts/map.js"></script>
   <script src="../javascripts/infoSidebar.js"></script>
   <script src="../javascripts/vectorLayersOverview.js"></script>
-  <script src="../javascripts/map.js"></script>
   <script src="../javascripts/rasterOverlay.js"></script>
   <script src="../javascripts/menus.js"></script>
   <script src="../javascripts/vectorLayers.js"></script>
   <script src="../javascripts/draw.js"></script>
+  <script src="../javascripts/addMapFeaturePolygon.js"></script>
 
   <!-- <script src='../../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script> -->
   <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>

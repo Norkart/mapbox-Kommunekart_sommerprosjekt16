@@ -281,11 +281,6 @@ map.on('click', function (e) {
     updateAdress(e.lngLat.lng,e.lngLat.lat,
       function(result){
         var result = JSON.parse(result.responseText).ReverseGeocodeResult;
-        // console.log(result.MunicipalityInfo.Name);
-        // console.log(result.NearestAddress.House);
-        // if(result.MunicipalityInfo.Name==kommune){
-        //   return;
-        // }
         document.getElementById("adresse").innerHTML="";
 
         if(result.NearestAddress==null){
@@ -317,14 +312,14 @@ map.on('click', function (e) {
     $("#WGSKoordinater").text(latLngString);
 
     // getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng);
-    getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
-      function(result){
-        var result = JSON.parse(result.responseText).coordinate;
-        console.log(result.north);
-        var utmString = "UTM 32N: "+result.north.toFixed(1) +"N, "+result.east.toFixed(1)+"Ø";
-        $("#UTMKoordinater").text(utmString);
-      }
-    );
+    // getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
+    //   function(result){
+    //     var result = JSON.parse(result.responseText).coordinate;
+    //     console.log(result.north);
+    //     var utmString = "UTM 32N: "+result.north.toFixed(1) +"N, "+result.east.toFixed(1)+"Ø";
+    //     $("#UTMKoordinater").text(utmString);
+    //   }
+    // );
     getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng,
       function(result){
         var result = JSON.parse(result.responseText).valuelist[0].v;
@@ -362,7 +357,8 @@ map.on('click', function (e) {
         "type": "symbol",
         "source": "marker",
         "layout": {
-            "icon-image": "test4"
+            "icon-image": "test4",
+            "icon-offset": [0,-25]
         }
     });
     console.log("adder marker");
@@ -463,7 +459,11 @@ function makeGeojsonFeature(coordinatesObj){
   //var obj=(coordinatesObj[0]);
   var obj=(coordinatesObj[0]);
   // console.log(obj);
-  var list=(coordinatesObj[0].Positions);
+  if(coordinatesObj[0] != undefined){
+    var list=(coordinatesObj[0].Positions);
+  } else{
+    var list=(coordinatesObj.Positions);
+  }
   for(var i=0; i<list.length; i++){
     var el=list[i];
     var coordElementArr=[];
