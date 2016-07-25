@@ -159,3 +159,13 @@ $inputColor: white;
 ::-webkit-scrollbar-thumb:hover {
     background-color: rgba(105, 106, 106, 0.8);
 }
+
+.mapboxgl-ctrl-geolocate{
+  background-image: url("https://kommunekart.com/Images/ikoner/nk_002-lokasjon-A-48px.png") !important;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  margin-top: 3px !important;
+  margin-bottom: -3px !important;
+  margin-left: 3px !important;
+  margin-right: -3px !important;
+}

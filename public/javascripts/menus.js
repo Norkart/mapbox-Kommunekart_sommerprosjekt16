@@ -114,6 +114,7 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
       map.flyTo({zoom:9});
       // map.setZoom(9.4);
       unselectKommune();
+      showKommuneMenuContent(menuState.type);
     });
     document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
   }
@@ -200,18 +201,24 @@ function toggleSideMenu(){
     hideKommuneMenuContent(menuState.type);
     menuState.kommuneMenuOpen=actualMenuState;
     menuState.sideNavOpen=false;
+    //moveBurgerIcon in
+    $("#side-menu-toggle-button").addClass("burger-icon-close");
+    $("#searchBox").addClass("search-menu-closed");
   }else{
     // //console.log(menuState.kommuneMenuOpen);
     if(menuState.kommuneMenuOpen){
       showKommuneMenuContent(menuState.type);
     }
     menuState.sideNavOpen=true;
+    $("#searchBox").removeClass("search-menu-closed");
+    $("#side-menu-toggle-button").removeClass("burger-icon-close");
   }
   updateTopKommuneHeader();
 }
 //when toggle side menu button is clicked: side menu hidden/shown
 document.getElementById("side-menu-toggle-button").addEventListener("click", function(){
   toggleSideMenu();
+
 });
 
 //Logo on the map
