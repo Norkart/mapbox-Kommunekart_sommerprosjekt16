@@ -9,6 +9,12 @@ body{
   position: absolute;
 }
 
+ul{
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
 button:focus {
   outline:0;
 }
@@ -168,4 +174,16 @@ $inputColor: white;
   margin-bottom: -3px !important;
   margin-left: 3px !important;
   margin-right: -3px !important;
+}
+
+
+.gfiInfo{
+  margin:10px;
+  font-size: 13px;
+  color: white;
+  a{
+    color:white;
+    font-weight: bold;
+    cursor: pointer;
+  }
 }

@@ -705,10 +705,16 @@ input[type="submit"]:hover {
     display: inline;
   }
   span{
-    width:228px;
+    width:190px;
     float:left;
     height:24px;
     padding-top: 6px;
+  }
+
+  .backgrImage{
+    width:15px;
+    float:left;
+    margin:6px;
   }
   .check{
     height:20px;
@@ -719,6 +725,7 @@ input[type="submit"]:hover {
     background-image: url("../images/notChosen.png");
     background-size: 20px;
     cursor:pointer;
+    float:left;
   }
   .checked{
     background-image: url("../images/chosen.png");
@@ -734,10 +741,13 @@ input[type="submit"]:hover {
   height: 30px;
   background-color: rgba(42,42,42,0.50);
   span{
-    width:223px;
+    width:190px;
   }
   .check{
     display: inline;
+  }
+  .backgrImage{
+    width:20px;
   }
   // li{
   //   height: 30px;
