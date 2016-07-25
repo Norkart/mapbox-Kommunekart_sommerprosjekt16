@@ -26,6 +26,7 @@ function createKommuneList(){
         setRasterOverlayMenu(event.currentTarget.firstChild.getAttribute("nr"));
         setKommuneMenuHeader(event.currentTarget.firstChild, event.currentTarget.firstChild.getAttribute("kommune"));
         menuState.chosenKommuneId=event.currentTarget.firstChild.getAttribute("nr");
+        // document.getElementById("backToKommuneList").style.backgroundImage="url('../images/exit.png')"; //change in css instead!!!
         menuState.type="raster";
         flyTo();
       });
@@ -56,28 +57,36 @@ function createKommuneList(){
   });
 }
 
-function createRasterLayerMenu(layerInfoJson){
+function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list with catogoeries of layer for kommune
   var rasterMenu=document.createElement("ul");
   rasterMenu.id="layerList";
   rasterMenu.className="sideMenuLists";
 
-  layerArea=layerInfoJson[0].Name;
-  for(var i=0; i<layerInfoJson[0].Layers.length; i++){
-    var rasterElement = document.createElement("li");
-    layerName=layerInfoJson[0].Layers[i].Name;
-    layerNameMenu=layerInfoJson[0].Layers[i].Description;
-    formattedLayerName=formatName(layerNameMenu);
-    rasterElement.setAttribute("name",layerName);
-    rasterElement.setAttribute("area",layerArea);
-    rasterElement.setAttribute("active", false);
-    rasterElement.innerHTML=formattedLayerName;
-    rasterElement.addEventListener("click", function(){
-      rasterLayerClickEvent();
-    });
-    //adding raster element to raster list:
-    rasterMenu.appendChild(rasterElement);
-    menuState.type="raster";
+
+  for(var j=0; j<categoriesJson.length; j++){
+    layerArea=categoriesJson[j].Name;
+    var cat=document.createElement("h4");
+    cat.innerHTML=categoriesJson[j].Title;
+    rasterMenu.appendChild(cat);
+    layerInfoJson=categoriesJson[j];
+    for(var i=0; i<layerInfoJson.Layers.length; i++){
+      var rasterElement = document.createElement("li");
+      layerName=layerInfoJson.Layers[i].Name;
+      layerNameMenu=layerInfoJson.Layers[i].Description;
+      formattedLayerName=formatName(layerNameMenu);
+      rasterElement.setAttribute("name",layerName);
+      rasterElement.setAttribute("area",layerArea);
+      rasterElement.setAttribute("active", false);
+      rasterElement.innerHTML=formattedLayerName;
+      rasterElement.addEventListener("click", function(){
+        rasterLayerClickEvent();
+      });
+      //adding raster element to raster list:
+      rasterMenu.appendChild(rasterElement);
+      menuState.type="raster";
+    }
   }
+
   //adding the raster overlays list to kommune element
   document.getElementById("kommunekart-menu").appendChild(rasterMenu);
   //$("#layerList").addClass("kommuneDropdownVisible");
@@ -136,6 +145,7 @@ function unselectKommune(){ //back button event
     showKommuneMenuContent("kommune");
   }
   menuState.chosenKommuneId=false;
+  globalActiveLayernames=[];
 }
 
 
@@ -196,7 +206,7 @@ document.getElementById("kommunekart-menu-button").addEventListener("click", fun
 
 function toggleSideMenu(){
   $("#menu-selector").toggleClass("sidenavOpen");
-  if(menuState.sideNavOpen){
+  if(menuState.sideNavOpen){ //CLOSING menu
     var actualMenuState=menuState.kommuneMenuOpen;
     hideKommuneMenuContent(menuState.type);
     menuState.kommuneMenuOpen=actualMenuState;
@@ -204,21 +214,37 @@ function toggleSideMenu(){
     //moveBurgerIcon in
     $("#side-menu-toggle-button").addClass("burger-icon-close");
     $("#searchBox").addClass("search-menu-closed");
-  }else{
+    //add burger menu, and change position of searh box
+    $("#searchBox").removeClass("searchToggle-open");
+    $("#closeSidebar").hide();
+    $("#side-menu-toggle").removeClass("open");
+  }else{ //OPENING menu
     // //console.log(menuState.kommuneMenuOpen);
     if(menuState.kommuneMenuOpen){
       showKommuneMenuContent(menuState.type);
     }
     menuState.sideNavOpen=true;
     $("#searchBox").removeClass("search-menu-closed");
+
+    //making transition better: first adding class width width 0, then add class with correct width and transition
+    $("#searchBox").addClass("searchToggle-open");//add burger menu, and change position of search box
+
+
+    $("#side-menu-toggle").addClass("open");
+    $("#closeSidebar").show();
     $("#side-menu-toggle-button").removeClass("burger-icon-close");
   }
+
+
+
   updateTopKommuneHeader();
 }
 //when toggle side menu button is clicked: side menu hidden/shown
 document.getElementById("side-menu-toggle-button").addEventListener("click", function(){
   toggleSideMenu();
-
+});
+document.getElementById("closeSidebar").addEventListener("click", function(){
+  toggleSideMenu();
 });
 
 //Logo on the map

@@ -1,6 +1,7 @@
 
 var wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=";
 var activeLayerNames=[]; //rasters drawn
+var globalActiveLayernames=[]; //all rasters that is active for kommuner, may not exist in all of them and therefor need a seperate list
 var layerArea; //name for url for area of different layers
 var layerName; //end of url for specific raster layer
 var rasterLayerZoomlevels={};
@@ -9,10 +10,6 @@ map.on('moveend', function(){
   //create visualisation to show if raster overlay is showing or not at current zoomlevel
   if(activeLayerNames.length>0){
     for(var i=0; i<activeLayerNames.length; i++){
-      // console.log(activeLayerNames[i]);
-      // console.log(rasterLayerZoomlevels[activeLayerNames[i]][0]-1);
-      // console.log(rasterLayerZoomlevels[activeLayerNames[i]][1]-1);
-
       //mapbox zoomlevel = leaflet zoom -1
       if(isRasterVisible(activeLayerNames[i])){
       // if(rasterLayerZoomlevels[activeLayerNames[i]][0]-1 >= map.getZoom() && rasterLayerZoomlevels[activeLayerNames[i]][1]-1 <= map.getZoom()){//  minZoom < current zoom < maxZoom --> Visible at current level
@@ -49,19 +46,15 @@ function toggleWarningSign(visible, layername){
           //add warning img in li element
           var warning=document.createElement("img");
           warning.id="advarsel";
-          warning.title="Zoom in for å se layer";
+          warning.title="Ikke synlig nå, zoom inn for å se laget";
           warning.src="../Images/advarsel.png";
           warning.setAttribute("minzoom", minzoom);
           warning.addEventListener("click", function(e){
               e.stopPropagation();
-              console.log("zoom click");
-              console.log(event.currentTarget.getAttribute("minzoom"));
-              var options={
+              map.flyTo({
                 zoom: event.currentTarget.getAttribute("minzoom"),
                 speed: 0.9
-              }
-              map.flyTo(options);
-              // map.setZoom(event.currentTarget.getAttribute("minzoom"));
+              });
           });
           console.log(warning);
           child.appendChild(warning);
@@ -106,12 +99,15 @@ function setRasterOverlayMenu(kommuneId){
   $.ajax({
     url:layersUrl
   }).done(function(res){
+    console.log(res);
     saveZoomLevelForLayers(res[0].Layers);
     hideKommuneMenuContent("kommune");
     createRasterLayerMenu(res);
     if(menuState.sideNavOpen){
       showKommuneMenuContent("raster");
     }
+    //if rasteroverlays are chosen from before
+    addAlreadyActiveOverlays();
   });
 }
 
@@ -123,24 +119,49 @@ function formatName(name){
   return formattedName;
 }
 
+function addAlreadyActiveOverlays(){
+  //add layers from previouslyActiveLayerNames
+  console.log(globalActiveLayernames);
+  for (var i = 0; i < globalActiveLayernames.length; i++) {
+    console.log(document.getElementById("layerList"));
+    var layers=document.getElementById("layerList").children;
+    console.log(layers);
+    for (var j=0; j<layers.length; j++){
+      console.log(globalActiveLayernames[i]);
+      console.log(layers[j]);
+      if(globalActiveLayernames[i]===layers[j].getAttribute("name")){ //active layers exist in layers for new kommune
+        console.log("SAME LAYER FOUND");
+        enableRaster(globalActiveLayernames[i], layers[j]);
+
+        updateRasterView(globalActiveLayernames[i], layers[j].getAttribute("area"));
+      }
+    }
+  }
+
+}
 
 function rasterLayerClickEvent(){
   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
   var activeLayer=event.currentTarget.getAttribute("active");
   if(activeLayer==="true"){
     removeFromList(event.currentTarget.getAttribute("name"), activeLayerNames);
+    updateGlobalActiveRaster("remove", event.currentTarget.getAttribute("name"));
     event.currentTarget.setAttribute("active", false);
     event.currentTarget.className="";
     toggleWarningSign(false, event.currentTarget.getAttribute("name"));
   }else{
-    activeLayerNames.push(event.currentTarget.getAttribute("name"));
-    event.currentTarget.setAttribute("active", true);
-    event.currentTarget.className="activeRasterElement";
-    toggleWarningSign(!isRasterVisible(event.currentTarget.getAttribute("name")), event.currentTarget.getAttribute("name"));
+    enableRaster(event.currentTarget.getAttribute("name"), event.currentTarget);
   }
   updateRasterView(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
 
   // updateInformationSideMenu(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
+}
+function enableRaster(layerName, currentListElement){
+  updateGlobalActiveRaster("add", currentListElement.getAttribute("name"));
+  activeLayerNames.push(layerName);
+  currentListElement.setAttribute("active", true);
+  currentListElement.className="activeRasterElement";
+  toggleWarningSign(!isRasterVisible(layerName), layerName);
 }
 
 
@@ -189,6 +210,7 @@ function removeRaster(name){
     return false;
   }
 }
+
 
 
 function addRaster(url, name, zoomLevel){
@@ -244,7 +266,27 @@ function removeFromList(element, list){
   return list.splice(index,1);
 }
 
+function updateGlobalActiveRaster(action, layername){
+  console.log("update global!!!");
+  var found=false;
+  for(var i=0; i<globalActiveLayernames.length; i++){
+    if(layername===globalActiveLayernames[i]){
+      if(action==="add"){
+        found=true;
+      }else if(action==="remove"){
+        console.log("REMOVING LAYER FROM GLOBAL");
+        console.log(layername);
+        globalActiveLayernames.splice(i, 1);
+      }
+    }
+  }
+  if(found==false && action==="add"){
+    globalActiveLayernames.push(layername);
+  }
+}
+
 function resetRasterOverlays(){
+  //add layers that are active
   activeLayerNames=[];
   var kommuneElements=document.getElementsByClassName('kommuneElement');
   //delete layerList for kommune with "open" raster menu

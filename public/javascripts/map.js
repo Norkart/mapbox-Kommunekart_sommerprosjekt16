@@ -509,7 +509,6 @@ var first=true;
 map.on('moveend', function () {
   if(map.getZoom()>=9.5){
     selectKommune();
-    console.log("selectKommune() started");
     //wait for select kommune to finish, otherwise we wont know what to set header to
     setTimeout(function(){
       updateTopKommuneHeader();

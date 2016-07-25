@@ -23,14 +23,12 @@ input[type="submit"] {
   height: 34px;
   width: 24px;
   display: inline-block;
-  float: right;
   background: url("../images/search.png");
   background-size: 24px;
   background-repeat: no-repeat;
   text-indent: -10000px;
   border: none;
   position: absolute;
-  top: 0;
   right: 0;
   z-index: 2;
   cursor: pointer;
@@ -50,10 +48,23 @@ input[type="submit"]:hover {
 
 .show-menu{
   height: 100vh;
-  margin-top: -93px;
+  margin-top: -84px;
   ul li{
     border-bottom: 1px solid #565252;
   }
+}
+
+#closeSidebar{
+  border: none;
+  background: transparent;
+  // background-image: url("../images/venstrepil.png");
+  background-image: url("../images/doubleArrow.png");
+  background-size: 20px, 20px;
+  height: 21px;
+  margin-top: -8px;
+  width: 16px;
+  color: white;
+  left: 227px;
 }
 #kommunekartMeny{
   // border-bottom: none;
@@ -341,6 +352,8 @@ input[type="submit"]:hover {
 
   #layerList{ //raster layer for each kommune
     //height: 100vh;
+    max-height: 300px;
+    overflow-y: scroll;
     height: auto;
     //position: absolute;
     padding:0;
@@ -368,6 +381,15 @@ input[type="submit"]:hover {
       width:16px;
       height: 16px;
     }
+    h4{
+      margin-bottom: 1px;
+      margin-left: 7px;
+      font-size: 1.1em;
+      color:#bbb4b4;
+    }
+  }
+  .sideMenuLists.kommuneDropdownVisible{
+    max-height: 450px !important;
   }
 
   img{
@@ -427,7 +449,7 @@ input[type="submit"]:hover {
     border: none;
     position: relative;
     background-color: transparent;
-    background-image: url("../Images/venstrepil.png");
+    background-image: url("../Images/exit.png");
     background-repeat: no-repeat;
     margin-top: 2px;
     width: 26px;
@@ -600,6 +622,9 @@ input[type="submit"]:hover {
 
 .tools{
   margin-top: 2px;
+  input{
+    position: relative;
+  }
 }
 
 .tool-button{

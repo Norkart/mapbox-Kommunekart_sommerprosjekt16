@@ -87,7 +87,7 @@
       </div>
       <btn id ="closeInfoSidebar">Lukk</button>
       </div>
-      <div id ="side-menu-toggle">
+      <div id ="side-menu-toggle" class="open">
         <button id ="side-menu-toggle-button" type ="button"></button>
         <div name ="menu-content" class = "show-menu">
           <ul id ="menu-selector" class="sidenavOpen">
@@ -213,10 +213,11 @@
         </div>
       </div>
 
-      <div id ="searchToggle">
-        <div class ="kommunekart-search kommunekart-control" id ="searchBox">
+      <div id ="searchToggle" >
+        <button id="closeSidebar"></button>
+        <div class ="kommunekart-search kommunekart-control searchToggle-open" id ="searchBox">
+          <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom">
           <input id="search_submit" type="submit">
-          <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom.">
         </div>
       </div>
       <!-- <div id ="kommunekart-header">
