@@ -154,11 +154,11 @@ function updateElementsInList(listItem){
       hidePolygon(name);
       console.log("Hit kommer man");
       if(exsistsInList(activeKommuneData, name)){
-        console.log("Dette burde jo funke");
         addRasterPolygon(name, coordinatesObj);
         console.log(currentListButton.children[1]);
         $(currentListButton.children[1]).toggleClass("checked");
         showPolygon(name);
+        showPolygonColor(currentListButton.children[2]);
       }
       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
       console.log(tjenesteObjects[name].length);
@@ -208,11 +208,11 @@ function addListElement(list, label, className, objectInfo){
   btn.className="tool-button";
   $(btn).addClass(className);
   $(btn).addClass("featureListElement");
+  // btn.setAttribute(false, "active");
   if (objectInfo != null){
     btn.setAttribute("elementFeatureName",objectInfo);
   }
   listElement.appendChild(btn);
-
   var spanText = document.createElement("span"); //Button text
   spanText.innerHTML= label;
   btn.appendChild(spanText);
@@ -290,10 +290,14 @@ function btnEvent(){
         }else if(exsistsInList(activeInfoboxes, elementTxt)){
           removeInfoDiv(listElement);
           removeElementInList(activeInfoboxes, elementTxt);
+          event.currentTarget.setAttribute("active", false);
+          $(event.currentTarget).toggleClass("activeInfoBox");
           console.log("Lukker info");
         } else{
           showInformation(listElement);
+          $(event.currentTarget).toggleClass("activeInfoBox");
           activeInfoboxes.push(elementTxt);
+          event.currentTarget.setAttribute("active", true);
           console.log("åpner info");
         }
       });

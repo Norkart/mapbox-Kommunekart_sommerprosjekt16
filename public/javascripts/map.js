@@ -346,7 +346,7 @@ map.on('click', function (e) {
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [e.lngLat.lng,e.lngLat.lat+0.00006]
+                    "coordinates": [e.lngLat.lng,e.lngLat.lat]
                 }
             }]
         }
@@ -357,7 +357,8 @@ map.on('click', function (e) {
         "type": "symbol",
         "source": "marker",
         "layout": {
-            "icon-image": "test4"
+            "icon-image": "test4",
+            "icon-offset": [0,-25]
         }
     });
     console.log("adder marker");
