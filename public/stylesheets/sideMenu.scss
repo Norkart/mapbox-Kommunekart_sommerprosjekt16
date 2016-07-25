@@ -790,6 +790,9 @@ input[type="submit"]:hover {
 
 #closeInfoSidebar{
   color:white;
-  margin:10px;
+  font-weight:bold;
+  margin:5px 10px;
   cursor:pointer;
+  background: none;
+  border:none;
 }

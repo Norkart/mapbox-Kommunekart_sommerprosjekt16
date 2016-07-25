@@ -439,8 +439,6 @@ function getSourceObj2(geojson){
 }
 function paintPolygon(name, color){
   console.log("Laget heter: " + name);
-  console.log("COLORRRRR");
-  // alert("skal kjøre color");
   console.log(color);
   console.log(typeof(color));
   var lObj= {
@@ -454,4 +452,11 @@ function paintPolygon(name, color){
     }
   };
   return lObj;
+}
+
+function addColorBobble(parent, color){
+  var colCircle = document.createElement("div");
+  colCircle.className = "colorImage";
+  colCircle.style.backgroundColor = color;
+  parent.appendChild(colCircle);
 }
