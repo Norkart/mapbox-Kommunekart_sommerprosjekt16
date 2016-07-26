@@ -68,6 +68,10 @@
       </div>
     </div>
     <div id='map'></div>
+    <div id="pitchController" class="mapboxgl-ctrl-group mapboxgl-ctrl">
+      <button id="pitchUp" class="mapboxgl-ctrl-icon"></button>
+      <button id="pitchDown" class="mapboxgl-ctrl-icon"></button>
+    </div>
     <div id='distance' class='distance-container'></div>
     <!-- <div src ="www.norkart.no" class ="kommunekart-logo" name ="kommunekart_logo" title ="www.norkart.no" style="bottom: 24px;">
     <img height ="16" src="https://kommunekart.com/Images/NORKART_LOGO_positiv_digital_tiny.png">
@@ -132,7 +136,7 @@
                 <div id="kommuneList" class="list sideMenuLists">
                   <div id ="kommuneSearchDiv">
                     <!-- <div class ="kommunekart-search kommunekart-control" id ="searchBox"> -->
-                    <input id="KommuneSearch" class="search" name="search" type="text" placeholder="Søk etter kommune">
+                    <input id="KommuneSearch" class="search" name="search" type="search" placeholder="Søk etter kommune">
                     <input id="search_submit" type="submit">
                     <!-- </div> -->
                   </div>
@@ -215,7 +219,7 @@
       <div id ="searchToggle" >
         <button id="closeSidebar"></button>
         <div class ="kommunekart-search kommunekart-control searchToggle-open" id ="searchBox">
-          <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom">
+          <input id="MainSearch" name="search" type="search" placeholder="Søk etter adresse, sted eller eiendom">
           <input id="search_submit" type="submit">
         </div>
       </div>

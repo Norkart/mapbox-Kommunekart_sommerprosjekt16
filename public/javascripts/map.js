@@ -584,3 +584,19 @@ function selectKommune(){
     }
   });
 }
+
+//adding pitch controller
+document.getElementById("pitchUp").addEventListener("click", function(){
+  pitchMap("up");
+});
+document.getElementById("pitchDown").addEventListener("click", function(){
+  pitchMap("down");
+});
+
+function pitchMap(direction){ //pitch goes from 60 to 0
+  if(direction==="up" && map.getPitch()<50){
+    map.setPitch(map.getPitch()+10);
+  }else if(direction==="down" && map.getPitch()>10){
+    map.setPitch(map.getPitch()-10);
+  }
+}

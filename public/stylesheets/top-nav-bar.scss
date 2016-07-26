@@ -23,7 +23,7 @@
     position: fixed;
     top:10px;
 
-    input[type="text"] {
+    input[type="search"] {
       margin-top: 8px;
       border: none;
       outline: none;
@@ -34,10 +34,13 @@
       z-index: 3;
       -webkit-transition: width 0.5s ease-in-out;
       cursor: pointer;
-      width: 220px;
+      width: 229px;
     }
-
-    input[type="text"]:focus { //when clicked search button -expands!
+    input[type="search"]::-webkit-search-cancel-button {
+      background: white;
+      width: 60px;
+    }
+    input[type="search"]:focus { //when clicked search button -expands!
       z-index: 1;
       border-bottom: 1px solid #BBB;
       cursor: text;

@@ -24,6 +24,8 @@ map.on('moveend', function(){
 });
 
 function isRasterVisible(layername){
+  console.log(layername);
+  console.log(rasterLayerZoomlevels);
   //mapbox zoomlevel = leaflet zoom -1
   if(rasterLayerZoomlevels[layername][0]-1 >= map.getZoom() && rasterLayerZoomlevels[layername][1]-1 <= map.getZoom()){ // minZoom < current zoom < maxZoom --> Visible at current level
     return true;
@@ -38,6 +40,10 @@ function toggleWarningSign(visible, layername){
   var kommune=document.getElementById("layerList");
   for (var i = 0; i < kommune.children.length; i++) {
     var child=kommune.children[i];
+    if(child.nodeName==="H4"){
+      //do nothing
+      return;
+    }
     if(child.getAttribute("name")===layername){
       console.log("found correct dom element");
       if(visible){
@@ -100,7 +106,9 @@ function setRasterOverlayMenu(kommuneId){
     url:layersUrl
   }).done(function(res){
     console.log(res);
-    saveZoomLevelForLayers(res[0].Layers);
+    for(var i=0; i<res.length; i++){
+      saveZoomLevelForLayers(res[i].Layers);
+    }
     hideKommuneMenuContent("kommune");
     createRasterLayerMenu(res);
     if(menuState.sideNavOpen){
@@ -127,13 +135,20 @@ function addAlreadyActiveOverlays(){
     var layers=document.getElementById("layerList").children;
     console.log(layers);
     for (var j=0; j<layers.length; j++){
-      console.log(globalActiveLayernames[i]);
-      console.log(layers[j]);
-      if(globalActiveLayernames[i]===layers[j].getAttribute("name")){ //active layers exist in layers for new kommune
-        console.log("SAME LAYER FOUND");
-        enableRaster(globalActiveLayernames[i], layers[j]);
+      console.log(layers);
+      console.log(layers.nodeName);
+      if(layers.nodeName==="H4"){
+        return;
+        //do nothing, only a category
+      }else{
+        console.log(globalActiveLayernames[i]);
+        console.log(layers[j]);
+        if(globalActiveLayernames[i]===layers[j].getAttribute("name")){ //active layers exist in layers for new kommune
+          console.log("SAME LAYER FOUND");
+          enableRaster(globalActiveLayernames[i], layers[j]);
 
-        updateRasterView(globalActiveLayernames[i], layers[j].getAttribute("area"));
+          updateRasterView(globalActiveLayernames[i], layers[j].getAttribute("area"));
+        }
       }
     }
   }
@@ -156,6 +171,7 @@ function rasterLayerClickEvent(){
 
   // updateInformationSideMenu(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
 }
+
 function enableRaster(layerName, currentListElement){
   updateGlobalActiveRaster("add", currentListElement.getAttribute("name"));
   activeLayerNames.push(layerName);

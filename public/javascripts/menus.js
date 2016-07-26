@@ -26,7 +26,6 @@ function createKommuneList(){
         setRasterOverlayMenu(event.currentTarget.firstChild.getAttribute("nr"));
         setKommuneMenuHeader(event.currentTarget.firstChild, event.currentTarget.firstChild.getAttribute("kommune"));
         menuState.chosenKommuneId=event.currentTarget.firstChild.getAttribute("nr");
-        // document.getElementById("backToKommuneList").style.backgroundImage="url('../images/exit.png')"; //change in css instead!!!
         menuState.type="raster";
         flyTo();
       });
@@ -60,7 +59,7 @@ function createKommuneList(){
 function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list with catogoeries of layer for kommune
   var rasterMenu=document.createElement("ul");
   rasterMenu.id="layerList";
-  rasterMenu.className="sideMenuLists";
+  rasterMenu.className="raster sideMenuLists";
 
 
   for(var j=0; j<categoriesJson.length; j++){
@@ -113,17 +112,20 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
     img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
   }
   if(menuState.chosenKommuneId==false){
-      // console.log("no active kommune yet");
-      var backButton=document.createElement("button");
-      backButton.id="backToKommuneList";
-      backButton.className="pointer";
-      // backButton.innerHTML="x";
-      backButton.addEventListener("click", function(){
-      //console.log("back to raster");
+    // console.log("no active kommune yet");
+    var backButton=document.createElement("button");
+    backButton.id="backToKommuneList";
+    backButton.className="pointer";
+    backButton.addEventListener("click", function(){
       map.flyTo({zoom:9});
-      // map.setZoom(9.4);
-      unselectKommune();
-      showKommuneMenuContent(menuState.type);
+      console.log("open or not?");
+      console.log(menuState.kommuneMenuOpen);
+      if(menuState.kommuneMenuOpen){
+        unselectKommune();
+        showKommuneMenuContent(menuState.type);
+      }else{
+        unselectKommune();
+      }
     });
     document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
   }
