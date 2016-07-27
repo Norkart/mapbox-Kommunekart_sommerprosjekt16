@@ -379,6 +379,10 @@ function changeBackgroundMap(maptype) {
     mapStyle ="aerial";
     map.once("render", function(){
       addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "aerialRaster", 10);
+      if(menuState.chosenKommuneId!=undefined){
+        console.log("kommune active");
+        drawDarkAroundKommuneBorder();
+      }
     });
     wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
     $("#menu-selector").addClass("darkerColor");
@@ -410,7 +414,6 @@ map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
 
 function drawDarkAroundKommuneBorder(){
   var name="outsideKommune";
-
   if(map.getZoom()<=9.5){
     //if area drawn, remove it:
     if(map.getLayer(name)!=undefined){
@@ -419,10 +422,6 @@ function drawDarkAroundKommuneBorder(){
       currentKommune=false;
     }
     return;
-    //if aerial, remove aerial raster
-    if(maptype==="aerial"){
-      removeAerialRaster();
-    }
   }
   var lat = map.getCenter().lat;
   var lng = map.getCenter().lng;
@@ -457,13 +456,17 @@ function getSourceObj(geojson, name){
   return sourceObj;
 }
 function getLayerObj(name){
+  var color="rgba(36, 35, 36, 0.16)";
+  if(mapStyle==="aerial"){
+    color="rgba(206, 206, 210, 0.3)";
+  }
   var lObj= {
     "id": name,
     "type": "fill",
     "source": name,
     "source-layer": name,
     "paint": {
-      "fill-color": "rgba(36, 35, 36, 0.20)"
+      "fill-color": color
     }
   };
   return lObj;
@@ -529,6 +532,10 @@ map.on('moveend', function () {
     console.log("unselecting kommune pga zoom level");
     unselectKommune();
     removeTopKommuneHeader();
+    //if aerial, remove aerial raster
+    if(maptype==="aerial"){
+      removeAerialRaster();
+    }
   }
 });
 
