@@ -411,7 +411,7 @@ map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
 function drawDarkAroundKommuneBorder(){
   var name="outsideKommune";
 
-  if(map.getZoom()<=8.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
+  if(map.getZoom()<=9.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
     //if area drawn, remove it:
     if(map.getLayer(name)!=undefined){
       map.removeSource(name);

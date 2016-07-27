@@ -8647,276 +8647,276 @@ var layers= {
         //         "text-opacity": 0.75
         //     }
         // },
-        {
-            "id": "Skrivemaate-80_89(øy)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 13,
-            "maxzoom": 14,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    ">=",
-                    "ptema",
-                    "80"
-                ],
-                [
-                    "<=",
-                    "ptema",
-                    "89"
-                ],
-                [
-                    "!in",
-                    "ptema",
-                    "84",
-                    "85",
-                    "83",
-                    "82"
-                ]
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-anchor": "center",
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            8
-                        ],
-                        [
-                            22,
-                            12
-                        ]
-                    ]
-                },
-                "text-font": [
-                    "DIN Offc Pro Medium",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-allow-overlap": false
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 0.75,
-                "text-halo-blur": 0.5,
-                "text-color": "hsl(0, 0%, 30%)"
-            }
-        },
-        {
-            "id": "Skrivemaate-85+90(øy)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 12,
-            "maxzoom": 15,
-            "interactive": true,
-            "filter": [
-                "in",
-                "ptema",
-                "90",
-                "85"
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-anchor": "center",
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            10
-                        ],
-                        [
-                            22,
-                            14
-                        ]
-                    ]
-                },
-                "text-font": [
-                    "DIN Offc Pro Regular",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-allow-overlap": false
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 0.75,
-                "text-halo-blur": 0.5,
-                "text-color": "hsl(0, 0%, 30%)"
-            }
-        },
-        {
-            "id": "Skrivemaate-84(øy)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 12,
-            "maxzoom": 15,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "$type",
-                    "Point"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "84"
-                ]
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-anchor": "center",
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            12
-                        ],
-                        [
-                            22,
-                            16
-                        ]
-                    ]
-                },
-                "text-font": [
-                    "DIN Offc Pro Medium Italic",
-                    "Arial Unicode MS Regular"
-                ]
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 0.75,
-                "text-halo-blur": 0.5,
-                "text-color": "hsl(0, 0%, 20%)",
-                "text-opacity": 0.7
-            }
-        },
-        {
-            "id": "Skrivemaate_36(Elv)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 8,
-            "maxzoom": 13,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "in",
-                    "$type",
-                    "LineString",
-                    "Polygon",
-                    "Point"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "36"
-                ]
-            ],
-            "layout": {
-                "text-field": "{streng}",
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            7,
-                            10
-                        ],
-                        [
-                            9,
-                            14
-                        ]
-                    ]
-                },
-                "text-font": [
-                    "DIN Offc Pro Cond",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "line",
-                "text-rotation-alignment": "map"
-            },
-            "paint": {
-                "text-color": "#405ace",
-                "text-halo-color": "#fff",
-                "text-halo-width": 1
-            }
-        },
-        {
-            "id": "Skrivemaate_vann_32",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 11,
-            "maxzoom": 14,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "32"
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            6,
-                            8
-                        ],
-                        [
-                            14,
-                            14
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "symbol-avoid-edges": false,
-                "text-ignore-placement": false,
-                "text-font": [
-                    "DIN Offc Pro Regular",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "text-justify": "center",
-                "text-padding": 2,
-                "visibility": "visible",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-color": "#1815bd",
-                "text-opacity": 1,
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1
-            }
-        },
+        // {
+        //     "id": "Skrivemaate-80_89(øy)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 13,
+        //     "maxzoom": 14,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             ">=",
+        //             "ptema",
+        //             "80"
+        //         ],
+        //         [
+        //             "<=",
+        //             "ptema",
+        //             "89"
+        //         ],
+        //         [
+        //             "!in",
+        //             "ptema",
+        //             "84",
+        //             "85",
+        //             "83",
+        //             "82"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-anchor": "center",
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     8
+        //                 ],
+        //                 [
+        //                     22,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-font": [
+        //             "DIN Offc Pro Medium",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-allow-overlap": false
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 0.75,
+        //         "text-halo-blur": 0.5,
+        //         "text-color": "hsl(0, 0%, 30%)"
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate-85+90(øy)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 12,
+        //     "maxzoom": 15,
+        //     "interactive": true,
+        //     "filter": [
+        //         "in",
+        //         "ptema",
+        //         "90",
+        //         "85"
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-anchor": "center",
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     10
+        //                 ],
+        //                 [
+        //                     22,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-font": [
+        //             "DIN Offc Pro Regular",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-allow-overlap": false
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 0.75,
+        //         "text-halo-blur": 0.5,
+        //         "text-color": "hsl(0, 0%, 30%)"
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate-84(øy)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 12,
+        //     "maxzoom": 15,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "$type",
+        //             "Point"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "84"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-anchor": "center",
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     12
+        //                 ],
+        //                 [
+        //                     22,
+        //                     16
+        //                 ]
+        //             ]
+        //         },
+        //         "text-font": [
+        //             "DIN Offc Pro Medium Italic",
+        //             "Arial Unicode MS Regular"
+        //         ]
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 0.75,
+        //         "text-halo-blur": 0.5,
+        //         "text-color": "hsl(0, 0%, 20%)",
+        //         "text-opacity": 0.7
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_36(Elv)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 8,
+        //     "maxzoom": 13,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "in",
+        //             "$type",
+        //             "LineString",
+        //             "Polygon",
+        //             "Point"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "36"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-field": "{streng}",
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     7,
+        //                     10
+        //                 ],
+        //                 [
+        //                     9,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-font": [
+        //             "DIN Offc Pro Cond",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "line",
+        //         "text-rotation-alignment": "map"
+        //     },
+        //     "paint": {
+        //         "text-color": "#405ace",
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_vann_32",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 11,
+        //     "maxzoom": 14,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "32"
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     6,
+        //                     8
+        //                 ],
+        //                 [
+        //                     14,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "symbol-avoid-edges": false,
+        //         "text-ignore-placement": false,
+        //         "text-font": [
+        //             "DIN Offc Pro Regular",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "text-justify": "center",
+        //         "text-padding": 2,
+        //         "visibility": "visible",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-color": "#1815bd",
+        //         "text-opacity": 1,
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1
+        //     }
+        // },
         // {
         //     "id": "Skrivemaate_vann_xx",
         //     "type": "symbol",
@@ -8965,576 +8965,576 @@ var layers= {
         //         "text-halo-blur": 1
         //     }
         // },
-        {
-            "id": "Skrivemaate_30(Fjord)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 7,
-            "maxzoom": 10,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "in",
-                    "$type",
-                    "LineString",
-                    "Polygon"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "30"
-                ]
-            ],
-            "layout": {
-                "text-field": "{streng}",
-                "visibility": "visible",
-                "text-font": [
-                    "DIN Offc Pro Cond",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            7,
-                            10
-                        ],
-                        [
-                            9,
-                            11
-                        ]
-                    ]
-                },
-                "symbol-placement": "line"
-            },
-            "paint": {
-                "text-color": "#4a47e6",
-                "text-halo-color": "#fff",
-                "text-halo-width": 0.5
-            }
-        },
-        {
-            "id": "Skrivemaate_80(Fjord)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 7,
-            "maxzoom": 14,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "in",
-                    "$type",
-                    "LineString",
-                    "Polygon"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "80"
-                ]
-            ],
-            "layout": {
-                "text-field": "{streng}",
-                "visibility": "visible",
-                "text-font": [
-                    "DIN Offc Pro Regular",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            7,
-                            10
-                        ],
-                        [
-                            9,
-                            11
-                        ]
-                    ]
-                },
-                "symbol-placement": "line",
-                "text-letter-spacing": 0.02
-            },
-            "paint": {
-                "text-color": "#4a47e6",
-                "text-halo-color": "#fff",
-                "text-halo-width": 1
-            }
-        },
-        {
-            "id": "Skrivemaate_vann_31",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 7,
-            "maxzoom": 14,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "$type",
-                    "Point"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "31"
-                ]
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            9,
-                            9
-                        ],
-                        [
-                            13,
-                            14
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "symbol-avoid-edges": false,
-                "text-ignore-placement": true,
-                "text-font": [
-                    "DIN Offc Pro Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "text-justify": "center",
-                "text-padding": 4,
-                "visibility": "visible",
-                "text-rotation-alignment": "viewport",
-                "text-anchor": "left",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-color": "hsl(241, 76%, 59%)",
-                "text-opacity": 1,
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1
-            }
-        },
-        {
-            "id": "Skrivemaate_vann_30",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 7,
-            "maxzoom": 14,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "$type",
-                    "Point"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "30"
-                ]
-            ],
-            "layout": {
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            9,
-                            10
-                        ],
-                        [
-                            12,
-                            14
-                        ]
-                    ]
-                },
-                "text-allow-overlap": false,
-                "symbol-avoid-edges": false,
-                "text-ignore-placement": false,
-                "text-font": [
-                    "DIN Offc Pro Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "symbol-placement": "point",
-                "text-justify": "center",
-                "text-padding": 20,
-                "visibility": "visible",
-                "text-rotation-alignment": "map",
-                "text-anchor": "center",
-                "text-field": "{streng}"
-            },
-            "paint": {
-                "text-color": "hsl(241, 76%, 59%)",
-                "text-opacity": 1,
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1
-            }
-        },
-        {
-            "id": "Skrivemaate_16(Dal)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 8,
-            "maxzoom": 10,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "$type",
-                    "LineString"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "16"
-                ]
-            ],
-            "layout": {
-                "text-field": "{streng}",
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            7,
-                            10
-                        ],
-                        [
-                            9,
-                            12
-                        ]
-                    ]
-                },
-                "text-font": [
-                    "DIN Offc Pro Cond Medium",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-justify": "center",
-                "symbol-placement": "line",
-                "text-rotation-alignment": "map",
-                "text-letter-spacing": 0.02
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 0.5,
-                "text-opacity": 0.7
-            }
-        },
-        {
-            "id": "Skrivemaate_15(Dal)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 7,
-            "maxzoom": 10,
-            "interactive": true,
-            "filter": [
-                "all",
-                [
-                    "==",
-                    "$type",
-                    "LineString"
-                ],
-                [
-                    "==",
-                    "ptema",
-                    "15"
-                ]
-            ],
-            "layout": {
-                "text-field": "{streng}",
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            7,
-                            9
-                        ],
-                        [
-                            9,
-                            11
-                        ]
-                    ]
-                },
-                "text-letter-spacing": 0.05,
-                "symbol-placement": "line",
-                "text-rotation-alignment": "map",
-                "text-font": [
-                    "DIN Offc Pro Cond Medium",
-                    "Arial Unicode MS Regular"
-                ]
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 0.5,
-                "text-opacity": 0.8
-            }
-        },
-        {
-            "id": "Skrivemaate_6(Ås)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 9,
-            "maxzoom": 12,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "6"
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Bold Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            10
-                        ],
-                        [
-                            12,
-                            14
-                        ]
-                    ]
-                },
-                "text-transform": "none"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(37,99,1,1)",
-                "text-opacity": 0.7
-            }
-        },
-        {
-            "id": "Skrivemaate_5(Fjellområde)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 9,
-            "maxzoom": 12,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "5"
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Bold Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            10
-                        ],
-                        [
-                            12,
-                            14
-                        ]
-                    ]
-                },
-                "text-transform": "none"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "rgba(37,99,1,1)",
-                "text-opacity": 0.7
-            }
-        },
-        {
-            "id": "Skrivemaate_4(Fjell)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 7,
-            "maxzoom": 10,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "4"
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Bold Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            10
-                        ],
-                        [
-                            14,
-                            14
-                        ]
-                    ]
-                },
-                "text-transform": "none"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "hsl(0, 0%, 0%)",
-                "text-opacity": 0.7
-            }
-        },
-        {
-            "id": "Skrivemaate_3(Fjell)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 7,
-            "maxzoom": 10,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "3"
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Bold Italic",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [
-                            10,
-                            10
-                        ],
-                        [
-                            14,
-                            14
-                        ]
-                    ]
-                },
-                "text-transform": "none"
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "hsl(0, 0%, 0%)",
-                "text-opacity": 0.7
-            }
-        },
-        {
-            "id": "Skrivemaate_2(Fjell)",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "1463636918781.4102"
-            },
-            "source": "composite",
-            "source-layer": "Skrivemaate",
-            "minzoom": 8,
-            "maxzoom": 12,
-            "interactive": true,
-            "filter": [
-                "==",
-                "ptema",
-                "2"
-            ],
-            "layout": {
-                "visibility": "visible",
-                "text-field": "{streng}",
-                "text-font": [
-                    "DIN Offc Pro Cond Medium",
-                    "Arial Unicode MS Regular"
-                ],
-                "text-size": {
-                    "base": 0.9,
-                    "stops": [
-                        [
-                            12,
-                            10
-                        ],
-                        [
-                            14,
-                            14
-                        ]
-                    ]
-                },
-                "text-transform": "none",
-                "text-allow-overlap": false,
-                "text-letter-spacing": 0.06
-            },
-            "paint": {
-                "text-halo-color": "#fff",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "hsl(0, 0%, 0%)",
-                "text-opacity": 0.75
-            }
-        },
+        // {
+        //     "id": "Skrivemaate_30(Fjord)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 7,
+        //     "maxzoom": 10,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "in",
+        //             "$type",
+        //             "LineString",
+        //             "Polygon"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "30"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-field": "{streng}",
+        //         "visibility": "visible",
+        //         "text-font": [
+        //             "DIN Offc Pro Cond",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     7,
+        //                     10
+        //                 ],
+        //                 [
+        //                     9,
+        //                     11
+        //                 ]
+        //             ]
+        //         },
+        //         "symbol-placement": "line"
+        //     },
+        //     "paint": {
+        //         "text-color": "#4a47e6",
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 0.5
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_80(Fjord)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 7,
+        //     "maxzoom": 14,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "in",
+        //             "$type",
+        //             "LineString",
+        //             "Polygon"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "80"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-field": "{streng}",
+        //         "visibility": "visible",
+        //         "text-font": [
+        //             "DIN Offc Pro Regular",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     7,
+        //                     10
+        //                 ],
+        //                 [
+        //                     9,
+        //                     11
+        //                 ]
+        //             ]
+        //         },
+        //         "symbol-placement": "line",
+        //         "text-letter-spacing": 0.02
+        //     },
+        //     "paint": {
+        //         "text-color": "#4a47e6",
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_vann_31",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 7,
+        //     "maxzoom": 14,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "$type",
+        //             "Point"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "31"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     9,
+        //                     9
+        //                 ],
+        //                 [
+        //                     13,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "symbol-avoid-edges": false,
+        //         "text-ignore-placement": true,
+        //         "text-font": [
+        //             "DIN Offc Pro Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "text-justify": "center",
+        //         "text-padding": 4,
+        //         "visibility": "visible",
+        //         "text-rotation-alignment": "viewport",
+        //         "text-anchor": "left",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-color": "hsl(241, 76%, 59%)",
+        //         "text-opacity": 1,
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_vann_30",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 7,
+        //     "maxzoom": 14,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "$type",
+        //             "Point"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "30"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     9,
+        //                     10
+        //                 ],
+        //                 [
+        //                     12,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-allow-overlap": false,
+        //         "symbol-avoid-edges": false,
+        //         "text-ignore-placement": false,
+        //         "text-font": [
+        //             "DIN Offc Pro Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "symbol-placement": "point",
+        //         "text-justify": "center",
+        //         "text-padding": 20,
+        //         "visibility": "visible",
+        //         "text-rotation-alignment": "map",
+        //         "text-anchor": "center",
+        //         "text-field": "{streng}"
+        //     },
+        //     "paint": {
+        //         "text-color": "hsl(241, 76%, 59%)",
+        //         "text-opacity": 1,
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_16(Dal)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 8,
+        //     "maxzoom": 10,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "$type",
+        //             "LineString"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "16"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-field": "{streng}",
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     7,
+        //                     10
+        //                 ],
+        //                 [
+        //                     9,
+        //                     12
+        //                 ]
+        //             ]
+        //         },
+        //         "text-font": [
+        //             "DIN Offc Pro Cond Medium",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-justify": "center",
+        //         "symbol-placement": "line",
+        //         "text-rotation-alignment": "map",
+        //         "text-letter-spacing": 0.02
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 0.5,
+        //         "text-opacity": 0.7
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_15(Dal)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 7,
+        //     "maxzoom": 10,
+        //     "interactive": true,
+        //     "filter": [
+        //         "all",
+        //         [
+        //             "==",
+        //             "$type",
+        //             "LineString"
+        //         ],
+        //         [
+        //             "==",
+        //             "ptema",
+        //             "15"
+        //         ]
+        //     ],
+        //     "layout": {
+        //         "text-field": "{streng}",
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     7,
+        //                     9
+        //                 ],
+        //                 [
+        //                     9,
+        //                     11
+        //                 ]
+        //             ]
+        //         },
+        //         "text-letter-spacing": 0.05,
+        //         "symbol-placement": "line",
+        //         "text-rotation-alignment": "map",
+        //         "text-font": [
+        //             "DIN Offc Pro Cond Medium",
+        //             "Arial Unicode MS Regular"
+        //         ]
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 0.5,
+        //         "text-opacity": 0.8
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_6(Ås)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 9,
+        //     "maxzoom": 12,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "6"
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Bold Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     10
+        //                 ],
+        //                 [
+        //                     12,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(37,99,1,1)",
+        //         "text-opacity": 0.7
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_5(Fjellområde)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 9,
+        //     "maxzoom": 12,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "5"
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Bold Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     10
+        //                 ],
+        //                 [
+        //                     12,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "rgba(37,99,1,1)",
+        //         "text-opacity": 0.7
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_4(Fjell)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 7,
+        //     "maxzoom": 10,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "4"
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Bold Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     10
+        //                 ],
+        //                 [
+        //                     14,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "hsl(0, 0%, 0%)",
+        //         "text-opacity": 0.7
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_3(Fjell)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 7,
+        //     "maxzoom": 10,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "3"
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Bold Italic",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 1,
+        //             "stops": [
+        //                 [
+        //                     10,
+        //                     10
+        //                 ],
+        //                 [
+        //                     14,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none"
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "hsl(0, 0%, 0%)",
+        //         "text-opacity": 0.7
+        //     }
+        // },
+        // {
+        //     "id": "Skrivemaate_2(Fjell)",
+        //     "type": "symbol",
+        //     "metadata": {
+        //         "mapbox:group": "1463636918781.4102"
+        //     },
+        //     "source": "composite",
+        //     "source-layer": "Skrivemaate",
+        //     "minzoom": 8,
+        //     "maxzoom": 12,
+        //     "interactive": true,
+        //     "filter": [
+        //         "==",
+        //         "ptema",
+        //         "2"
+        //     ],
+        //     "layout": {
+        //         "visibility": "visible",
+        //         "text-field": "{streng}",
+        //         "text-font": [
+        //             "DIN Offc Pro Cond Medium",
+        //             "Arial Unicode MS Regular"
+        //         ],
+        //         "text-size": {
+        //             "base": 0.9,
+        //             "stops": [
+        //                 [
+        //                     12,
+        //                     10
+        //                 ],
+        //                 [
+        //                     14,
+        //                     14
+        //                 ]
+        //             ]
+        //         },
+        //         "text-transform": "none",
+        //         "text-allow-overlap": false,
+        //         "text-letter-spacing": 0.06
+        //     },
+        //     "paint": {
+        //         "text-halo-color": "#fff",
+        //         "text-halo-width": 1,
+        //         "text-halo-blur": 1,
+        //         "text-color": "hsl(0, 0%, 0%)",
+        //         "text-opacity": 0.75
+        //     }
+        // },
         {
             "id": "Skrivemaate_7(Fylke)",
             "type": "symbol",
