@@ -130,6 +130,10 @@
               <div id ="kommunekart-menu">
                 <button class="mainButton" id ="kommunekart-menu-button" type = "button">
                   <h4 id ="choose-kommune-text">Velg kommune</h4>
+                  <!-- <div id="navControllers">
+                    <div id="showKommune"></div>
+                    <div id="showCenter"></div>
+                  </div> -->
                   <div id="kommuneListPointer" class ="pointer pointer-right"></div>
                 </button>
 
@@ -184,7 +188,7 @@
                 <li>
                   <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
                   <div id ="navigation-info" class="sideMenuToolDropdown">
-                    <div class="kommunekart-search kommunekart-control">
+                    <div class="kommunekart-control">
                       <button name="submit_button" type="button" title="Søk" class="btnNavigation btnSearch"></button>
                       <button name="route_planning_switch_direction_button" class="kommunekart-switch-nav switch-direction-icon" title="Bytt retning" style="display: block;" type="button"></button>
                       <div name="search_input_container" class="kommunekart-search-form">
@@ -208,7 +212,6 @@
               </div>
             </div> <!--end of tools-->
 
-
             <li id="norkartLogo">
               <a  href="http://norkart.no" title="Forsiden"></a>
             </li>
@@ -219,7 +222,7 @@
       <div id ="searchToggle" >
         <button id="closeSidebar"></button>
         <div class ="kommunekart-search kommunekart-control searchToggle-open" id ="searchBox">
-          <input id="MainSearch" name="search" type="search" placeholder="Søk etter adresse, sted eller eiendom">
+          <input id="MainSearch" name="search" type="search" placeholder="Søk etter adresse, sted, eiendom">
           <input id="search_submit" type="submit">
         </div>
       </div>

@@ -146,13 +146,15 @@ function addAlreadyActiveOverlays(){
         if(globalActiveLayernames[i]===layers[j].getAttribute("name")){ //active layers exist in layers for new kommune
           console.log("SAME LAYER FOUND");
           enableRaster(globalActiveLayernames[i], layers[j]);
-
           updateRasterView(globalActiveLayernames[i], layers[j].getAttribute("area"));
         }
       }
     }
   }
+}
 
+function addActiveRastersAfterBackgroundmapChange(){
+  
 }
 
 function rasterLayerClickEvent(){
@@ -179,6 +181,7 @@ function enableRaster(layerName, currentListElement){
   currentListElement.className="activeRasterElement";
   toggleWarningSign(!isRasterVisible(layerName), layerName);
 }
+
 
 
 function updateRasterView(name, layerArea){

@@ -143,7 +143,7 @@ input[type="submit"]:hover {
   position: relative;
   h4{
     margin-top: 12px;
-    width:136px;
+    width:auto;
     float:left;
     display: flex;
     margin-left: 5px;
@@ -154,6 +154,10 @@ input[type="submit"]:hover {
     position: absolute;
     right: 0;
   }
+}
+
+.darkerColor{
+  background-color: rgba(44, 45, 45, 0.94)!important;
 }
 
 #menu-selector{ //styling of tool buttons
@@ -762,4 +766,23 @@ input[type="submit"]:hover {
   color:white;
   margin:10px;
   cursor:pointer;
+}
+#navControllers{
+  margin-right: 37px;
+  top: 13px;
+  position: relative;
+  #showCenter, #showKommune{
+    background-size: 17px;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 24px;
+    float: right;
+  }
+  #showKommune{
+    background-image: url("../Images/polygon.png");
+  }
+  #showCenter{
+    background-image: url("../Images/punktmarkoer-hvit.png");
+  }
+
 }
