@@ -8,6 +8,12 @@ var layerName; //end of url for specific raster layer
 var rasterLayerZoomlevels={};
 
 map.on('moveend', function(){
+  handleRasterWarningSigns();
+  // toggleSattelliteRasters();
+});
+
+
+function handleRasterWarningSigns(){
   //create visualisation to show if raster overlay is showing or not at current zoomlevel
   if(activeLayerNames.length>0){
     for(var i=0; i<activeLayerNames.length; i++){
@@ -22,7 +28,7 @@ map.on('moveend', function(){
       }
     }
   }
-});
+}
 
 function isRasterVisible(layername){
   console.log(layername);
@@ -204,7 +210,8 @@ function updateRasterView(name, layerArea){
 }
 
 function addAerialRaster(url, name){
-  map.removeSource(name); //Default source always on - therefore have to remove first
+  console.log("adding aerial raster");
+  map.removeSource(name); //Default source always on - therefore have to remove first if we want to add more rasters to the combine.aspx
   var sourceObj={
     "type":"raster",
     "tiles":[url],
@@ -212,13 +219,21 @@ function addAerialRaster(url, name){
   };
   map.addSource(name,sourceObj);
 }
-function removeRaster(name){
+
+function removeRaster(name){ //gets called everytime a kommune is chosen
+  console.log("name is: ");
+  console.log(name);
   console.log("removing raster");
   if(map.getSource(name)!==undefined){
     map.removeSource(name);
     map.removeLayer(name);
     if(mapStyle==="aerial"){
-      addRaster(wmsUrl,name); //adding sattelite raster that should always be there
+      //do not add if zoomlevel is too small - then mapbox satellites should be shown instead
+      console.log("removing raster, aerial active - checking if satellite background should be added");
+      if(map.getZoom()>9.5){
+        console.log("add satellite raster");
+        addRaster(wmsUrl,name); //adding sattelite raster that should always be there as long as low zoom levels
+      }
     }
     return true;
   }else{
@@ -302,6 +317,7 @@ function updateGlobalActiveRaster(action, layername){
 }
 
 function resetRasterOverlays(){
+  console.log("in reset raster overlays");
   //add layers that are active
   activeLayerNames=[];
   var kommuneElements=document.getElementsByClassName('kommuneElement');
@@ -313,9 +329,6 @@ function resetRasterOverlays(){
   removeRaster("rasterOverlay");
 }
 
-function getKommuneId(){
-
-}
 
 function mapClickMoreInfoEvent(kommuneId){
   var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;

@@ -411,7 +411,7 @@ map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
 function drawDarkAroundKommuneBorder(){
   var name="outsideKommune";
 
-  if(map.getZoom()<=9.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
+  if(map.getZoom()<=9.5){
     //if area drawn, remove it:
     if(map.getLayer(name)!=undefined){
       map.removeSource(name);
@@ -525,6 +525,10 @@ map.on('moveend', function () {
     console.log("unselecting kommune pga zoom level");
     unselectKommune();
     removeTopKommuneHeader();
+    if(mapStyle==="aerial"){
+      console.log("Aerial so remove satellite background");
+      removeRaster("rasterOverlay");
+    }
   }
 });
 
