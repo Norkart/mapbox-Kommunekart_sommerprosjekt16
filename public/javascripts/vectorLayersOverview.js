@@ -12,7 +12,7 @@ var annetGroups=[
   "FKB_Bygning",
   "FKB_Veger",
   "Veger",
-  "ABAS_Grenser",
+  // "ABAS_Grenser",
   "Roads"
 ];
 

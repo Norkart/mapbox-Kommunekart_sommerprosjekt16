@@ -2,6 +2,38 @@
 //get kommuner fra db to display in menu - same always
 createKommuneList();
 
+function createKommuneDomElement(resEl, list){
+  var kommuneElement=document.createElement("li");
+  var kommuneDiv=document.createElement("div");
+  kommuneElement.className="kommuneElement";
+  kommuneElement.id=i+"element";
+  kommuneDiv.setAttribute("kommune",resEl.Name);
+  kommuneDiv.setAttribute("nr", resEl.Number);
+  //adding on click event for choosing kommune - fly to and create menu
+  kommuneElement.addEventListener("click", function(){
+    kommuneClickEvent();
+  });
+  var kommuneName=document.createElement("h4");
+  kommuneName.className="kommunename";
+  kommuneName.innerHTML=resEl.Name;
+  var kommuneLogo=document.createElement("img");
+  kommuneLogo.setAttribute("src", resEl.Logo);
+  kommuneDiv.setAttribute("kommuneSkiltLogo",resEl.Logo);
+  kommuneDiv.appendChild(kommuneLogo);
+  kommuneDiv.appendChild(kommuneName);
+  kommuneElement.appendChild(kommuneDiv);
+  list.appendChild(kommuneElement);
+}
+
+function kommuneClickEvent(){
+  kommuneElementClicked=true;
+  resetRasterOverlays();
+  setRasterOverlayMenu(event.currentTarget.firstChild.getAttribute("nr"));
+  setKommuneMenuHeader(event.currentTarget.firstChild, event.currentTarget.firstChild.getAttribute("kommune"));
+  menuState.chosenKommuneId=event.currentTarget.firstChild.getAttribute("nr");
+  menuState.type="raster";
+  flyTo();
+}
 
 function createKommuneList(){
   $.ajax({
@@ -12,46 +44,14 @@ function createKommuneList(){
     for(var i=0; i<res.length; i++){
       var kommuneId=res[i].Number;
       kommuneObjectList[kommuneId]=res[i]; //save kommune object to list for later use (kommune on click event ++)
-      // kommuneObjectList.push(res[i]);
-      var kommuneElement=document.createElement("li");
-      kommuneElement.className="kommuneElement";
-      kommuneElement.id=i+"element";
-      var kommuneDiv=document.createElement("div");
-      kommuneDiv.setAttribute("kommune",res[i].Name);
-      kommuneDiv.setAttribute("nr", res[i].Number);
-      //adding on click event for choosing kommune - fly to and create menu
-      kommuneElement.addEventListener("click", function(){
-        kommuneElementClicked=true;
-        resetRasterOverlays();
-        setRasterOverlayMenu(event.currentTarget.firstChild.getAttribute("nr"));
-        setKommuneMenuHeader(event.currentTarget.firstChild, event.currentTarget.firstChild.getAttribute("kommune"));
-        menuState.chosenKommuneId=event.currentTarget.firstChild.getAttribute("nr");
-        // document.getElementById("backToKommuneList").style.backgroundImage="url('../images/exit.png')"; //change in css instead!!!
-        menuState.type="raster";
-        flyTo();
-      });
-      var kommuneName=document.createElement("h4");
-      kommuneName.className="kommunename";
-      kommuneName.innerHTML=res[i].Name;
-      var kommuneLogo=document.createElement("img");
-      kommuneLogo.setAttribute("src", res[i].Logo);
-      kommuneDiv.setAttribute("kommuneSkiltLogo",res[i].Logo);
-
-      kommuneDiv.appendChild(kommuneLogo);
-      kommuneDiv.appendChild(kommuneName);
-      kommuneElement.appendChild(kommuneDiv);
-
-      var kommuner=document.getElementById("kommuneList");
-      //testing div around all kommune elements:
-      // var kommunerDiv=document.createElement("div");
-      // kommunerDiv.id="searchList";
-
-      list.appendChild(kommuneElement);
+      createKommuneDomElement(res[i], list);
     }
+    var kommuner=document.getElementById("kommuneList");
     kommuner.appendChild(list);
     //make searchable
     var options={
-      valueNames:['kommunename']
+      valueNames:['kommunename'],
+      plugins: [ ListFuzzySearch() ]
     };
     var kommuneList=new List('kommuneList', options);
   });
@@ -61,8 +61,8 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
   var rasterMenu=document.createElement("ul");
   rasterMenu.id="layerList";
   rasterMenu.className="sideMenuLists";
-
   layerAreas =[];
+  rasterMenu.className="raster sideMenuLists";
   for(var j=0; j<categoriesJson.length; j++){
     layerArea=categoriesJson[j].Name;
     layerAreas.push(categoriesJson[j].Name);
@@ -88,10 +88,8 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
       menuState.type="raster";
     }
   }
-
   //adding the raster overlays list to kommune element
   document.getElementById("kommunekart-menu").appendChild(rasterMenu);
-  //$("#layerList").addClass("kommuneDropdownVisible");
 }
 
 //if zoomLevel is lower than 9.5 --> unselect kommune, go back to "Velg kommune" text, and remove raster layer: same as x functionality?
@@ -115,30 +113,61 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
     img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
   }
   if(menuState.chosenKommuneId==false){
-      // console.log("no active kommune yet");
-      var backButton=document.createElement("button");
-      backButton.id="backToKommuneList";
-      backButton.className="pointer";
-      // backButton.innerHTML="x";
-      backButton.addEventListener("click", function(){
-      //console.log("back to raster");
-      map.flyTo({zoom:9});
-      // map.setZoom(9.4);
+    createKommuneBackButton();
+  }
+  setNavCtrl(); //show border and show center
+}
+
+function setNavCtrl(){
+  //check if already exist
+  if(document.getElementById("showKommune")!=undefined){
+    return;
+  }
+
+  var navCtrl=document.createElement("div");
+  navCtrl.id="navControllers";
+  var kom=document.createElement("div");
+  kom.id="showKommune";
+  kom.addEventListener("click", function(e){
+    console.log("kommune");
+    zoomToWholeMunicipality();
+    e.stopPropagation();
+  });
+  var center=document.createElement("div");
+  center.id="showCenter";
+  center.addEventListener("click", function(e){
+    console.log("CENTER");
+    zoomToCenterOfMunicipality();
+    e.stopPropagation();
+  });
+  navCtrl.appendChild(kom);
+  navCtrl.appendChild(center);
+  document.getElementById("kommunekart-menu-button").insertBefore(navCtrl, document.getElementById("kommuneListPointer"));
+}
+
+function createKommuneBackButton(){
+  var backButton=document.createElement("button");
+  backButton.id="backToKommuneList";
+  backButton.className="pointer";
+  backButton.addEventListener("click", function(){
+    map.flyTo({zoom:9});
+    if(menuState.kommuneMenuOpen){
       unselectKommune();
       showKommuneMenuContent(menuState.type);
-    });
-    document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
-  }
+    }else{
+      unselectKommune();
+    }
+  });
+  document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
 }
 
 function unselectKommune(){ //back button event
-  //console.log("unselect");
-  //console.log(document.getElementById("kommunekart-menu-button").children.length);
   menuState.type="kommune";
   //delete back button and kommune icon: two first items
-  if(document.getElementById("kommunekart-menu-button").children.length===4){ //means that the header is set to a kommune
+  if(document.getElementById("kommunekart-menu-button").children.length===5){ //means that the header is set to a kommune
     document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
     document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
+    $("#navControllers").remove();
     document.getElementById("choose-kommune-text").innerHTML="Velg kommune";
   }
   //change inner html:
@@ -172,8 +201,6 @@ function showKommuneMenuContent(type){
   $("#kommuneListPointer").removeClass("pointer-right");
   $("#kommuneListPointer").addClass("pointer-down");
   //make baselayer selector always show at bottom of sidemeny, and hide the rest
-  // $("#select-baselayer").addClass("kommuneDropdownVisibleShowBaselayers");
-  // $("#vectorLayers").addClass("kommuneDropdownVisibleShowVectorLayers");
   if(type ==="kommune"){
     $("#kommuneList").addClass("kommuneDropdownVisible");
     $("#kommunekart-menu").addClass("kommuneMenuSlideDown");
@@ -196,7 +223,9 @@ document.getElementById('menu-selector').addEventListener("click", function(){
 
 //"Velg kommune" is clicked, kommunelist shown/hidden
 document.getElementById("kommunekart-menu-button").addEventListener("click", function(){
-  if(event.target.id ==="backToKommuneList"){
+  console.log("fired open/close listener");
+  if(event.target.id ==="backToKommuneList" || event.target.id ==="showKommune" || event.target.id==="showCenter"){
+    console.log("Dont fire open/close event");
     return; //dont fire this event
   }
   if(menuState.kommuneMenuOpen){
@@ -227,18 +256,12 @@ function toggleSideMenu(){
     }
     menuState.sideNavOpen=true;
     $("#searchBox").removeClass("search-menu-closed");
-
     //making transition better: first adding class width width 0, then add class with correct width and transition
     $("#searchBox").addClass("searchToggle-open");//add burger menu, and change position of search box
-
-
     $("#side-menu-toggle").addClass("open");
     $("#closeSidebar").show();
     $("#side-menu-toggle-button").removeClass("burger-icon-close");
   }
-
-
-
   updateTopKommuneHeader();
 }
 //when toggle side menu button is clicked: side menu hidden/shown
@@ -276,7 +299,7 @@ $('.tool-button-del').click(function(){
 //Avstand verktoy
 $('.tool-button-avstand').click(function(){
   startMeasureModus();
-   $('.tool-button-avstand').addClass("activeListElement");
+  $('.tool-button-avstand').addClass("activeListElement");
 });
 
 $('.tool-button-print').click(function(){
@@ -323,31 +346,15 @@ $('.modal-shadow').click(function(){
     infoPopupStatus = 0;
   }
 });
+
+//Change backgroundmaps
 $('.normal').click(function(){
-  if(mapStyle==="aerial"){
-    $('.aerial').toggleClass('selected');
-    $('.normal').toggleClass('selected');
-  }
-  map.setStyle(layers);
-  mapStyle ="normal";
-  wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=";
+  changeBackgroundMap("normal");
 });
-
 $('.aerial').click(function(){
-  //console.log("changing to flyfoto");
-  map.setStyle(flyfoto);
-  if(mapStyle==="normal"){
-    $('.aerial').toggleClass('selected');
-    $('.normal').toggleClass('selected');
-  }
-  mapStyle ="aerial";
-  setTimeout(function(){
-    addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "rasterOverlay", 10);
-  }, 1000);
-  console.log("loaded");
-
-  wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
+  changeBackgroundMap("aerial");
 });
+
 $('#closeInfoSidebar').click(function(){
   menuState.infoSidebarStatus = false;
   $("#infoSidebar").toggleClass("sidenavOpen");

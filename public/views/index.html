@@ -68,6 +68,10 @@
       </div>
     </div>
     <div id='map'></div>
+    <div id="pitchController" class="mapboxgl-ctrl-group mapboxgl-ctrl">
+      <button id="pitchUp" class="mapboxgl-ctrl-icon"></button>
+      <button id="pitchDown" class="mapboxgl-ctrl-icon"></button>
+    </div>
     <div id='distance' class='distance-container'></div>
     <!-- <div src ="www.norkart.no" class ="kommunekart-logo" name ="kommunekart_logo" title ="www.norkart.no" style="bottom: 24px;">
     <img height ="16" src="https://kommunekart.com/Images/NORKART_LOGO_positiv_digital_tiny.png">
@@ -90,6 +94,13 @@
         <button id ="side-menu-toggle-button" type ="button"></button>
         <div name ="menu-content" class = "show-menu">
           <ul id ="menu-selector" class="sidenavOpen">
+            <button id="closeSidebar"></button>
+            <div id ="searchToggle" >
+              <div class ="kommunekart-search kommunekart-control searchToggle-open" id ="searchBox">
+                <input id="MainSearch" name="search" type="search" placeholder="Søk etter adresse, sted, eiendom">
+                <input id="search_submit" type="submit">
+              </div>
+            </div>
 
             <li id="baselayerselector"name ="baselayerselector">
               <div class="select-baselayer" id="select-baselayer">
@@ -126,13 +137,17 @@
               <div id ="kommunekart-menu">
                 <button class="mainButton" id ="kommunekart-menu-button" type = "button">
                   <h4 id ="choose-kommune-text">Velg kommune</h4>
+                  <!-- <div id="navControllers">
+                    <div id="showKommune"></div>
+                    <div id="showCenter"></div>
+                  </div> -->
                   <div id="kommuneListPointer" class ="pointer pointer-right"></div>
                 </button>
 
                 <div id="kommuneList" class="list sideMenuLists">
                   <div id ="kommuneSearchDiv">
                     <!-- <div class ="kommunekart-search kommunekart-control" id ="searchBox"> -->
-                    <input id="KommuneSearch" class="search" name="search" type="text" placeholder="Søk etter kommune">
+                    <input id="KommuneSearch" class="search" name="search" type="search" placeholder="Søk etter kommune">
                     <input id="search_submit" type="submit">
                     <!-- </div> -->
                   </div>
@@ -180,7 +195,7 @@
                 <li>
                   <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
                   <div id ="navigation-info" class="sideMenuToolDropdown">
-                    <div class="kommunekart-search kommunekart-control">
+                    <div class="kommunekart-control">
                       <button name="submit_button" type="button" title="Søk" class="btnNavigation btnSearch"></button>
                       <button name="route_planning_switch_direction_button" class="kommunekart-switch-nav switch-direction-icon" title="Bytt retning" style="display: block;" type="button"></button>
                       <div name="search_input_container" class="kommunekart-search-form">
@@ -204,7 +219,6 @@
               </div>
             </div> <!--end of tools-->
 
-
             <li id="norkartLogo">
               <a  href="http://norkart.no" title="Forsiden"></a>
             </li>
@@ -212,13 +226,13 @@
         </div>
       </div>
 
-      <div id ="searchToggle" >
+      <!-- <div id ="searchToggle" >
         <button id="closeSidebar"></button>
         <div class ="kommunekart-search kommunekart-control searchToggle-open" id ="searchBox">
-          <input id="MainSearch" name="search" type="text" placeholder="Søk etter adresse, sted eller eiendom">
+          <input id="MainSearch" name="search" type="search" placeholder="Søk etter adresse, sted, eiendom">
           <input id="search_submit" type="submit">
         </div>
-      </div>
+      </div> -->
       <!-- <div id ="kommunekart-header">
         <h3>KOMMUNEKART</h3>
         <div class="logo"></div>
@@ -238,6 +252,7 @@
   <!-- <script src='../../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script> -->
   <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
   <script src='../../node_modules/list.js/dist/list.min.js'></script>
+  <script src='../../node_modules/list.fuzzysearch.js-master/dist/list.fuzzysearch.min.js'></script>
   <script src='../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script>
 
 </body>

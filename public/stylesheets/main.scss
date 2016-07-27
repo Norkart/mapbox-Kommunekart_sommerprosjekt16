@@ -187,3 +187,20 @@ $inputColor: white;
     cursor: pointer;
   }
 }
+
+#pitchController{
+  position: absolute;
+  right: 10px;
+  bottom: 173px;
+  button{
+    background-size: 21px, 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  #pitchUp{
+    background-image: url("../Images/nk_003-opp-A.png");
+  }
+  #pitchDown{
+    background-image: url("../Images/nk_004-ned-A.png");
+  }
+}

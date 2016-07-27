@@ -2,6 +2,8 @@ var menuState={
   "kommuneMenuOpen": false, //true
   "type": "kommune", //raster
   "chosenKommuneId": false, //id to active kommune
+  "activeKommuneCenter":false, //coordinates for center of active kommune
+  "activeKommuneMiddle":false, //coordinates to show border of active kommune
   "sideNavOpen":true,
   "infoSidebarStatus":false
 };
@@ -234,20 +236,24 @@ function flyTo(){
   if(zoomTo==-1){
     zoomTo=14;
   }
+  var middleEast= kommune.West + ((kommune.East-kommune.West)/2);
+  var middleNorth = kommune.South + ((kommune.North-kommune.South)/2);
   var startEast=kommune.StartEast;
+  //find middle point of bounding box
   if(startEast==0){
-    //find middle point of bounding box
-    startEast= kommune.West + ((kommune.East-kommune.West)/2);
+    startEast= middleEast;
   }
   var startNorth=kommune.StartNorth;
   if(startNorth==0){
-    startNorth = kommune.South + ((kommune.North-kommune.South)/2);
+    startNorth=middleNorth;
   }
   map.flyTo({
     center:[startEast,startNorth],
     // zoom:zoomTo-5
     zoom:10
   });
+  menuState.activeKommuneCenter=[startEast, startNorth];
+  menuState.activeKommuneMiddle=[middleEast, middleNorth];
 }
 
 function toggleSlideOfMapCtrl(){
@@ -359,10 +365,33 @@ map.on('click', function (e) {
 });
 
 function changeBackgroundMap(maptype) {
-  var layerId = layer.target.id;
-  //map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
-  map.setStyle(flyfoto);
+  if(mapStyle==="aerial"  || mapStyle==="normal" ){
+    $('.aerial').toggleClass('selected');
+    $('.normal').toggleClass('selected');
+  }
+  if(maptype==="normal"){
+    map.setStyle(layers);
+    mapStyle="normal";
+    wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=";
+    $("#menu-selector").removeClass("darkerColor");
+  }else if(maptype==="aerial"){
+    map.setStyle(flyfoto);
+    mapStyle ="aerial";
+    map.once("render", function(){
+      addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "rasterOverlay", 10);
+    });
+    wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
+    $("#menu-selector").addClass("darkerColor");
+  }
+  map.once("render", function(){
+    addAlreadyActiveOverlays();
+  });
+
+  //TODO: Fix so it changes accordingly to how it was before the change
+  document.getElementById("symbolLayers").checked=true;
+  document.getElementById("otherLayers").checked=true;
 }
+
 
 //Update sideMenu
 function updateAdress(longitude, latitude, callback){
@@ -381,7 +410,8 @@ map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
 
 function drawDarkAroundKommuneBorder(){
   var name="outsideKommune";
-  if(map.getZoom()<=9.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
+
+  if(map.getZoom()<=8.5){ //checking if kommuneElementClicked, because if so zoom level changed after this check is done, and area will not be drawn
     //if area drawn, remove it:
     if(map.getLayer(name)!=undefined){
       map.removeSource(name);
@@ -485,12 +515,14 @@ var first=true;
 
 map.on('moveend', function () {
   if(map.getZoom()>=9.5){
+    console.log("Selecting kommune cause of zoom level");
     selectKommune();
     //wait for select kommune to finish, otherwise we wont know what to set header to
     setTimeout(function(){
       updateTopKommuneHeader();
     }, 500);
-  }else if(menuState.chosenKommuneId!=false){ //if back click, unselect already happens
+  }else if(menuState.chosenKommuneId!=false){ //if kommune is active, and you zoom out
+    console.log("unselecting kommune pga zoom level");
     unselectKommune();
     removeTopKommuneHeader();
   }
@@ -551,5 +583,35 @@ function selectKommune(){
         }
       }
     }
+  });
+}
+
+//adding pitch controller
+document.getElementById("pitchUp").addEventListener("click", function(){
+  pitchMap("up");
+});
+document.getElementById("pitchDown").addEventListener("click", function(){
+  pitchMap("down");
+});
+
+function pitchMap(direction){ //pitch goes from 60 to 0
+  if(direction==="up" && map.getPitch()<50){
+    map.setPitch(map.getPitch()+10);
+  }else if(direction==="down" && map.getPitch()>10){
+    map.setPitch(map.getPitch()-10);
+  }
+}
+
+function zoomToWholeMunicipality(){
+  map.flyTo({
+    zoom:10,
+    center: menuState.activeKommuneMiddle
+  });
+}
+function zoomToCenterOfMunicipality(){
+  console.log("center");
+  map.flyTo({
+    zoom:13,
+    center: menuState.activeKommuneCenter
   });
 }
