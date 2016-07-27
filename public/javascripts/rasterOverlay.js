@@ -20,10 +20,8 @@ function handleRasterWarningSigns(){
       //mapbox zoomlevel = leaflet zoom -1
       if(isRasterVisible(activeLayerNames[i])){
       // if(rasterLayerZoomlevels[activeLayerNames[i]][0]-1 >= map.getZoom() && rasterLayerZoomlevels[activeLayerNames[i]][1]-1 <= map.getZoom()){//  minZoom < current zoom < maxZoom --> Visible at current level
-        console.log("VISIBLE NOW");
         toggleWarningSign(false, activeLayerNames[i]);
       }else{
-        console.log("NOT VISIBLE NOW");
         toggleWarningSign(true, activeLayerNames[i]);
       }
     }
@@ -31,8 +29,6 @@ function handleRasterWarningSigns(){
 }
 
 function isRasterVisible(layername){
-  console.log(layername);
-  console.log(rasterLayerZoomlevels);
   //mapbox zoomlevel = leaflet zoom -1
   if(rasterLayerZoomlevels[layername][0]-1 >= map.getZoom() && rasterLayerZoomlevels[layername][1]-1 <= map.getZoom()){ // minZoom < current zoom < maxZoom --> Visible at current level
     return true;
@@ -43,14 +39,11 @@ function isRasterVisible(layername){
 
 function toggleWarningSign(visible, layername){
   var minzoom=rasterLayerZoomlevels[layername][1]-1;
-  console.log(minzoom);
   var kommune=document.getElementById("layerList");
   for (var i = 0; i < kommune.children.length; i++) {
     var child=kommune.children[i];
     if(child.getAttribute("name")===layername){
-      console.log("found correct dom element");
       if(visible){
-        console.log(child.children);
         if(child.children.length<1){ //no warning sign already
           //add warning img in li element
           var warning=document.createElement("img");
@@ -65,12 +58,10 @@ function toggleWarningSign(visible, layername){
                 speed: 0.9
               });
           });
-          console.log(warning);
           child.appendChild(warning);
           }
       }else{
         // remove warning img
-        console.log("removing child");
         if(child.children.length>0){
           child.removeChild(child.children[0]);
         }
@@ -99,16 +90,13 @@ function saveZoomLevelForLayers(layers){
   for(var i=0; i<layers.length; i++){
     rasterLayerZoomlevels[layers[i].Name]=[getZoomLevel(layers[i].ScaleHintMin), getZoomLevel(layers[i].ScaleHintMax)];
   }
-  console.log(rasterLayerZoomlevels);
 }
 
 function setRasterOverlayMenu(kommuneId){
-  console.log(kommuneId);
   var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;
   $.ajax({
     url:layersUrl
   }).done(function(res){
-    console.log(res);
     for(var i=0; i<res.length; i++){
       saveZoomLevelForLayers(res[i].Layers);
     }
@@ -132,22 +120,14 @@ function formatName(name){
 
 function addAlreadyActiveOverlays(){
   //add layers from previouslyActiveLayerNames
-  console.log(globalActiveLayernames);
   for (var i = 0; i < globalActiveLayernames.length; i++) {
-    console.log(document.getElementById("layerList"));
     var layers=document.getElementById("layerList").children;
-    console.log(layers);
     for (var j=0; j<layers.length; j++){
-      console.log(layers);
-      console.log(layers.nodeName);
       if(layers.nodeName==="H4"){
         return;
         //do nothing, only a category
       }else{
-        console.log(globalActiveLayernames[i]);
-        console.log(layers[j]);
         if(globalActiveLayernames[i]===layers[j].getAttribute("name")){ //active layers exist in layers for new kommune
-          console.log("SAME LAYER FOUND");
           enableRaster(globalActiveLayernames[i], layers[j]);
           updateRasterView(globalActiveLayernames[i], layers[j].getAttribute("area"));
         }
@@ -188,7 +168,6 @@ function enableRaster(layerName, currentListElement){
 
 
 function updateRasterView(name, layerArea){
-  console.log("oppdaterer");
   removeRaster("rasterOverlay", activeLayerNames);
   var layerString=activeLayerNames[0]; //Adding first layer here to be able to add a comma before each insertion inside the for loop
 
@@ -198,20 +177,16 @@ function updateRasterView(name, layerArea){
     }
     var url=wmsUrl+layerArea+":"+layerString;
     //var url="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers="+layerArea+":"+layerString;
-    console.log(url);
-    if(mapStyle==="aerial"){
-      addAerialRaster(url, "rasterOverlay");
-    } else{
-      addRaster(url, "rasterOverlay");
-    }
+    addRaster(url, "rasterOverlay");
   }else{
     console.log("no active layers - nothing added");
   }
 }
 
 function addAerialRaster(url, name){
-  console.log("adding aerial raster");
-  map.removeSource(name); //Default source always on - therefore have to remove first if we want to add more rasters to the combine.aspx
+  if(map.getSource(name)!=undefined){
+    map.removeSource(name);
+  }
   var sourceObj={
     "type":"raster",
     "tiles":[url],
@@ -220,35 +195,9 @@ function addAerialRaster(url, name){
   map.addSource(name,sourceObj);
 }
 
-function removeRaster(name){ //gets called everytime a kommune is chosen
-  console.log("name is: ");
-  console.log(name);
-  console.log("removing raster");
-  if(map.getSource(name)!==undefined){
-    map.removeSource(name);
-    map.removeLayer(name);
-    if(mapStyle==="aerial"){
-      //do not add if zoomlevel is too small - then mapbox satellites should be shown instead
-      console.log("removing raster, aerial active - checking if satellite background should be added");
-      if(map.getZoom()>9.5){
-        console.log("add satellite raster");
-        addRaster(wmsUrl,name); //adding sattelite raster that should always be there as long as low zoom levels
-      }
-    }
-    return true;
-  }else{
-    console.log("no raster to delete");
-    return false;
-  }
-}
-
-
-
 function addRaster(url, name, zoomLevel){
-  console.log("adding raster");
   var mz;
   if(zoomLevel){
-    console.log("satt");
     mz=zoomLevel;
   }else{
     mz=0;
@@ -260,6 +209,9 @@ function addRaster(url, name, zoomLevel){
   };
   map.addSource(name,sourceObj);
   var layerNameToInsertBefore="rail-station-label";
+  if(name==="aerialRaster"){ //different place for background satellite raster
+    layerNameToInsertBefore="tunnel-secondary-tertiary case";
+  }
   var layerObj={
     "id":name,
     "type":"raster",
@@ -268,7 +220,7 @@ function addRaster(url, name, zoomLevel){
     "layout": {
       "visibility": "visible"
     },
-    "source-layer": "testRaster",
+    "source-layer": "raster",
     "paint": {
       "raster-fade-duration": 100
     },
@@ -287,6 +239,17 @@ function addRaster(url, name, zoomLevel){
   map.addLayer(layerObj, layerNameToInsertBefore);
 }
 
+
+function removeAerialRaster(){ //gets called everytime a kommune is chosen - shoudl be changed!! only called depending on zoom level
+  var name="aerialRaster";
+  if(map.getSource(name)!==undefined){
+    map.removeSource(name);
+    map.removeLayer(name);
+  }else{
+    console.log("ERROR");
+  }
+}
+
 function removeFromList(element, list){
   var index;
   for(var i=0; i<list.length; i++){
@@ -298,15 +261,12 @@ function removeFromList(element, list){
 }
 
 function updateGlobalActiveRaster(action, layername){
-  console.log("update global!!!");
   var found=false;
   for(var i=0; i<globalActiveLayernames.length; i++){
     if(layername===globalActiveLayernames[i]){
       if(action==="add"){
         found=true;
       }else if(action==="remove"){
-        console.log("REMOVING LAYER FROM GLOBAL");
-        console.log(layername);
         globalActiveLayernames.splice(i, 1);
       }
     }
@@ -317,7 +277,6 @@ function updateGlobalActiveRaster(action, layername){
 }
 
 function resetRasterOverlays(){
-  console.log("in reset raster overlays");
   //add layers that are active
   activeLayerNames=[];
   var kommuneElements=document.getElementsByClassName('kommuneElement');
@@ -329,31 +288,21 @@ function resetRasterOverlays(){
   removeRaster("rasterOverlay");
 }
 
+function removeRaster(name){ //gets called everytime a kommune is chosen
+  if(map.getSource(name)!==undefined){
+    map.removeSource(name);
+    map.removeLayer(name);
+  }else{
+    console.log("no raster to delete");
+    return false;
+  }
+}
 
 function mapClickMoreInfoEvent(kommuneId){
   var layersUrl="https://www.webatlas.no/wacloudtest/servicerepository/CatalogueService.svc/json/GetCapabilities?applicationID=Web-VectortilesDemo-"+kommuneId;
-  // console.log(layersUrl);
   $.ajax({
     url:layersUrl
   }).done(function(res){
-    console.log(res);
     updateInformationSideMenu(res);
   });
-}
-
-//Featureinfo for sidemenu:
-function updateInformationSideMenu(response){
-
-  // removeRaster("rasterOverlay", activeLayerNames);
-  // var layerString=activeLayerNames[0]; //Adding first layer here to be able to add a comma before each insertion inside the for loop
-
-  // if(activeLayerNames.length>0){
-  //   for(var i=1; i<activeLayerNames.length; i++){
-  //
-  //     layerString+=","+activeLayerNames[i];
-  //   }
-  //   var FeatureinfoUrl="http://www.webatlas.no/wacloudtest/servicerepository/FeatureInfoService.svc/json/GetFeatureInfo?x={X}&y={Y}&srs=EPSG:4326&tolerance=1&querylayers="+layerArea+":"+layerString;
-  //   console.log("URL "+FeatureinfoUrl);
-  // }
-
 }

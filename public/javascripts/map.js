@@ -378,7 +378,7 @@ function changeBackgroundMap(maptype) {
     map.setStyle(flyfoto);
     mapStyle ="aerial";
     map.once("render", function(){
-      addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "rasterOverlay", 10);
+      addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "aerialRaster", 10);
     });
     wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
     $("#menu-selector").addClass("darkerColor");
@@ -419,6 +419,10 @@ function drawDarkAroundKommuneBorder(){
       currentKommune=false;
     }
     return;
+    //if aerial, remove aerial raster
+    if(maptype==="aerial"){
+      removeAerialRaster();
+    }
   }
   var lat = map.getCenter().lat;
   var lng = map.getCenter().lng;
@@ -525,10 +529,6 @@ map.on('moveend', function () {
     console.log("unselecting kommune pga zoom level");
     unselectKommune();
     removeTopKommuneHeader();
-    if(mapStyle==="aerial"){
-      console.log("Aerial so remove satellite background");
-      removeRaster("rasterOverlay");
-    }
   }
 });
 
@@ -613,7 +613,6 @@ function zoomToWholeMunicipality(){
   });
 }
 function zoomToCenterOfMunicipality(){
-  console.log("center");
   map.flyTo({
     zoom:13,
     center: menuState.activeKommuneCenter
