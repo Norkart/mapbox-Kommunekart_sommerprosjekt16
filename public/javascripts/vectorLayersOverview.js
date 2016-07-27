@@ -1,11 +1,16 @@
 var annetLayers=[
   "railway",
   "n50-lysloeype",
-  "countour-index",
+  "contour-index",
   "Bygning",
   "Myr",
   "countour",
-  "railway-tracks"
+  "railway-tracks",
+  "fkb-parkeringsomraadeavgrensning (1)",
+  "fkb-idrettsanlegg",
+  "contour",
+  "fkb-flytebrygge-kant",
+  "fkb-flytebrygge"
 ];
 
 var annetGroups=[
