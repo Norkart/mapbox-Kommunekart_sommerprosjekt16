@@ -371,6 +371,11 @@ function changeBackgroundMap(maptype) {
   }
   if(maptype==="normal"){
     map.setStyle(layers);
+    map.once("render", function(){
+      if(menuState.chosenKommuneId!=undefined){
+        drawDarkAroundKommuneBorder();
+      }
+    });
     mapStyle="normal";
     wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=";
     $("#menu-selector").removeClass("darkerColor");
@@ -380,7 +385,6 @@ function changeBackgroundMap(maptype) {
     map.once("render", function(){
       addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "aerialRaster", 10);
       if(menuState.chosenKommuneId!=undefined){
-        console.log("kommune active");
         drawDarkAroundKommuneBorder();
       }
     });
