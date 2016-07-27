@@ -40,10 +40,6 @@ function toggleWarningSign(visible, layername){
   var kommune=document.getElementById("layerList");
   for (var i = 0; i < kommune.children.length; i++) {
     var child=kommune.children[i];
-    if(child.nodeName==="H4"){
-      //do nothing
-      return;
-    }
     if(child.getAttribute("name")===layername){
       console.log("found correct dom element");
       if(visible){
@@ -154,7 +150,7 @@ function addAlreadyActiveOverlays(){
 }
 
 function addActiveRastersAfterBackgroundmapChange(){
-  
+
 }
 
 function rasterLayerClickEvent(){
