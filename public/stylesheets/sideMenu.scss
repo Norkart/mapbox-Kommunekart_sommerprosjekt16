@@ -670,7 +670,7 @@ input[type="submit"]:hover {
   padding-right: 0px;
   font: 13.3333px Arial;
   .check{
-    display: inline;
+    display: inline !important;
   }
   span{
     width:190px;
@@ -697,7 +697,6 @@ input[type="submit"]:hover {
   }
   .checked{
     background-image: url("../images/chosen.png");
-    background-size: 20px;
   }
 }
 .subFeatureListElement {
@@ -714,9 +713,7 @@ input[type="submit"]:hover {
   .check{
     display: inline;
   }
-  .backgrImage{
-    width:20px;
-  }
+
   // li{
   //   height: 30px;
   //   border-bottom:1px solid #565252;
@@ -771,5 +768,13 @@ input[type="submit"]:hover {
 .subTitle{
   color:#bbb4b4;
   margin: 5px;
+}
 
+.colorImage{
+  width:12px;
+  height:12px;
+  border-radius: 6px;
+  float:left;
+  margin:7px;
+  opacity: 0;
 }

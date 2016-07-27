@@ -150,23 +150,20 @@ function updateElementsInList(listElements){
     else{
       var coordinatesObj = tjenesteObjects[name].Geometry;
       var color = colors[colorCounter];
-      var img = document.createElement("img");
-      img.src = "../images/"+ colImages[colorCounter];
-      img.className = "backgrImage";
       colorCounter++;
       if (colorCounter>colors.length){
         colorCounter = 0;
       }
-      currentListButton.appendChild(img);
-      hidePolygonColor(img);
+      var before = currentListButton.children[1];
+      addColorBobble(currentListButton,color, before);
       addPolygon(coordinatesObj, name, color);
-      var colorLink = ""
+      var colorLink = "";
       hidePolygon(name);
       if(exsistsInList(activeKommuneData, name)){
         addRasterPolygon(name, coordinatesObj);
-        $(currentListButton.children[1]).toggleClass("checked");
+        $(currentListButton.children[2]).toggleClass("checked");
         showPolygon(name);
-        showPolygonColor(currentListButton.children[2]);
+        showPolygonColor(currentListButton.children[1]);
       }
       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
@@ -177,53 +174,7 @@ function updateElementsInList(listElements){
   }
 
 }
-// function updateElementsInList(listItem){
-//   var colorCounter = 0;
-//   for (var i = 0; i < listItem.length; i++) {
-//     var currListElement = listItem[i]; //Current subListElement
-//     if(!$(currListElement).hasClass("elementfeatureName")){
-//       return;
-//     }
-//     var currentListButton = currListElement.children[0];
-//     var name =currentListButton.getAttribute("elementfeatureName").toString();
-//     if(hasPolygon(name)){
-//       removePolygon(name);
-//     }
-//     activateButton(currentListButton);
-//     if(tjenesteObjects[name] == undefined){ //If no FeatureInfo for listObject
-//       disableButton(currentListButton);
-//     }
-//     else{
-//       var coordinatesObj = tjenesteObjects[name][0].Geometry;
-//       var color = colors[colorCounter];
-//       var img = document.createElement("img");
-//       img.src = "../images/"+ colImages[colorCounter];
-//       img.className = "backgrImage";
-//       colorCounter++;
-//       if (colorCounter>colors.length){
-//         colorCounter = 0;
-//       }
-// // var src = document.getElementById("header");
-//       currentListButton.appendChild(img);
-//       hidePolygonColor(img);
-//       addPolygon(coordinatesObj, name, color);
-//       var colorLink = ""
-//       hidePolygon(name);
-//       if(exsistsInList(activeKommuneData, name)){
-//         addRasterPolygon(name, coordinatesObj);
-//         $(currentListButton.children[1]).toggleClass("checked");
-//         showPolygon(name);
-//         showPolygonColor(currentListButton.children[2]);
-//       }
-//       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
-//       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
-//         // addCheckBox(currListElement);
-//         addSubList(currListElement,tjenesteObjects[name]);
-//       }
-//     }
-//   }
-//   checkEvent();
-// }
+
 function addSubList(currListItem,tjenesteObjects){
   var newList = document.createElement("ul");
   $(newList).addClass("sideBarList");
@@ -372,7 +323,7 @@ function checkEvent(){
     classname[i].addEventListener('click', function(){
       var checkName = event.target.parentNode.getAttribute("elementfeatureName").toString();
       var coordinatesObj = tjenesteObjects[checkName].Geometry;
-      var imageElement = event.target.parentNode.children[2];
+      var imageElement = event.target.parentNode.children[1];
       if(!$(event.target).hasClass("checked")){
         activeKommuneData.push(checkName);
         showPolygonColor(imageElement);
@@ -467,19 +418,23 @@ function removePolygon(id){
 }
 
 function hidePolygon(id){
+  console.log("hider polygon");
   map.setLayoutProperty(id, 'visibility', 'none');
 }
 
 function showPolygon(id){
+  console.log("viser polygon");
   map.setLayoutProperty(id, 'visibility', 'visible');
 }
 
 function hidePolygonColor(imageObj){
-  $(imageObj).hide();
+  // $(imageObj).hide();
+  $(imageObj).css({ opacity: 0});
 }
 function showPolygonColor(imageObj){
   var img = imageObj ;
-  $(img).show();
+  // $(img).show();
+  $(imageObj).css({ opacity: 1});
 }
 function hasPolygon(id){
   if(map.getLayer(id)!=undefined){
@@ -510,11 +465,11 @@ function paintPolygon(name, color){
   return lObj;
 }
 
-function addColorBobble(parent, color){
+function addColorBobble(parent, color, before){
   var colCircle = document.createElement("div");
   colCircle.className = "colorImage";
   colCircle.style.backgroundColor = color;
-  parent.appendChild(colCircle);
+  parent.insertBefore(colCircle, before);
 }
 
 $("a.link").on("click",function(){
