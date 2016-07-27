@@ -550,7 +550,7 @@ function setTopKommuneHeader(){
   div.id="kommuneTopHeader";
   div.appendChild(kommuneIcon);
   div.appendChild(kommuneName);
-  document.getElementById('navbar-top').insertBefore(div, document.getElementById("searchToggle"));
+  document.getElementById('navbar-top').insertBefore(div, document.getElementById("side-menu-toggle"));
 }
 function removeTopKommuneHeader(){
   $("#kommuneTopHeader").remove();
