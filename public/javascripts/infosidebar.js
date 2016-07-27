@@ -144,7 +144,6 @@ function updateElementsInList(listElements){
       removePolygon(name);
     }
     activateButton(currentListButton);
-    // console.log(tjenesteObjects); //TODO: Fortsett videre herfra!!
     if(tjenesteObjects[name] == undefined){ //If no FeatureInfo for listObject
       disableButton(currentListButton);
     }
@@ -304,24 +303,17 @@ function doFeatureQuery(featureUrl){
       for (var j = 0; j < targets.length; j++) {
         var currTargetList = targets[j];
         var list=[];
-        console.log(currTargetList);
         for (var k = 0; k < currTargetList.length; k++) {
           var targetListElement = currTargetList[k];
           for(var i = 0; i < response.length; i++){
-            console.log(response[i]);
-            console.log(targetListElement);
             if(response[i].WMSLayer===targetListElement){
               list.push(response[i]);
               tjenesteObjects[targetListElement]=response[i];
             }
           }
         }
-        // console.log(list);
-        // if(list.length>0){
-        //   tjenesteObjects[targets[j]]=list;
-        // }
+
       }
-      console.log(tjenesteObjects);
       updateSideMenu();
     }
   });
@@ -351,7 +343,6 @@ function btnEvent(){
     // className[i].
     // classname[i].addEventListener('click', myFunction, false);
     classname[i].addEventListener('click', function(){
-      console.log("Du trykker som bare det du");
       var listElement = event.target.parentNode.parentNode;
       var btn = event.target.parentNode;
       var elementTxt = btn.getAttribute("elementfeatureName").toString();
@@ -380,7 +371,6 @@ function checkEvent(){
   for (var i = 0; i < classname.length; i++) {
     classname[i].addEventListener('click', function(){
       var checkName = event.target.parentNode.getAttribute("elementfeatureName").toString();
-      console.log("trykket");
       var coordinatesObj = tjenesteObjects[checkName].Geometry;
       var imageElement = event.target.parentNode.children[2];
       if(!$(event.target).hasClass("checked")){
