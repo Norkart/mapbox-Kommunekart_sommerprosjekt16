@@ -3,6 +3,7 @@ var wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X=
 var activeLayerNames=[]; //rasters drawn
 var globalActiveLayernames=[]; //all rasters that is active for kommuner, may not exist in all of them and therefor need a seperate list
 var layerArea; //name for url for area of different layers
+var layerAreas;
 var layerName; //end of url for specific raster layer
 var rasterLayerZoomlevels={};
 

@@ -36,7 +36,6 @@ function getCapabilitiesForSideMenu(kommuneId, lat, long){
     if(res.length ==0){
       return;
     } else{
-      // console.log(res);
       createCapabilitylist(res, lat, long, kommuneId);
     }
   });
@@ -44,24 +43,32 @@ function getCapabilitiesForSideMenu(kommuneId, lat, long){
 
 function createCapabilitylist(res, lat, long, kommuneId){
   createSideMenu(res, lat, long);
+  tjenesteObjects={};
   getFeatureInfoForObject(targets, long, lat);
+  btnEvent();
+  checkEvent();
 }
 
 function createSideMenu(res,lat, long){
   //Creating a list with available Features for current kommune(queryable =true)
   var availableFeatures =[];
-  for (var i = 0; i < res[0].Layers.length; i++) {
-    var feature = res[0].Layers[i];
-    if(feature.Queryable ==true){
-      availableFeatures.push(feature);
+  var subTitles = [];
+  for (var j = 0; j < res.length; j++) {
+    subTitles.push(res[j].Title);
+    var featuresList = [];
+    for (var i = 0; i < res[j].Layers.length; i++) {
+      var feature = res[j].Layers[i];
+      if(feature.Queryable ==true){
+        featuresList.push(feature);
+      }
     }
+    availableFeatures.push(featuresList);
   }
   if(availableFeatures.length ==0){
     return;
   }
-
   getFeatureHeaderDom();
-  getList(availableFeatures);
+  getList(subTitles, availableFeatures);
 }
 
 function getFeatureHeaderDom(){
@@ -71,40 +78,46 @@ function getFeatureHeaderDom(){
   document.getElementById("availableFeatureInformation").appendChild(featureHeader);
 }
 
-function getList(availableFeatures){
+function getList(subTitles, availableFeatures){
   var availableFeaturesList = document.createElement("ul"); //Creating list
   $(availableFeaturesList).addClass("sideBarList");
   availableFeaturesList.id="availableFeaturesList";
   document.getElementById("availableFeatureInformation").appendChild(availableFeaturesList);
-
   targets = [];
-  insertListContent(availableFeatures);
+  insertListContent(subTitles, availableFeatures);
 }
 
-function insertListContent(availableFeatures){
+function insertListContent(subTitles, availableFeatures){
   //Putting elements into availableFeaturesList:
-  for (var i = 0; i < availableFeatures.length; i++) {
-    var className = "mainElement";
-    addListElement(availableFeaturesList, availableFeatures[i].Description, className, availableFeatures[i].Name);
-    targets.push(availableFeatures[i].Name);
+  for (var j = 0; j < availableFeatures.length; j++) {
+    var sublist = availableFeatures[j];
+    addSubTitle(subTitles[j], availableFeaturesList);
+    var subTargets = [];
+    for (var i = 0; i < sublist.length; i++) {
+      var className = "mainElement";
+      addListElement(availableFeaturesList, sublist[i].Description, className, sublist[i].Name);
+      subTargets.push(sublist[i].Name);
+    }
+    targets.push(subTargets);
   }
 }
 
 //Get featureinfo clicked element:
 function getFeatureInfoForObject(targets, long, lat){
-  var featureUrl= "http://www.webatlas.no/wacloudtest/servicerepository/FeatureInfoService.svc/json/GetFeatureInfo?x="+ long+"&y=" +lat+"&srs=EPSG:4326&tolerance=1&querylayers=";
-  featureUrl += layerArea;
-  console.log(layerArea);
-  featureUrl +=":";
-  var layers=targets[0];
-  if(targets.length > 1){
-    for(var i=1; i<targets.length; i++){
-      layers+=","+targets[i];
+  for (var j = 0; j < layerAreas.length; j++) {
+    var currList = targets[j];
+    var featureUrl= "http://www.webatlas.no/wacloudtest/servicerepository/FeatureInfoService.svc/json/GetFeatureInfo?x="+ long+"&y=" +lat+"&srs=EPSG:4326&tolerance=1&querylayers=";
+    featureUrl += layerAreas[j];
+    featureUrl +=":";
+    var layers=currList[0];
+    if(currList.length > 1){
+      for(var i=1; i<currList.length; i++){
+        layers+=","+currList[i];
+      }
     }
+    featureUrl += layers;
+    doFeatureQuery(featureUrl);
   }
-  featureUrl += layers;
-  console.log("URL: "+featureUrl);
-  doFeatureQuery(featureUrl);
 }
 
 function removeCapabilitylist(){
@@ -116,29 +129,28 @@ function updateSideMenu(){
   var elementListe = document.getElementById("availableFeaturesList");
   var listItem = elementListe.children;
   updateElementsInList(listItem);
-  btnEvent();
 }
 
-function updateElementsInList(listItem){
+function updateElementsInList(listElements){
   var colorCounter = 0;
-  for (var i = 0; i < listItem.length; i++) {
-    var currListElement = listItem[i]; //Current subListElement
+  for (var i = 0; i < listElements.length; i++) {
+    var currListElement = listElements[i]; //Current subListElement
     var currentListButton = currListElement.children[0];
+    if(!hasAttribute("elementfeaturename", currentListButton)){ //If element is subtitle
+      continue;
+    }
     var name =currentListButton.getAttribute("elementfeatureName").toString();
-    if(hasPolygon(name)){
+    if(hasPolygon(name)){ //Check if polygon exsists in map
       removePolygon(name);
     }
-
-    console.log(name);
-    // console.log(tjenesteObjects[name]);
+    activateButton(currentListButton);
+    // console.log(tjenesteObjects); //TODO: Fortsett videre herfra!!
     if(tjenesteObjects[name] == undefined){ //If no FeatureInfo for listObject
-      console.log(name + " Er udefinert");
       disableButton(currentListButton);
     }
     else{
-      var coordinatesObj = tjenesteObjects[name][0].Geometry;
+      var coordinatesObj = tjenesteObjects[name].Geometry;
       var color = colors[colorCounter];
-      console.log(color);
       var img = document.createElement("img");
       img.src = "../images/"+ colImages[colorCounter];
       img.className = "backgrImage";
@@ -146,31 +158,73 @@ function updateElementsInList(listItem){
       if (colorCounter>colors.length){
         colorCounter = 0;
       }
-// var src = document.getElementById("header");
       currentListButton.appendChild(img);
       hidePolygonColor(img);
       addPolygon(coordinatesObj, name, color);
       var colorLink = ""
       hidePolygon(name);
-      console.log("Hit kommer man");
       if(exsistsInList(activeKommuneData, name)){
         addRasterPolygon(name, coordinatesObj);
-        console.log(currentListButton.children[1]);
         $(currentListButton.children[1]).toggleClass("checked");
         showPolygon(name);
         showPolygonColor(currentListButton.children[2]);
       }
       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
-      console.log(tjenesteObjects[name].length);
       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
         // addCheckBox(currListElement);
         addSubList(currListElement,tjenesteObjects[name]);
       }
     }
   }
-  checkEvent();
-}
 
+}
+// function updateElementsInList(listItem){
+//   var colorCounter = 0;
+//   for (var i = 0; i < listItem.length; i++) {
+//     var currListElement = listItem[i]; //Current subListElement
+//     if(!$(currListElement).hasClass("elementfeatureName")){
+//       return;
+//     }
+//     var currentListButton = currListElement.children[0];
+//     var name =currentListButton.getAttribute("elementfeatureName").toString();
+//     if(hasPolygon(name)){
+//       removePolygon(name);
+//     }
+//     activateButton(currentListButton);
+//     if(tjenesteObjects[name] == undefined){ //If no FeatureInfo for listObject
+//       disableButton(currentListButton);
+//     }
+//     else{
+//       var coordinatesObj = tjenesteObjects[name][0].Geometry;
+//       var color = colors[colorCounter];
+//       var img = document.createElement("img");
+//       img.src = "../images/"+ colImages[colorCounter];
+//       img.className = "backgrImage";
+//       colorCounter++;
+//       if (colorCounter>colors.length){
+//         colorCounter = 0;
+//       }
+// // var src = document.getElementById("header");
+//       currentListButton.appendChild(img);
+//       hidePolygonColor(img);
+//       addPolygon(coordinatesObj, name, color);
+//       var colorLink = ""
+//       hidePolygon(name);
+//       if(exsistsInList(activeKommuneData, name)){
+//         addRasterPolygon(name, coordinatesObj);
+//         $(currentListButton.children[1]).toggleClass("checked");
+//         showPolygon(name);
+//         showPolygonColor(currentListButton.children[2]);
+//       }
+//       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
+//       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
+//         // addCheckBox(currListElement);
+//         addSubList(currListElement,tjenesteObjects[name]);
+//       }
+//     }
+//   }
+//   checkEvent();
+// }
 function addSubList(currListItem,tjenesteObjects){
   var newList = document.createElement("ul");
   $(newList).addClass("sideBarList");
@@ -194,9 +248,11 @@ function disableButton(currentBtn){
   $(currentBtn).attr("disabled", true);
 }
 
-function activateButton(listItem){
-  $(listItem[i].children[0]).removeClass("udefinert");
-  $(listItem[i].children[0].children[0]).attr("disabled", false);
+function activateButton(currentBtn){
+  if($(currentBtn).hasClass("udefinert")){
+    $(currentBtn).removeClass("udefinert");
+  }
+  $(currentBtn).attr("disabled", false);
 }
 
 function addListElement(list, label, className, objectInfo){
@@ -219,6 +275,16 @@ function addListElement(list, label, className, objectInfo){
   addCheckBox(listElement);
 }
 
+function addSubTitle(subTitle, list){
+  var listElement = document.createElement("li");
+  listElement.className = "subTitle";
+
+  var txt = document.createElement("h4");
+  txt.innerHTML = subTitle;
+  listElement.appendChild(txt);
+  list.appendChild(listElement);
+}
+
 var checkBoxCounter = 0;
 function addCheckBox(currentListElement){
   var btn = currentListElement.children[0];
@@ -231,24 +297,31 @@ function addCheckBox(currentListElement){
 }
 
 function doFeatureQuery(featureUrl){
-console.log("starting query");
   $.ajax({
     url: featureUrl,
     complete: function(res){
-      console.log("query finish");
       var response=JSON.parse(res.responseText);
       for (var j = 0; j < targets.length; j++) {
+        var currTargetList = targets[j];
         var list=[];
-        for(var i = 0; i < response.length; i++){
-          if(response[i].WMSLayer===targets[j]){
-            list.push(response[i]);
+        console.log(currTargetList);
+        for (var k = 0; k < currTargetList.length; k++) {
+          var targetListElement = currTargetList[k];
+          for(var i = 0; i < response.length; i++){
+            console.log(response[i]);
+            console.log(targetListElement);
+            if(response[i].WMSLayer===targetListElement){
+              list.push(response[i]);
+              tjenesteObjects[targetListElement]=response[i];
+            }
           }
         }
-        if(list.length>0){
-          tjenesteObjects[targets[j]]=list;
-        }
+        // console.log(list);
+        // if(list.length>0){
+        //   tjenesteObjects[targets[j]]=list;
+        // }
       }
-      // console.log(tjenesteObjects);
+      console.log(tjenesteObjects);
       updateSideMenu();
     }
   });
@@ -256,11 +329,10 @@ console.log("starting query");
 
 function showInformation(listElement) {
   var featureName = listElement.children[0].getAttribute("elementfeatureName").toString();
-  var features=tjenesteObjects[featureName][0].AttributesList;
+  var features=tjenesteObjects[featureName].AttributesList;
   var string = "";
   var infoDiv = addInfoDiv(listElement);
   var infoList = addInfoList(infoDiv);
-  console.log(infoList);
   for (var element in features) {
     if(features.hasOwnProperty(element)){
       var currentElement = features[element];
@@ -276,31 +348,29 @@ function showInformation(listElement) {
 function btnEvent(){
   var classname = document.getElementsByClassName("featureListElement");
   for (var i = 0; i < classname.length; i++) {
-      // className[i].
-      // classname[i].addEventListener('click', myFunction, false);
-      classname[i].addEventListener('click', function(){
-        var listElement = event.target.parentNode.parentNode;
-        var btn = event.target.parentNode;
-        var elementTxt = btn.getAttribute("elementfeatureName").toString();
-        // if(event.target.parentNode.parentNode.children[1]){
-        if(tjenesteObjects[elementTxt].length > 1){
+    // className[i].
+    // classname[i].addEventListener('click', myFunction, false);
+    classname[i].addEventListener('click', function(){
+      console.log("Du trykker som bare det du");
+      var listElement = event.target.parentNode.parentNode;
+      var btn = event.target.parentNode;
+      var elementTxt = btn.getAttribute("elementfeatureName").toString();
+      // if(event.target.parentNode.parentNode.children[1]){
+      if(tjenesteObjects[elementTxt].length > 1){
         // if($(event.target.parentNode.parentNode).has("ul")){
-          $(event.target.parentNode.parentNode.children[1]).toggleClass("visMeny");
-          console.log("Viser meny");
-        }else if(exsistsInList(activeInfoboxes, elementTxt)){
-          removeInfoDiv(listElement);
-          removeElementInList(activeInfoboxes, elementTxt);
-          event.currentTarget.setAttribute("active", false);
-          $(event.currentTarget).toggleClass("activeInfoBox");
-          console.log("Lukker info");
-        } else{
-          showInformation(listElement);
-          $(event.currentTarget).toggleClass("activeInfoBox");
-          activeInfoboxes.push(elementTxt);
-          event.currentTarget.setAttribute("active", true);
-          console.log("åpner info");
-        }
-      });
+        $(event.target.parentNode.parentNode.children[1]).toggleClass("visMeny");
+      }else if(exsistsInList(activeInfoboxes, elementTxt)){
+        removeInfoDiv(listElement);
+        removeElementInList(activeInfoboxes, elementTxt);
+        event.currentTarget.setAttribute("active", false);
+        $(event.currentTarget).toggleClass("activeInfoBox");
+      } else{
+        showInformation(listElement);
+        $(event.currentTarget).toggleClass("activeInfoBox");
+        activeInfoboxes.push(elementTxt);
+        event.currentTarget.setAttribute("active", true);
+      }
+    });
 
   }
 }
@@ -310,24 +380,20 @@ function checkEvent(){
   for (var i = 0; i < classname.length; i++) {
     classname[i].addEventListener('click', function(){
       var checkName = event.target.parentNode.getAttribute("elementfeatureName").toString();
-      var coordinatesObj = tjenesteObjects[checkName][0].Geometry;
-      console.log(coordinatesObj);
+      console.log("trykket");
+      var coordinatesObj = tjenesteObjects[checkName].Geometry;
       var imageElement = event.target.parentNode.children[2];
       if(!$(event.target).hasClass("checked")){
         activeKommuneData.push(checkName);
         showPolygonColor(imageElement);
-        console.log("Layer heter: "+checkName);
         showPolygon(checkName);
-        console.log(makeGeojsonFeature(coordinatesObj));
       } else{
         removeElementInList(activeKommuneData, checkName);
         hidePolygonColor(imageElement);
         hidePolygon(checkName);
       }
       $(event.target).toggleClass("checked");
-      console.log("Checkboxen er: "+event.target);
       event.stopPropagation();
-      console.log(activeKommuneData);
     });
   }
 }
@@ -389,7 +455,12 @@ function addLink(link, parent){
   a.className ="link";
   a.innerHTML ="Link";
   a.href = link;
-  parent.appendChild(a);
+  a.target = "_blank";
+
+  // parent.appendChild(a);
+  var liElement = document.createElement("li");
+  liElement.appendChild(a);
+  parent.appendChild(liElement);
 }
 
 function addPolygon(coordinatesObj, id, color){
@@ -417,9 +488,7 @@ function hidePolygonColor(imageObj){
   $(imageObj).hide();
 }
 function showPolygonColor(imageObj){
-  console.log(parent);
   var img = imageObj ;
-  console.log(img);
   $(img).show();
 }
 function hasPolygon(id){
@@ -438,9 +507,6 @@ function getSourceObj2(geojson){
   return sourceObj;
 }
 function paintPolygon(name, color){
-  console.log("Laget heter: " + name);
-  console.log(color);
-  console.log(typeof(color));
   var lObj= {
     "id": name,
     "type": "line",
@@ -459,4 +525,18 @@ function addColorBobble(parent, color){
   colCircle.className = "colorImage";
   colCircle.style.backgroundColor = color;
   parent.appendChild(colCircle);
+}
+
+$("a.link").on("click",function(){
+  window.open('www.yourdomain.com','_blank');
+});
+
+function hasAttribute(attribute, dom){
+  var attr = $(dom).attr(attribute);
+
+  if (typeof attr !== typeof undefined && attr !== false){
+    return true;
+  } else{
+    return false;
+  }
 }
