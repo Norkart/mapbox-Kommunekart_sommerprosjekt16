@@ -8,67 +8,16 @@
   // box-shadow: 0px -2px 15px 0px rgba(0,0,0,0.50);
 }
 
-#closeSidebar{
-  position: fixed;
-  margin-left: 7px;
-  top: 10px;
-}
 #navbar-top{
   // #searchToggle{ // when side-menu closed
-.kommunekart-search{
-    height:40px;
-    margin-left:10px;
-    background-color: rgba(33, 34, 34, 0.721569);
-    // transition: margin 0.5s;
-    width:309px;
-    position: fixed;
-    top:10px;
-
-    input[type="search"] {
-      margin-top: 8px;
-      border: none;
-      outline: none;
-      color: white;
-      padding: 3px;
-      margin-left: 50px;
-      background: none;
-      z-index: 3;
-      -webkit-transition: width 0.5s ease-in-out;
-      cursor: pointer;
-      width: 229px;
-    }
-    input[type="search"]::-webkit-search-cancel-button {
-      background: white;
-      width: 60px;
-    }
-    input[type="search"]:focus { //when clicked search button -expands!
-      z-index: 1;
-      border-bottom: 1px solid #BBB;
-      cursor: text;
-    }
-    input[type="submit"] {
-      background: url("../images/search.png");
-      background-size: 22px;
-      background-repeat: no-repeat;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    input[type="submit"]:hover {
-      opacity: 1;
-    }
-  }
   .searchToggle-open{
     // background-color: transparent!important;
     margin-left: 5px!important;
     transition: 0.5s;
     width: 247px!important;
-    margin-top: 17px;
+    margin-top: 24px;
     #MainSearch{
       margin-left: 2px !important;
-    }
-    #search_submit{
-      right: -2px;
     }
   }
 }
@@ -139,7 +88,7 @@
 #kommuneTopHeader{
   // display: flex;
   top: 10px;
-  background-color: rgba(33, 34, 34, 0.64);
+  background-color: rgba(33,34,34,0.721569);
   height: 40px;
   width: auto;
   padding-right: 21px;
