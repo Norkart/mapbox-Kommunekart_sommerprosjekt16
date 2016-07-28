@@ -1,3 +1,4 @@
+var activePolygons = [];
 
 //get kommuner fra db to display in menu - same always
 createKommuneList();
@@ -353,14 +354,4 @@ $('.normal').click(function(){
 });
 $('.aerial').click(function(){
   changeBackgroundMap("aerial");
-});
-
-$('#closeInfoSidebar').click(function(){
-  console.log("klikkkk");
-  menuState.infoSidebarStatus = false;
-  $("#infoSidebar").remove("sidenavOpen");
-  console.log("Tggler klassen");
-  // toggleSlideOfMapCtrl();
-  map.removeLayer("marker");
-  map.removeSource("marker");
 });

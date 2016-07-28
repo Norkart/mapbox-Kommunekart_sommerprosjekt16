@@ -547,7 +547,7 @@ input[type="submit"]:hover {
     color:rgba(231, 231, 231, 0.74);
 
     img{
-      padding-top: 5px;
+      margin-top: 5px;
       height: 41px;
       width:47px;
       border-radius:7%;
@@ -622,6 +622,7 @@ input[type="submit"]:hover {
   color:black;
   .boble{
     margin:10px;
+    margin-top:30px;
     color:black;
     padding: 10px;
     border-radius: 10px;
@@ -705,7 +706,7 @@ input[type="submit"]:hover {
     display: inline !important;
   }
   span{
-    width:190px;
+    width:170px;
     float:left;
     height:24px;
     padding-top: 6px;
@@ -752,9 +753,12 @@ input[type="submit"]:hover {
   // }
 }
 #featureHeader{
-  margin-left:10px;
-  font-size: 16px;
-  color:white;
+  margin-left: 10px;
+  font-size: 20px;
+  color: white;
+  font-family: calibri;
+  font-weight: normal;
+  margin-bottom: 8px;
 }
 
 .udefinert{
@@ -772,6 +776,8 @@ input[type="submit"]:hover {
 }
 
 .gfiInfo{
+  font-family:calibri;
+  font-size:14px;
   padding: 5px 15px;
   margin:0px;
   background-color: $sidemenuListHover;
@@ -780,21 +786,35 @@ input[type="submit"]:hover {
     text-decoration: none;
     color: #87dc58;
   }
+  .infoDescription{
+    font-weight:bold;
+  }
+  .infoValue{
+    color: #dcdcdc;
+  }
+  li{
+    margin: 5px;
+  }
 }
 .activeInfoBox{
-  background-color: rgba(226, 226, 226, 0.3);
+  background-color: rgba(210, 210, 210, 0.81);
   color:rgba(19, 19, 19, 0.72);
   font-weight:bold;
   font-size: 15px;
 }
 
 #closeInfoSidebar{
-  color:white;
-  font-weight:bold;
-  margin:5px 10px;
-  cursor:pointer;
-  background: none;
-  border:none;
+  border: none;
+  background: transparent;
+  background-image: url("../images/doubleLeft.png");
+  background-size: 20px, 20px;
+  height: 21px;
+  width: 20px;
+  color: white;
+  float: left;
+  margin-left: 6px;
+  cursor: pointer;
+  margin-top: 5px;
 }
 
 #navControllers{
@@ -828,4 +848,13 @@ input[type="submit"]:hover {
   float:left;
   margin:7px;
   opacity: 0;
+}
+
+.featurePointer{
+  background-size: 20px;
+  background-position: 8px 3px;
+  width: 40px;
+  height: 30px;
+  background-repeat: no-repeat;
+  float: left;
 }

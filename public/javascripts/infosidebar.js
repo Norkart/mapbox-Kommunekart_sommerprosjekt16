@@ -1,8 +1,9 @@
 var targets =[];
-var tjenesteObjects={};
+
 var activeKommuneData=[];
 var activeInfoboxes=[];
 var colors = ["rgba(225, 86, 83, 1)", "rgba(134, 167, 223, 1)", "rgba(244, 172, 74, 1)", "rgba(225, 210, 71, 1)", "rgba(160, 195, 56, 1)"];
+
 var colImages=["red.png", "blue.png", "orange.png", "yellow.png", "green.png"];
 
 //Transform WGS to UTM coordinates
@@ -91,7 +92,7 @@ function insertListContent(subTitles, availableFeatures){
   //Putting elements into availableFeaturesList:
   for (var j = 0; j < availableFeatures.length; j++) {
     var sublist = availableFeatures[j];
-    addSubTitle(subTitles[j], availableFeaturesList);
+    // addSubTitle(subTitles[j], availableFeaturesList);
     var subTargets = [];
     for (var i = 0; i < sublist.length; i++) {
       var className = "mainElement";
@@ -118,6 +119,11 @@ function getFeatureInfoForObject(targets, long, lat){
     featureUrl += layers;
     doFeatureQuery(featureUrl);
   }
+  // if(tjenesteObjects.length == undefined){
+  //   $("#availableFeatureInformation").hide();
+  // } else{
+  //   $("#availableFeatureInformation").show();
+  // }
 }
 
 function removeCapabilitylist(){
@@ -128,6 +134,7 @@ function updateSideMenu(){
   activeInfoboxes=[];
   var elementListe = document.getElementById("availableFeaturesList");
   var listItem = elementListe.children;
+  // $(listItem).hide();
   updateElementsInList(listItem);
 }
 
@@ -144,6 +151,7 @@ function updateElementsInList(listElements){
       removePolygon(name);
     }
     activateButton(currentListButton);
+    console.log("Skal aktivere listeelementer");
     if(tjenesteObjects[name] == undefined){ //If no FeatureInfo for listObject
       disableButton(currentListButton);
     }
@@ -155,7 +163,11 @@ function updateElementsInList(listElements){
         colorCounter = 0;
       }
       var before = currentListButton.children[1];
-      addColorBobble(currentListButton,color, before);
+      console.log(currentListButton.children);
+      console.log(currentListButton.children.length);
+      if(currentListButton.children.length<=3){
+        addColorBobble(currentListButton,color, before);
+      }
       addPolygon(coordinatesObj, name, color);
       var colorLink = "";
       hidePolygon(name);
@@ -196,6 +208,7 @@ function addSublistElements(tjenesteObjects, newList){
 function disableButton(currentBtn){
   $(currentBtn).addClass("udefinert");
   $(currentBtn).attr("disabled", true);
+  $(currentBtn).hide();
 }
 
 function activateButton(currentBtn){
@@ -203,12 +216,16 @@ function activateButton(currentBtn){
     $(currentBtn).removeClass("udefinert");
   }
   $(currentBtn).attr("disabled", false);
+  $(currentBtn).show();
+  $(currentBtn.parentNode).show();
+  console.log(currentBtn.parentNode);
 }
 
 function addListElement(list, label, className, objectInfo){
   var listElement = document.createElement("li");
   listElement.id = label;
   list.appendChild(listElement);
+  $(listElement).hide();
 
   var btn = document.createElement("div"); //button
   btn.className="tool-button";
@@ -223,6 +240,12 @@ function addListElement(list, label, className, objectInfo){
   spanText.innerHTML= label;
   btn.appendChild(spanText);
   addCheckBox(listElement);
+
+  var pointer = document.createElement("div");
+  pointer.className = "featurePointer";
+  $(pointer).addClass("pointer-right");
+  btn.appendChild(pointer);
+
 }
 
 function addSubTitle(subTitle, list){
@@ -268,6 +291,7 @@ function doFeatureQuery(featureUrl){
       updateSideMenu();
     }
   });
+
 }
 
 function showInformation(listElement) {
@@ -280,7 +304,7 @@ function showInformation(listElement) {
     if(features.hasOwnProperty(element)){
       var currentElement = features[element];
       if(currentElement.Name =="Link"){
-        addLink(currentElement.Value, infoList);
+        addLink(currentElement.Value, infoList, currentElement.Description);
       } else {
         addFeatureInfoText(currentElement.Name, currentElement.Value, infoList);
       }
@@ -312,6 +336,8 @@ function btnEvent(){
         activeInfoboxes.push(elementTxt);
         event.currentTarget.setAttribute("active", true);
       }
+      $(btn.children[3]).toggleClass("pointer-right");
+      $(btn.children[3]).toggleClass("pointer-down");
     });
 
   }
@@ -382,26 +408,35 @@ function addFeatureInfoText(name, value, infoList){
 
   var descr = document.createElement("span");
   descr.className = name;
+  $(descr).addClass("infoDescription");
   descr.innerHTML = name + ": ";
   liText.appendChild(descr);
 
   var valueTxt = document.createElement("span");
   valueTxt.className = value;
-  valueTxt.innerHTML = value;
+  valueTxt.innerHTML = formatName(value);
+  $(valueTxt).addClass("infoValue");
   liText.appendChild(valueTxt);
 }
 
-function addLink(link, parent){
+function addLink(link, parent, description){
   var a = document.createElement("a");
   a.className ="link";
-  a.innerHTML ="Link";
+  a.innerHTML =description;
   a.href = link;
-  a.target = "_blank";
+  a.target = "_blank"; //Make popup link
 
-  // parent.appendChild(a);
   var liElement = document.createElement("li");
   liElement.appendChild(a);
   parent.appendChild(liElement);
+}
+
+function hasPolygon(id){
+  if(map.getLayer(id)!=undefined){
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function addPolygon(coordinatesObj, id, color){
@@ -410,11 +445,16 @@ function addPolygon(coordinatesObj, id, color){
   map.addSource(id,sourceObj2);
   var layerObj2=paintPolygon(id, color);
   map.addLayer(layerObj2, color);
+  activePolygons.push(id);
+  console.log(activePolygons);
 }
 
 function removePolygon(id){
   map.removeLayer(id);
   map.removeSource(id);
+  removeElementInList(activePolygons, id);
+  console.log(activePolygons);
+  console.log("Slett polygon");
 }
 
 function hidePolygon(id){
@@ -427,21 +467,17 @@ function showPolygon(id){
   map.setLayoutProperty(id, 'visibility', 'visible');
 }
 
-function hidePolygonColor(imageObj){
-  // $(imageObj).hide();
-  $(imageObj).css({ opacity: 0});
+function addColorBobble(parent, color, before){
+  var colCircle = document.createElement("div");
+  colCircle.className = "colorImage";
+  colCircle.style.backgroundColor = color;
+  parent.insertBefore(colCircle, before);
 }
 function showPolygonColor(imageObj){
-  var img = imageObj ;
-  // $(img).show();
   $(imageObj).css({ opacity: 1});
 }
-function hasPolygon(id){
-  if(map.getLayer(id)!=undefined){
-    return true;
-  } else {
-    return false;
-  }
+function hidePolygonColor(imageObj){
+  $(imageObj).css({ opacity: 0});
 }
 
 function getSourceObj2(geojson){
@@ -465,12 +501,6 @@ function paintPolygon(name, color){
   return lObj;
 }
 
-function addColorBobble(parent, color, before){
-  var colCircle = document.createElement("div");
-  colCircle.className = "colorImage";
-  colCircle.style.backgroundColor = color;
-  parent.insertBefore(colCircle, before);
-}
 
 $("a.link").on("click",function(){
   window.open('www.yourdomain.com','_blank');
@@ -487,9 +517,16 @@ function hasAttribute(attribute, dom){
 }
 
 $('#closeInfoSidebar').click(function(){
-  menuState.infoSidebarStatus = false;
-  $("#infoSidebar").toggleClass("sidenavOpen");
-  toggleSlideOfMapCtrl();
-  // map.removeLayer("marker");
-  // map.removeSource("marker");
+  closeInfoSidebar();
 });
+
+function closeInfoSidebar(){
+  menuState.infoSidebarStatus = false;
+  $("#infoSidebar").removeClass("sidenavOpen");
+  toggleSlideOfMapCtrl();
+  map.removeLayer("marker");
+  map.removeSource("marker");
+  while (activePolygons.length > 0) {
+    removePolygon(activePolygons[0]);
+  }
+}

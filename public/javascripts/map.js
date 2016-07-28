@@ -13,6 +13,7 @@ var mapStyle = "normal";
 var osmActive=true;
 var kommuneObjectList={};
 var kommune;
+var tjenesteObjects={};
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vpbm8iLCJhIjoiOE5oc094SSJ9.DHxjhFy2Ef33iP8yqIm5cA';
 var map = new mapboxgl.Map({
@@ -265,14 +266,6 @@ function toggleSlideOfMapCtrl(){
     $(".mapboxgl-ctrl-group").addClass("ctrl-slide-out");
     console.log("Har ikke klasse - skal ikke slette");
   }
-}
-function addSlideOfMapCtrl(){
-  $(".mapboxgl-ctrl-group").addClass("ctrl-slide-out");
-  console.log("Har ikke klasse - skal add klasse");
-}
-function removeSlideOfMapCtrl(){
-  console.log("Har klassen - skal slette");
-  $(".mapboxgl-ctrl-group").removeClass("ctrl-slide-out");
 }
 
 //Adding popup info
