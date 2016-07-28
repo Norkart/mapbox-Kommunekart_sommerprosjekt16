@@ -36,15 +36,11 @@ function makeCompressedPolygon(points) {
         }
     }
 
-    console.log(result);
     return result.join("");
-    console.log("kompressed polygon: "+ result);
 }
 
 function addRasterPolygon(layers, coord){
-  console.log("skal adde rasterpolygon");
   var currCoord =getValidCoordString(coord);
-  console.log(currCoord);
   var adressUrl= ": http://webutvikling.gisline.no/FeatureMaskService/default.aspx?X={x}&Y={y}&Z={z}&layers="
   adressUrl += layerArea;
   adressUrl += ":";

@@ -356,7 +356,11 @@ $('.aerial').click(function(){
 });
 
 $('#closeInfoSidebar').click(function(){
+  console.log("klikkkk");
   menuState.infoSidebarStatus = false;
-  $("#infoSidebar").toggleClass("sidenavOpen");
-  toggleSlideOfMapCtrl();
+  $("#infoSidebar").remove("sidenavOpen");
+  console.log("Tggler klassen");
+  // toggleSlideOfMapCtrl();
+  map.removeLayer("marker");
+  map.removeSource("marker");
 });

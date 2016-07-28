@@ -258,11 +258,21 @@ function flyTo(){
 
 function toggleSlideOfMapCtrl(){
   if( $(".mapboxgl-ctrl-group").hasClass("ctrl-slide-out") ){
+    console.log("Har klassen - skal slette");
     $(".mapboxgl-ctrl-group").removeClass("ctrl-slide-out");
 
   }else{
     $(".mapboxgl-ctrl-group").addClass("ctrl-slide-out");
+    console.log("Har ikke klasse - skal ikke slette");
   }
+}
+function addSlideOfMapCtrl(){
+  $(".mapboxgl-ctrl-group").addClass("ctrl-slide-out");
+  console.log("Har ikke klasse - skal add klasse");
+}
+function removeSlideOfMapCtrl(){
+  console.log("Har klassen - skal slette");
+  $(".mapboxgl-ctrl-group").removeClass("ctrl-slide-out");
 }
 
 //Adding popup info

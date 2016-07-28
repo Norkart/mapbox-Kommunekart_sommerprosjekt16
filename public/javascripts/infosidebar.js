@@ -485,3 +485,11 @@ function hasAttribute(attribute, dom){
     return false;
   }
 }
+
+$('#closeInfoSidebar').click(function(){
+  menuState.infoSidebarStatus = false;
+  $("#infoSidebar").toggleClass("sidenavOpen");
+  toggleSlideOfMapCtrl();
+  // map.removeLayer("marker");
+  // map.removeSource("marker");
+});
