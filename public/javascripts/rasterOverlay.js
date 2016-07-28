@@ -237,8 +237,36 @@ function addRaster(url, name, zoomLevel){
     "maxzoom": 22
   }
   map.addLayer(layerObj, layerNameToInsertBefore);
+
+  map.once("render", function(){
+      console.log("render done turn on raster");
+  });
 }
 
+map.on("move", function(){
+  setProgressBar();
+});
+
+
+function setProgressBar(){
+  var interval=setInterval(function(){
+    console.log("Interval func running");
+      if(stillLoading===false){
+        console.log("STOPPED!!!");
+        clearInterval(interval);
+        document.body.style.cursor="auto";
+        document.releaseCapture();
+      }
+      stillLoading=false;
+  }, 100);
+}
+
+map.on("render", function(){
+  document.body.style.cursor='wait';
+  element.setCapture();
+  console.log("RENDERED");
+  stillLoading=true;
+});
 
 function removeAerialRaster(){ //gets called everytime a kommune is chosen - shoudl be changed!! only called depending on zoom level
   var name="aerialRaster";

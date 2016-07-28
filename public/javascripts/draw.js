@@ -9,6 +9,20 @@ disableDraw();
 setStyleCtrl();
 setExitCtrl();
 
+
+map.on("click", function(){
+  var selected=draw.getSelectedIds();
+  if(selected!=undefined){
+    enableStyling();
+  }else{
+    disableStyling();
+  }
+});
+
+function disableStyling(){
+  document.getElementById("styleDraw").disabled="true";
+}
+
 //change styling of drawn element
 function setStyleCtrl(){
   var style=getCtrlDomElement("Change styling", "styleDraw"); //title, id
@@ -18,6 +32,7 @@ function setStyleCtrl(){
 }
 
 function toggleStylePopup(){
+  console.log("TOGGLE STYLE POPUP");
   if(document.getElementById("stylePopup")!=undefined){
     //remove popup
     $("#stylePopup").remove();
@@ -42,6 +57,7 @@ function getStyleParameters(type){
     },{
       name: "Linjetykkelse",
       type: "range"
+      // type: "range"
     }];
 
   if(type==="point"){
@@ -59,18 +75,52 @@ function createStylePopup(parameters){
   div.id="stylePopup";
   var content=getEl("ul");
   for(var i=0; i<parameters.length; i++){
-    var li=getEl("li");
-    var txt=getEl("h4");
-    txt.innerHTML=parameters[i].name+":";
-    var input=getEl("input");
-    input.type=parameters[i].type;
-    input.id=parameters[i].name;
-    li.appendChild(txt);
-    li.appendChild(input);
-    content.appendChild(li);
+    createStyleControlForParameter(parameters[i], content);
   }
+  var arrow=getEl("div");
+  arrow.className="arrow-left";
+  div.appendChild(arrow);
   div.appendChild(content);
   document.getElementById("container").appendChild(div);
+  // With JQuery
+  $('#ex1').slider({
+  	formatter: function(value) {
+  		return 'Current value: ' + value;
+  	}
+  });
+}
+
+function createStyleControlForParameter(parameter, content){
+  var li=getEl("li");
+  var txt=getEl("h4");
+  txt.innerHTML=parameter.name+":";
+  if(parameter.type==="range"){
+    var input=getDrawSlider(parameter);
+  }else{
+    var input=getEl("input");
+    input.type=parameter.type;
+    input.id=parameter.name;
+  }
+  input.addEventListener("click", function(){
+
+  });
+  li.appendChild(txt);
+  li.appendChild(input);
+  content.appendChild(li);
+}
+
+function getDrawSlider(parameter){
+  var input=getEl("input");
+  input.type="text";
+  // input.id=parameter.name;
+  input.id="ex1";
+  input.setAttribute("data-slider-id", "ex1Slider");
+  input.setAttribute("data-slider-min", 0);
+  input.setAttribute("data-slider-max", 10);
+  input.setAttribute("data-slider-step", 1);
+  input.setAttribute("data-slider-value", 1);
+
+  return input;
 }
 
 function getEl(type){
@@ -89,8 +139,10 @@ function setExitCtrl(){
 function getCtrlDomElement(title, className){
   var ctrlDiv=document.getElementsByClassName("mapboxgl-ctrl-group")[0];
   var button=document.createElement("button");
-  button.className="mapbox-gl-draw_ctrl-draw-btn "+className;
+  button.className="mapbox-gl-draw_ctrl-draw-btn "+className+" disable";
   button.title=title;
+  button.id=className;
+  button.disabled=true;
   ctrlDiv.appendChild(button);
   return button;
 }
