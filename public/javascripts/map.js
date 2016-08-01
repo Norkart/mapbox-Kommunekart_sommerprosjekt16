@@ -42,9 +42,9 @@ var throttle = function(func, time) {
   };
 };
 
-map.on('move', throttle(mapMoveEvent, 500)); //make sure it doesn't run too often
+map.on('move', throttle(updateOsmMap, 500)); //make sure it doesn't run too often
 
-function mapMoveEvent(){
+function updateOsmMap(){
   //check border intersection between norway and bounding box of the view
   var bboxPol= getBBoxPol();
   var norwayPol=norBorder.features[0];
@@ -412,7 +412,7 @@ function changeBackgroundMap(maptype) {
     map.setStyle(normalMapLayers);
     map.once("render", function(){
       if(menuState.chosenKommuneId!=undefined){
-        drawDarkAroundKommuneBorder();
+        updateKommuneBorder();
       }
     });
     mapStyle="normal";
@@ -424,7 +424,7 @@ function changeBackgroundMap(maptype) {
     map.once("render", function(){
       addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "aerialRaster", 10);
       if(menuState.chosenKommuneId!=undefined){
-        drawDarkAroundKommuneBorder();
+        updateKommuneBorder();
       }
     });
     wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
@@ -453,7 +453,21 @@ function updateAdress(longitude, latitude, callback){
 //draw grey background outside of choosen kommune
 var currentKommune=false;
 var kommuneElementClicked=false;
-map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
+map.on('moveend', throttle(updateKommuneBorder, 500));
+
+
+function updateKommuneBorder(){
+  if(document.getElementById("borders").checked===false){ //user unchecekd borders
+    console.log("unchecked borders - not showing!");
+    removeDrawnBorder();
+    return;
+  }else if(map.getZoom()<=9.5){
+    removeDrawnBorder();
+    return;
+  }else{
+    drawDarkAroundKommuneBorder();
+  }
+}
 
 function removeDrawnBorder(){
   var name="outsideKommune";
@@ -466,16 +480,8 @@ function removeDrawnBorder(){
 }
 
 function drawDarkAroundKommuneBorder(){
-  if(document.getElementById("borders").checked===false){ //user unchecekd borders - doesn't want them to show
-  console.log("unchecked borders - not showing!");
-    removeDrawnBorder();
-    return;
-  }
+
   var name="outsideKommune";
-  if(map.getZoom()<=9.5){
-    removeDrawnBorder();
-    return;
-  }
   var lat = map.getCenter().lat;
   var lng = map.getCenter().lng;
   var url="http://www.webatlas.no/wacloudtest/servicerepository/GeoNameService.svc/json/FindMunicipalityWithGeometry?srs=EPSG:4326&east="+lng+"&north="+lat;
@@ -501,7 +507,6 @@ function drawDarkAroundKommuneBorder(){
 }
 
 $("#borders").click(function(){
-  console.log($("#borders:checked").val());
   if($("#borders:checked").val()){
     drawDarkAroundKommuneBorder();
   }else{
