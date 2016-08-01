@@ -23,7 +23,7 @@ function getDefaultOffLayers(layers, offLayers){
 
 var annetGroupIDs=[];
 //get name of groups that makes out all layers for "annet":
-var annetLayerGroups=layers.metadata["mapbox:groups"];
+var annetLayerGroups=normalMapLayers.metadata["mapbox:groups"];
 for(var group in annetLayerGroups){
   for(var i=0; i<annetGroups.length; i++){
     if(annetLayerGroups[group].name === annetGroups[i]){
@@ -77,7 +77,7 @@ function getFlyfotoLayerList(){
 
 function getCorrectLayerList(){
   if(mapStyle==="normal"){
-    var layerList=layers.layers;
+    var layerList=normalMapLayers.layers;
   }else if(mapStyle==="aerial"){
     var layerList=getFlyfotoLayerList()
   }

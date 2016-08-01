@@ -20,7 +20,7 @@ var map = new mapboxgl.Map({
   container: 'map',
   //style: '../mapTest2.json',
   //style:"mapbox://styles/keino/cio2gxo6b000wc7m7xfh2z02o",
-  style:layers,
+  style:normalMapLayers,
   center:[13,65],
   zoom:4.5
 });
@@ -42,6 +42,7 @@ var throttle = function(func, time) {
   };
 };
 
+map.on('move', throttle(mapMoveEvent, 500)); //make sure it doesn't run too often
 
 function mapMoveEvent(){
   //check border intersection between norway and bounding box of the view
@@ -59,10 +60,12 @@ function mapMoveEvent(){
   }
 }
 
-map.on('move', throttle(mapMoveEvent, 500)); //make sure it doesn't run too often
-
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
-  var layerList=layers.layers;
+  if(menuState.mapStyle==="aerial"){
+    var layerList=flyfoto.layers;
+  }else{
+    var layerList=normalMapLayers.layers;
+  }
   var osmGroup="1452169018974.0132";
   for(var i=0; i<layerList.length; i++){
     var layer=layerList[i];
@@ -76,6 +79,39 @@ function toggleOSM(visible){ //change visibility for open street map layers depe
         }
       }
     }
+  }
+}
+
+
+var stillLoading;
+var interval;
+
+//Sets a progress bar by checking if render is still running. When render is not fired anymore, the variable stillLoading will not be changed back
+// to true, and the interval function will change cursos and then terminate it self
+map.on("render", function(){
+  changeGlobalCursor("wait");
+  stillLoading=true;
+  setProgressBar();
+});
+
+function setProgressBar(){
+  clearInterval(interval);
+  interval=setInterval(function(){
+      if(stillLoading===false){
+        document.body.style.cursor='auto';
+        changeGlobalCursor("auto");
+        clearInterval(interval);
+      }else{
+        stillLoading=false;
+      }
+  }, 100);
+}
+
+function changeGlobalCursor(type){
+  if(type==="wait" && !$("#map").hasClass("wait")){
+    $('*').css('cursor', 'wait');
+  }else if(type==="auto"){
+    $('*').css('cursor', '');
   }
 }
 
@@ -373,7 +409,12 @@ function changeBackgroundMap(maptype) {
     $('.normal').toggleClass('selected');
   }
   if(maptype==="normal"){
-    map.setStyle(layers);
+    map.setStyle(normalMapLayers);
+    map.once("render", function(){
+      if(menuState.chosenKommuneId!=undefined){
+        drawDarkAroundKommuneBorder();
+      }
+    });
     mapStyle="normal";
     wmsUrl="http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=";
     $("#menu-selector").removeClass("darkerColor");
@@ -381,7 +422,10 @@ function changeBackgroundMap(maptype) {
     map.setStyle(flyfoto);
     mapStyle ="aerial";
     map.once("render", function(){
-      addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "rasterOverlay", 10);
+      addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "aerialRaster", 10);
+      if(menuState.chosenKommuneId!=undefined){
+        drawDarkAroundKommuneBorder();
+      }
     });
     wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
     $("#menu-selector").addClass("darkerColor");
@@ -413,7 +457,6 @@ map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
 
 function drawDarkAroundKommuneBorder(){
   var name="outsideKommune";
-
   if(map.getZoom()<=9.5){
     //if area drawn, remove it:
     if(map.getLayer(name)!=undefined){
@@ -456,13 +499,17 @@ function getSourceObj(geojson, name){
   return sourceObj;
 }
 function getLayerObj(name){
+  var color="rgba(36, 35, 36, 0.16)";
+  if(mapStyle==="aerial"){
+    color="rgba(206, 206, 210, 0.3)";
+  }
   var lObj= {
     "id": name,
     "type": "fill",
     "source": name,
     "source-layer": name,
     "paint": {
-      "fill-color": "rgba(36, 35, 36, 0.20)"
+      "fill-color": color
     }
   };
   return lObj;
@@ -528,9 +575,9 @@ map.on('moveend', function () {
     console.log("unselecting kommune pga zoom level");
     unselectKommune();
     removeTopKommuneHeader();
-    if(mapStyle==="aerial"){
-      console.log("Aerial so remove satellite background");
-      removeRaster("rasterOverlay");
+    //if aerial, remove aerial raster
+    if(menuState.mapStyle==="aerial"){
+      removeAerialRaster();
     }
   }
 });
@@ -616,7 +663,6 @@ function zoomToWholeMunicipality(){
   });
 }
 function zoomToCenterOfMunicipality(){
-  console.log("center");
   map.flyTo({
     zoom:13,
     center: menuState.activeKommuneCenter

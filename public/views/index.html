@@ -3,7 +3,7 @@
 <head>
   <title>Kommunekart</title>
   <script src="../flyfoto.js"></script>
-  <script src="../layers.js"></script>
+  <script src="../normalMapLayers.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.js'></script>
   <script src='../../node_modules/turf-intersect/node_modules/jsts/dist/jsts.min.js'></script>
   <script src='../../node_modules/turf-difference/node_modules/jsts/dist/jsts.min.js'></script>
@@ -20,7 +20,9 @@
   <link href='../stylesheets/sideMenu.min.css' rel='stylesheet' />
   <link href='../stylesheets/top-nav-bar.min.css' rel='stylesheet' />
   <link href='../stylesheets/draw.min.css' rel='stylesheet' />
+  <link href='../stylesheets/slider.min.css' rel='stylesheet' />
   <link href="../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.css" rel="stylesheet" />
+  <link href="../../node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
@@ -120,6 +122,8 @@
                   <label for="symbolLayers"><span></span>Tekst</label>
                   <input id="otherLayers" type="checkbox" checked>
                   <label for="otherLayers"><span></span>Annet</label>
+                  <input id="borders" type="checkbox" checked>
+                  <label for="borders"><span></span>Grenser</label>
                 </div>
               </div>
             </li>
@@ -232,7 +236,8 @@
   <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
   <script src='../../node_modules/list.js/dist/list.min.js'></script>
   <script src='../../node_modules/list.fuzzysearch.js-master/dist/list.fuzzysearch.min.js'></script>
-  <script src='../../node_modules\mapbox-gl-draw\dist\mapbox-gl-draw.js'></script>
+  <script src='../../node_modules/mapbox-gl-draw/dist/mapbox-gl-draw.js'></script>
+  <script src='../../node_modules\bootstrap-slider\dist\bootstrap-slider.min.js'></script>
 
 </body>
 </html>

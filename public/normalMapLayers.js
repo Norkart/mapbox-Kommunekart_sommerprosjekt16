@@ -1,4 +1,4 @@
-var layers= {
+var normalMapLayers= {
     "version": 8,
     "name": "Optimaliseringstest2",
     "metadata": {
