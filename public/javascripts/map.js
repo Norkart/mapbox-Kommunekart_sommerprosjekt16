@@ -455,15 +455,25 @@ var currentKommune=false;
 var kommuneElementClicked=false;
 map.on('moveend', throttle(drawDarkAroundKommuneBorder, 500));
 
+function removeDrawnBorder(){
+  var name="outsideKommune";
+  //if area drawn, remove it:
+  if(map.getLayer(name)!=undefined){
+    map.removeSource(name);
+    map.removeLayer(name);
+    currentKommune=false;
+  }
+}
+
 function drawDarkAroundKommuneBorder(){
+  if(document.getElementById("borders").checked===false){ //user unchecekd borders - doesn't want them to show
+  console.log("unchecked borders - not showing!");
+    removeDrawnBorder();
+    return;
+  }
   var name="outsideKommune";
   if(map.getZoom()<=9.5){
-    //if area drawn, remove it:
-    if(map.getLayer(name)!=undefined){
-      map.removeSource(name);
-      map.removeLayer(name);
-      currentKommune=false;
-    }
+    removeDrawnBorder();
     return;
   }
   var lat = map.getCenter().lat;
@@ -490,6 +500,14 @@ function drawDarkAroundKommuneBorder(){
   });
 }
 
+$("#borders").click(function(){
+  console.log($("#borders:checked").val());
+  if($("#borders:checked").val()){
+    drawDarkAroundKommuneBorder();
+  }else{
+    removeDrawnBorder();
+  }
+})
 
 function getSourceObj(geojson, name){
   var sourceObj= {
