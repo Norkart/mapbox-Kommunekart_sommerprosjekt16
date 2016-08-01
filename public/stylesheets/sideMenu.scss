@@ -538,11 +538,11 @@ input[type="submit"]:hover {
 }
 
 #baselayerselector{
-  // margin-top: 69px;
-  margin-bottom: 16px;
+  margin-bottom: 6px;
   border-bottom: none;
 
   .baselayer-button{
+    margin-top: 7px;
     position: static;
     float: left;
     background-color: transparent;
@@ -606,7 +606,7 @@ input[type="submit"]:hover {
 #vectorLayers{
   color: white;
   // background-color: rgba(42,42,42,0.44);
-  padding-top: 7px;
+  padding-top: 4px;
   label{
     // padding-left: 10px;
     padding-left: 6px;

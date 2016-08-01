@@ -66,7 +66,6 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
   for(var j=0; j<categoriesJson.length; j++){
     layerArea=categoriesJson[j].Name;
     layerAreas.push(categoriesJson[j].Name);
-    console.log(layerArea);
     var cat=document.createElement("h4");
     cat.innerHTML=categoriesJson[j].Title;
     rasterMenu.appendChild(cat);

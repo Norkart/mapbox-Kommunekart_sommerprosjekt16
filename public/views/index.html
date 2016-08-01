@@ -3,7 +3,7 @@
 <head>
   <title>Kommunekart</title>
   <script src="../flyfoto.js"></script>
-  <script src="../layers.js"></script>
+  <script src="../normalMapLayers.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.js'></script>
   <script src='../../node_modules/turf-intersect/node_modules/jsts/dist/jsts.min.js'></script>
   <script src='../../node_modules/turf-difference/node_modules/jsts/dist/jsts.min.js'></script>
@@ -124,6 +124,8 @@
                   <label for="symbolLayers"><span></span>Tekst</label>
                   <input id="otherLayers" type="checkbox" checked>
                   <label for="otherLayers"><span></span>Annet</label>
+                  <input id="borders" type="checkbox" checked>
+                  <label for="borders"><span></span>Grenser</label>
                 </div>
               </div>
             </li>

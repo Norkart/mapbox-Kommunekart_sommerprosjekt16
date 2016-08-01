@@ -69,7 +69,7 @@ function toggleWarningSign(visible, layername){
     }
   }
 }
-
+//                                                                                                            65536 = zoom level 14
 ScaleArray = [0, 134217728, 67108864, 33554432, 16777216, 8388608, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048, 1024, 512, 256, 128];
 function getZoomLevel(scaleHint) {
   // Gets the zoomLevel from the layers scaleHint
@@ -243,30 +243,6 @@ function addRaster(url, name, zoomLevel){
   });
 }
 
-map.on("move", function(){
-  setProgressBar();
-});
-
-
-function setProgressBar(){
-  var interval=setInterval(function(){
-    console.log("Interval func running");
-      if(stillLoading===false){
-        console.log("STOPPED!!!");
-        clearInterval(interval);
-        document.body.style.cursor="auto";
-        document.releaseCapture();
-      }
-      stillLoading=false;
-  }, 100);
-}
-
-map.on("render", function(){
-  document.body.style.cursor='wait';
-  element.setCapture();
-  console.log("RENDERED");
-  stillLoading=true;
-});
 
 function removeAerialRaster(){ //gets called everytime a kommune is chosen - shoudl be changed!! only called depending on zoom level
   var name="aerialRaster";

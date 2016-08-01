@@ -19,7 +19,7 @@ var map = new mapboxgl.Map({
   container: 'map',
   //style: '../mapTest2.json',
   //style:"mapbox://styles/keino/cio2gxo6b000wc7m7xfh2z02o",
-  style:layers,
+  style:normalMapLayers,
   center:[13,65],
   zoom:4.5
 });
@@ -41,6 +41,7 @@ var throttle = function(func, time) {
   };
 };
 
+map.on('move', throttle(mapMoveEvent, 500)); //make sure it doesn't run too often
 
 function mapMoveEvent(){
   //check border intersection between norway and bounding box of the view
@@ -58,10 +59,12 @@ function mapMoveEvent(){
   }
 }
 
-map.on('move', throttle(mapMoveEvent, 500)); //make sure it doesn't run too often
-
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
-  var layerList=layers.layers;
+  if(menuState.mapStyle==="aerial"){
+    var layerList=flyfoto.layers;
+  }else{
+    var layerList=normalMapLayers.layers;
+  }
   var osmGroup="1452169018974.0132";
   for(var i=0; i<layerList.length; i++){
     var layer=layerList[i];
@@ -75,6 +78,39 @@ function toggleOSM(visible){ //change visibility for open street map layers depe
         }
       }
     }
+  }
+}
+
+
+var stillLoading;
+var interval;
+
+//Sets a progress bar by checking if render is still running. When render is not fired anymore, the variable stillLoading will not be changed back
+// to true, and the interval function will change cursos and then terminate it self
+map.on("render", function(){
+  changeGlobalCursor("wait");
+  stillLoading=true;
+  setProgressBar();
+});
+
+function setProgressBar(){
+  clearInterval(interval);
+  interval=setInterval(function(){
+      if(stillLoading===false){
+        document.body.style.cursor='auto';
+        changeGlobalCursor("auto");
+        clearInterval(interval);
+      }else{
+        stillLoading=false;
+      }
+  }, 100);
+}
+
+function changeGlobalCursor(type){
+  if(type==="wait" && !$("#map").hasClass("wait")){
+    $('*').css('cursor', 'wait');
+  }else if(type==="auto"){
+    $('*').css('cursor', '');
   }
 }
 
@@ -370,7 +406,7 @@ function changeBackgroundMap(maptype) {
     $('.normal').toggleClass('selected');
   }
   if(maptype==="normal"){
-    map.setStyle(layers);
+    map.setStyle(normalMapLayers);
     map.once("render", function(){
       if(menuState.chosenKommuneId!=undefined){
         drawDarkAroundKommuneBorder();
@@ -537,7 +573,7 @@ map.on('moveend', function () {
     unselectKommune();
     removeTopKommuneHeader();
     //if aerial, remove aerial raster
-    if(maptype==="aerial"){
+    if(menuState.mapStyle==="aerial"){
       removeAerialRaster();
     }
   }
