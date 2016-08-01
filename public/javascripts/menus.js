@@ -197,7 +197,7 @@ function hideKommuneMenuContent(type){
 
 function showKommuneMenuContent(type){
   $("#menu-selector").addClass("removeOverflow"); //Make it not scroll
-  //slide down baselayers and off/on vector layers (annet, symboler)
+  //slide down baselayers and off/on vector layers (annet, symboler++)
   $("#kommuneListPointer").removeClass("pointer-right");
   $("#kommuneListPointer").addClass("pointer-down");
   //make baselayer selector always show at bottom of sidemeny, and hide the rest
@@ -348,9 +348,15 @@ $('.modal-shadow').click(function(){
 });
 
 //Change backgroundmaps
-$('.normal').click(function(){
+$('.normal').click(function(event){
+  if($(this).hasClass("selected")){
+    return;
+  }
   changeBackgroundMap("normal");
 });
-$('.aerial').click(function(){
+$('.aerial').click(function(event){
+  if($(this).hasClass("selected")){
+    return;
+  }
   changeBackgroundMap("aerial");
 });
