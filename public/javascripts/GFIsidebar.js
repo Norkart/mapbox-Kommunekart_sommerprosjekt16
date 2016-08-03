@@ -33,6 +33,7 @@ function getCapabilitiesForSideMenu(kommuneId, lat, long){
   $.ajax({
     url:layersUrl
   }).done(function(res){
+
     if(document.getElementById("availableFeatureInformation").innerHTML!=""){
       removeCapabilitylist();
     }
@@ -54,14 +55,18 @@ function createCapabilitylist(res, lat, long, kommuneId){ //is running for each 
   checkboxCapabilityEvent();
   setTimeout(function(){
     openActiveInfoBoxes();
-  }, 3000);
+  }, 700);
 }
 
 function createSideMenu(res,lat, long){
   //Creating a list with available Features for current kommune(queryable =true)
   GFI.availableFeatures =[];
+  var pastLayerAreas = layerAreas;
+  console.log(layerAreas);
+  layerAreas = [];
   var subTitles = [];
   for (var j = 0; j < res.length; j++) {
+    layerAreas.push(res[j].Name);
     subTitles.push(res[j].Title);
     var featuresList = [];
     for (var i = 0; i < res[j].Layers.length; i++) {
@@ -72,6 +77,17 @@ function createSideMenu(res,lat, long){
     }
     GFI.availableFeatures.push(featuresList);
   }
+  console.log(pastLayerAreas);
+  console.log(layerAreas);
+  if(pastLayerAreas != undefined){
+    if(!arraysEqual(pastLayerAreas,layerAreas)){
+      while (activePolygons.length > 0) {
+        removePolygon(activePolygons[0]);
+      }
+    }
+  }
+  console.log(pastLayerAreas);
+  console.log(layerAreas);
   if(GFI.availableFeatures.length ==0){
     return;
   }
@@ -124,6 +140,8 @@ function getFeatureInfoForObject(long, lat){
       }
     }
     featureUrl += layers;
+    console.log(featureUrl);
+    console.log("Skal gjøre featurespørring");
     doFeatureQuery(featureUrl);
   }
 }
@@ -339,6 +357,7 @@ function toggleInfoBox(domElement, doOpen){
   var listElement = domElement.parentNode.parentNode;
   var btn = domElement.parentNode;
   var elementTxt = btn.getAttribute("elementfeatureName").toString();
+  console.log(tjenesteObjects);
   if(tjenesteObjects[elementTxt].length > 1){
     $(domElement.parentNode.parentNode.children[1]).toggleClass("visMeny");
   }else if(exsistsInObject(GFI.activeInfoboxes, elementTxt) && !doOpen){
@@ -381,18 +400,16 @@ function openActiveInfoBoxes(){
       console.log("TRY TO OPEN INFO BOX");
       var features=document.getElementById("availableFeaturesList");
       console.log(features);
-      setTimeout(function(){
-        var open=false
-        for(var j=0; j<features.children.length; j++){
-          if(features.children[j].firstChild.getAttribute("elementfeatureName") ===el){
-            domElement=features.children[j].firstChild.firstChild;
-            console.log(domElement);
-            open=true;
-          }
+      var open=false
+      for(var j=0; j<features.children.length; j++){
+        if(features.children[j].firstChild.getAttribute("elementfeatureName") ===el){
+          domElement=features.children[j].firstChild.firstChild;
+          console.log(domElement);
+          open=true;
         }
-        toggleInfoBox(domElement, open)
-        // openCapabilityInfo(GFI.activeInfoboxes[el]);
-      }, 1000);
+      }
+      toggleInfoBox(domElement, open)
+      // openCapabilityInfo(GFI.activeInfoboxes[el]);
     }
   }
 }
@@ -503,10 +520,13 @@ function removePolygon(id){
   map.removeLayer(id);
   map.removeSource(id);
   removeElementInList(activePolygons, id);
+  console.log("Sletter polgon: "+ id);
+  console.log(activePolygons);
 }
 
 function hidePolygon(id){
   map.setLayoutProperty(id, 'visibility', 'none');
+  console.log("Gjemmer polygon: " + id);
 }
 
 function showPolygon(id){
