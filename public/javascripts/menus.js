@@ -313,7 +313,7 @@ $('.tool-button-draw').click(function(){
     disableDraw();
   }else{
     disableToolButton("tool-button-draw");
-    enableDraw();
+    draw.enableDraw();
   }
 });
 

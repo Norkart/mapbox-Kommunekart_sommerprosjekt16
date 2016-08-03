@@ -1,10 +1,12 @@
-var targets =[];
-
-var activeKommuneData=[];
-var activeInfoboxes=[];
-var colors = ["rgba(225, 86, 83, 1)", "rgba(134, 167, 223, 1)", "rgba(244, 172, 74, 1)", "rgba(225, 210, 71, 1)", "rgba(160, 195, 56, 1)"];
-
-var colImages=["red.png", "blue.png", "orange.png", "yellow.png", "green.png"];
+var GFI={
+  targets:[],
+  drawnKommuneData:[],
+  activeInfoboxes:{},
+  active_POI_data:{},//availbale data for current clicked point
+  colors:[
+    "rgba(225, 86, 83, 1)", "rgba(134, 167, 223, 1)", "rgba(244, 172, 74, 1)", "rgba(225, 210, 71, 1)", "rgba(160, 195, 56, 1)"
+  ]
+};
 
 //Transform WGS to UTM coordinates
 function getUTMCoordinates(latitude, longitude, callback){
@@ -34,25 +36,30 @@ function getCapabilitiesForSideMenu(kommuneId, lat, long){
     if(document.getElementById("availableFeatureInformation").innerHTML!=""){
       removeCapabilitylist();
     }
-    if(res.length ==0){
+    if(res.length ==0){ //no results -> do nothing
       return;
-    } else{
+    }else{
       createCapabilitylist(res, lat, long, kommuneId);
+      // openActiveInfoBoxes();
     }
   });
 }
 
-function createCapabilitylist(res, lat, long, kommuneId){
+function createCapabilitylist(res, lat, long, kommuneId){ //is running for each map click
   createSideMenu(res, lat, long);
   tjenesteObjects={};
-  getFeatureInfoForObject(targets, long, lat);
-  btnEvent();
-  checkEvent();
+  // GFI.activeInfoboxes=[];
+  getFeatureInfoForObject(long, lat); //kaller videre til der hvor det legges inn i tjenesteObjects
+  initCapabilityBtn();
+  checkboxCapabilityEvent();
+  setTimeout(function(){
+    openActiveInfoBoxes();
+  }, 3000);
 }
 
 function createSideMenu(res,lat, long){
   //Creating a list with available Features for current kommune(queryable =true)
-  var availableFeatures =[];
+  GFI.availableFeatures =[];
   var subTitles = [];
   for (var j = 0; j < res.length; j++) {
     subTitles.push(res[j].Title);
@@ -63,13 +70,13 @@ function createSideMenu(res,lat, long){
         featuresList.push(feature);
       }
     }
-    availableFeatures.push(featuresList);
+    GFI.availableFeatures.push(featuresList);
   }
-  if(availableFeatures.length ==0){
+  if(GFI.availableFeatures.length ==0){
     return;
   }
   getFeatureHeaderDom();
-  getList(subTitles, availableFeatures);
+  getList(subTitles, GFI.availableFeatures);
 }
 
 function getFeatureHeaderDom(){
@@ -84,7 +91,7 @@ function getList(subTitles, availableFeatures){
   $(availableFeaturesList).addClass("sideBarList");
   availableFeaturesList.id="availableFeaturesList";
   document.getElementById("availableFeatureInformation").appendChild(availableFeaturesList);
-  targets = [];
+  GFI.targets = [];
   insertListContent(subTitles, availableFeatures);
 }
 
@@ -99,14 +106,14 @@ function insertListContent(subTitles, availableFeatures){
       addListElement(availableFeaturesList, sublist[i].Description, className, sublist[i].Name);
       subTargets.push(sublist[i].Name);
     }
-    targets.push(subTargets);
+    GFI.targets.push(subTargets);
   }
 }
 
 //Get featureinfo clicked element:
-function getFeatureInfoForObject(targets, long, lat){
+function getFeatureInfoForObject(long, lat){
   for (var j = 0; j < layerAreas.length; j++) {
-    var currList = targets[j];
+    var currList = GFI.targets[j];
     var featureUrl= "http://www.webatlas.no/wacloudtest/servicerepository/FeatureInfoService.svc/json/GetFeatureInfo?x="+ long+"&y=" +lat+"&srs=EPSG:4326&tolerance=1&querylayers=";
     featureUrl += layerAreas[j];
     featureUrl +=":";
@@ -119,19 +126,47 @@ function getFeatureInfoForObject(targets, long, lat){
     featureUrl += layers;
     doFeatureQuery(featureUrl);
   }
-  // if(tjenesteObjects.length == undefined){
-  //   $("#availableFeatureInformation").hide();
-  // } else{
-  //   $("#availableFeatureInformation").show();
-  // }
 }
+
+function doFeatureQuery(featureUrl){
+  $.ajax({
+    url: featureUrl,
+    complete: function(res){
+      var response=JSON.parse(res.responseText);
+      for (var j = 0; j < GFI.targets.length; j++) {
+        var currTargetList = GFI.targets[j];
+        var list=[];
+        for (var k = 0; k < currTargetList.length; k++) {
+          var targetListElement = currTargetList[k];
+          for(var i = 0; i < response.length; i++){
+            if(response[i].WMSLayer===targetListElement){
+              list.push(response[i]);
+              console.log("ADDING TO TJENESTEOBJECTS");
+              tjenesteObjects[targetListElement]=response[i];
+            }
+          }
+        }
+      }
+      updateSideMenu();
+      // setTimeout(function(){
+      //   console.log("VENTET");
+      //   console.log(GFI.activeInfoboxes);
+      //   console.log(Object.keys(GFI.activeInfoboxes).length);
+      //   if(Object.keys(GFI.activeInfoboxes).length>0){
+      //     console.log("finnes active infoboxes");
+      //     openActiveInfoBoxes();
+      //   }
+      // }, 3000);
+    }
+  });
+}
+
 
 function removeCapabilitylist(){
   document.getElementById("availableFeatureInformation").innerHTML="";
 }
 
 function updateSideMenu(){
-  activeInfoboxes=[];
   var elementListe = document.getElementById("availableFeaturesList");
   var listItem = elementListe.children;
   // $(listItem).hide();
@@ -144,39 +179,20 @@ function updateElementsInList(listElements){
     var currListElement = listElements[i]; //Current subListElement
     var currentListButton = currListElement.children[0];
     if(!hasAttribute("elementfeaturename", currentListButton)){ //If element is subtitle
-      continue;
+      continue; //skip to next element
     }
     var name =currentListButton.getAttribute("elementfeatureName").toString();
     if(hasPolygon(name)){ //Check if polygon exsists in map
       removePolygon(name);
     }
     activateButton(currentListButton);
-    console.log("Skal aktivere listeelementer");
     if(tjenesteObjects[name] == undefined){ //If no FeatureInfo for listObject
       disableButton(currentListButton);
     }
     else{
-      var coordinatesObj = tjenesteObjects[name].Geometry;
-      var color = colors[colorCounter];
-      colorCounter++;
-      if (colorCounter>colors.length){
-        colorCounter = 0;
-      }
-      var before = currentListButton.children[1];
-      console.log(currentListButton.children);
-      console.log(currentListButton.children.length);
-      if(currentListButton.children.length<=3){
-        addColorBobble(currentListButton,color, before);
-      }
-      addPolygon(coordinatesObj, name, color);
-      var colorLink = "";
-      hidePolygon(name);
-      if(exsistsInList(activeKommuneData, name)){
-        addRasterPolygon(name, coordinatesObj);
-        $(currentListButton.children[2]).toggleClass("checked");
-        showPolygon(name);
-        showPolygonColor(currentListButton.children[1]);
-      }
+      // GFI.active_POI_data.push(name);
+      GFI.active_POI_data[name]=tjenesteObjects;
+      colorCounter=prepareCapabilityDrawing(currentListButton, name, colorCounter);
       currListElement.setAttribute("element", tjenesteObjects[name]); //addFeatureInfo as an attribute in li dom
       if(tjenesteObjects[name].length > 1){ //if listElement contains more than one featureinfo objects
         // addCheckBox(currListElement);
@@ -184,7 +200,29 @@ function updateElementsInList(listElements){
       }
     }
   }
+}
 
+function prepareCapabilityDrawing(currentListButton, name, colorCounter){
+  var coordinatesObj = tjenesteObjects[name].Geometry;
+  var color = GFI.colors[colorCounter];
+  colorCounter++;
+  if (colorCounter>GFI.colors.length){
+    colorCounter = 0;
+  }
+  var before = currentListButton.children[1];
+  if(currentListButton.children.length<=3){
+    addColorBobble(currentListButton, color, before);
+  }
+  addPolygon(coordinatesObj, name, color);
+  var colorLink = "";
+  hidePolygon(name);
+  if(exsistsInList(GFI.drawnKommuneData, name)){
+    addRasterPolygon(name, coordinatesObj);
+    $(currentListButton.children[2]).toggleClass("checked");
+    showPolygon(name);
+    showPolygonColor(currentListButton.children[1]);
+  }
+  return colorCounter;
 }
 
 function addSubList(currListItem,tjenesteObjects){
@@ -218,7 +256,6 @@ function activateButton(currentBtn){
   $(currentBtn).attr("disabled", false);
   $(currentBtn).show();
   $(currentBtn.parentNode).show();
-  console.log(currentBtn.parentNode);
 }
 
 function addListElement(list, label, className, objectInfo){
@@ -269,34 +306,9 @@ function addCheckBox(currentListElement){
   btn.appendChild(listCheckBox);
 }
 
-function doFeatureQuery(featureUrl){
-  $.ajax({
-    url: featureUrl,
-    complete: function(res){
-      var response=JSON.parse(res.responseText);
-      for (var j = 0; j < targets.length; j++) {
-        var currTargetList = targets[j];
-        var list=[];
-        for (var k = 0; k < currTargetList.length; k++) {
-          var targetListElement = currTargetList[k];
-          for(var i = 0; i < response.length; i++){
-            if(response[i].WMSLayer===targetListElement){
-              list.push(response[i]);
-              tjenesteObjects[targetListElement]=response[i];
-            }
-          }
-        }
-
-      }
-      updateSideMenu();
-    }
-  });
-
-}
-
 function showInformation(listElement) {
   var featureName = listElement.children[0].getAttribute("elementfeatureName").toString();
-  var features=tjenesteObjects[featureName].AttributesList;
+  var features=GFI.active_POI_data[featureName][featureName].AttributesList;
   var string = "";
   var infoDiv = addInfoDiv(listElement);
   var infoList = addInfoList(infoDiv);
@@ -312,38 +324,91 @@ function showInformation(listElement) {
   }
 }
 
-function btnEvent(){
+function initCapabilityBtn(){
   var classname = document.getElementsByClassName("featureListElement");
   for (var i = 0; i < classname.length; i++) {
-    // className[i].
-    // classname[i].addEventListener('click', myFunction, false);
     classname[i].addEventListener('click', function(){
-      var listElement = event.target.parentNode.parentNode;
-      var btn = event.target.parentNode;
-      var elementTxt = btn.getAttribute("elementfeatureName").toString();
-      // if(event.target.parentNode.parentNode.children[1]){
-      if(tjenesteObjects[elementTxt].length > 1){
-        // if($(event.target.parentNode.parentNode).has("ul")){
-        $(event.target.parentNode.parentNode.children[1]).toggleClass("visMeny");
-      }else if(exsistsInList(activeInfoboxes, elementTxt)){
-        removeInfoDiv(listElement);
-        removeElementInList(activeInfoboxes, elementTxt);
-        event.currentTarget.setAttribute("active", false);
-        $(event.currentTarget).toggleClass("activeInfoBox");
-      } else{
-        showInformation(listElement);
-        $(event.currentTarget).toggleClass("activeInfoBox");
-        activeInfoboxes.push(elementTxt);
-        event.currentTarget.setAttribute("active", true);
-      }
-      $(btn.children[3]).toggleClass("pointer-right");
-      $(btn.children[3]).toggleClass("pointer-down");
+      toggleInfoBox(event.target, false);
     });
-
   }
 }
 
-function checkEvent(){
+function toggleInfoBox(domElement, doOpen){
+  console.log(domElement);
+  console.log(tjenesteObjects);
+  var listElement = domElement.parentNode.parentNode;
+  var btn = domElement.parentNode;
+  var elementTxt = btn.getAttribute("elementfeatureName").toString();
+  if(tjenesteObjects[elementTxt].length > 1){
+    $(domElement.parentNode.parentNode.children[1]).toggleClass("visMeny");
+  }else if(exsistsInObject(GFI.activeInfoboxes, elementTxt) && !doOpen){
+    closeCapabilityInfo(listElement, elementTxt, btn);
+    //remove from activeInfoBoxes
+    console.log(GFI.activeInfoboxes);
+    delete GFI.activeInfoboxes[elementTxt];
+    console.log(GFI.activeInfoboxes);
+  }else{
+    GFI.activeInfoboxes[elementTxt]={ //add to active
+      name:elementTxt,
+      listEl:listElement,
+      btn: btn
+    };
+    openCapabilityInfo(GFI.activeInfoboxes[elementTxt]);
+  }
+}
+
+function closeCapabilityInfo(listElement, elementTxt, btn){
+  console.log("CLOSE INFO");
+  console.log(event.currentTarget);
+  removeInfoDiv(listElement);
+  removeElementInObj(GFI.activeInfoboxes, elementTxt);
+  event.currentTarget.setAttribute("active", false);
+  $(event.currentTarget).children(0).removeClass("activeInfoBox");
+  $(btn.children[3]).addClass("pointer-right");
+  $(btn.children[3]).removeClass("pointer-down");
+}
+
+function openActiveInfoBoxes(){
+  if(Object.keys(GFI.activeInfoboxes).length<1){
+    return;
+  }
+  // console.log(GFI.active_POI_data);
+  console.log("open active info boxes");
+  console.log(GFI.activeInfoboxes);
+  var domElement;
+  for(var el in GFI.activeInfoboxes){
+    if(exsistsInObject(GFI.active_POI_data, el)){
+      console.log("TRY TO OPEN INFO BOX");
+      var features=document.getElementById("availableFeaturesList");
+      console.log(features);
+      setTimeout(function(){
+        var open=false
+        for(var j=0; j<features.children.length; j++){
+          if(features.children[j].firstChild.getAttribute("elementfeatureName") ===el){
+            domElement=features.children[j].firstChild.firstChild;
+            console.log(domElement);
+            open=true;
+          }
+        }
+        toggleInfoBox(domElement, open)
+        // openCapabilityInfo(GFI.activeInfoboxes[el]);
+      }, 1000);
+    }
+  }
+}
+
+function openCapabilityInfo(infoObj){
+  // console.log("Open cap. info");
+  showInformation(infoObj.listEl);
+  console.log($("#"+infoObj.name));
+  console.log($("#"+infoObj.name).children(0).children(0));
+  $("#"+infoObj.name).children(0).children(0).toggleClass("activeInfoBox");
+  $("#"+infoObj.name).children(0).attr("active", true);
+  $(infoObj.btn.children[3]).addClass("pointer-down");
+  $(infoObj.btn.children[3]).removeClass("pointer-right");
+}
+
+function checkboxCapabilityEvent(){
   var classname = document.getElementsByClassName("check");
   for (var i = 0; i < classname.length; i++) {
     classname[i].addEventListener('click', function(){
@@ -351,11 +416,11 @@ function checkEvent(){
       var coordinatesObj = tjenesteObjects[checkName].Geometry;
       var imageElement = event.target.parentNode.children[1];
       if(!$(event.target).hasClass("checked")){
-        activeKommuneData.push(checkName);
+        GFI.drawnKommuneData.push(checkName);
         showPolygonColor(imageElement);
         showPolygon(checkName);
       } else{
-        removeElementInList(activeKommuneData, checkName);
+        removeElementInList(GFI.drawnKommuneData, checkName);
         hidePolygonColor(imageElement);
         hidePolygon(checkName);
       }
@@ -363,20 +428,6 @@ function checkEvent(){
       event.stopPropagation();
     });
   }
-}
-
-function exsistsInList(list, element){
-  for (var i = 0; i < list.length; i++) {
-    if(list[i]==element){
-      return(true);
-    }
-  }
-  return(false);
-}
-
-function removeElementInList(list, target){
-  var index = list.indexOf(target);
-  list.splice(index, 1);
 }
 
 function addInfoDiv(listElement){
@@ -446,24 +497,19 @@ function addPolygon(coordinatesObj, id, color){
   var layerObj2=paintPolygon(id, color);
   map.addLayer(layerObj2, color);
   activePolygons.push(id);
-  console.log(activePolygons);
 }
 
 function removePolygon(id){
   map.removeLayer(id);
   map.removeSource(id);
   removeElementInList(activePolygons, id);
-  console.log(activePolygons);
-  console.log("Slett polygon");
 }
 
 function hidePolygon(id){
-  console.log("hider polygon");
   map.setLayoutProperty(id, 'visibility', 'none');
 }
 
 function showPolygon(id){
-  console.log("viser polygon");
   map.setLayoutProperty(id, 'visibility', 'visible');
 }
 

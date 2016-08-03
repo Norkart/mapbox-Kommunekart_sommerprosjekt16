@@ -1,38 +1,78 @@
+var draw={
+  style:{}
+};
+var Draw;
 
-var Draw = mapboxgl.Draw();
-map.addControl(Draw);
-disableDraw();
-// enableDraw();//just while working
+draw.init=function(){
+  Draw= mapboxgl.Draw();
+  map.addControl(Draw);
+  draw.disableDraw();
+  // draw.enableDraw();//just while working
 
-
-//expand controller:
-setStyleCtrl();
-setExitCtrl();
+  draw.setStyleCtrl()
+  draw.setExitCtrl();
+  draw.updateCtrl();
+}
 
 
 map.on("click", function(){
-  var selected=draw.getSelectedIds();
-  if(selected!=undefined){
-    enableStyling();
-  }else{
-    disableStyling();
+  if(mapmodus!=="draw"){
+    return;
   }
+  draw.updateCtrl(); //see if some buttons should be disabled/enabled depeneding on if any drawn elements are chosen or not
 });
 
-function disableStyling(){
-  document.getElementById("styleDraw").disabled="true";
+
+draw.style.ctrlClick=function(){
+  console.log("click");
+  draw.style.togglePopup();
+  var activeElements=Draw.getSelectedIds();
+  draw.style.setStartValues(activeElements[0]);
+  //"gl-draw-point-active.hot" er id til tegnede style layers
+  var styleId="gl-draw-polygon-active.hot";
+  //"gl-draw-polygon-stroke-active.hot"
+  // map.getStyle("gl-draw-point-active.hot");
+  map.setPaintProperty(styleId, 'fill-color', '#faafee');
+  for(var i=0; i<activeElements.length; i++){
+  }
+}
+
+draw.style.setStartValues=function(id){
+  var gJson=Draw.get(id);
+  console.log(gJson);
+  console.log(gJson.geometry);
+}
+
+draw.updateCtrl=function(){
+  var selected=Draw.getSelectedIds();
+  if(selected.length>0){
+    draw.enableCtrlButton($("#styleDraw"));
+    draw.enableCtrlButton($(".mapbox-gl-draw_trash"));
+  }else{
+    draw.disableCtrlButton($("#styleDraw"));
+    draw.disableCtrlButton($(".mapbox-gl-draw_trash"));
+  }
+}
+
+draw.enableCtrlButton=function(element){
+  element.attr("disabled", false);
+  element.removeClass("ctrlDisable");
+}
+
+draw.disableCtrlButton=function(element){
+  element.attr("disabled", true);
+  element.addClass("ctrlDisable");
 }
 
 //change styling of drawn element
-function setStyleCtrl(){
-  var style=getCtrlDomElement("Change styling", "styleDraw"); //title, id
+draw.setStyleCtrl=function(){
+  var style=draw.getCtrlDomElement("Change styling", "styleDraw"); //title, id
   style.addEventListener("click", function(){
-    toggleStylePopup();
-  });
+    draw.style.ctrlClick();
+  })
 }
 
-function toggleStylePopup(){
-  console.log("TOGGLE STYLE POPUP");
+draw.style.togglePopup=function(){
   if(document.getElementById("stylePopup")!=undefined){
     //remove popup
     $("#stylePopup").remove();
@@ -40,14 +80,14 @@ function toggleStylePopup(){
     //add popup
     // var typeToStyle=Draw.getSelectedIds().geometry.type;
     var typeToStyle="point"; //just while working
-    var parameters=getStyleParameters(typeToStyle);
+    var parameters=draw.getStyleParameters(typeToStyle);
     console.log(parameters);
-    createStylePopup(parameters);
+    draw.createStylePopup(parameters);
     //style the layer that is selected
   }
 }
 
-function getStyleParameters(type){
+draw.getStyleParameters=function(type){
   var par=[{
       name: "Farge",
       type: "color"
@@ -70,12 +110,12 @@ function getStyleParameters(type){
   return par;
 }
 
-function createStylePopup(parameters){
+draw.createStylePopup=function(parameters){
   var div=getEl("div");
   div.id="stylePopup";
   var content=getEl("ul");
   for(var i=0; i<parameters.length; i++){
-    createStyleControlForParameter(parameters[i], content);
+    draw.createStyleControlForParameter(parameters[i], content);
   }
   var arrow=getEl("div");
   arrow.className="arrow-left";
@@ -90,12 +130,12 @@ function createStylePopup(parameters){
   });
 }
 
-function createStyleControlForParameter(parameter, content){
+draw.createStyleControlForParameter=function(parameter, content){
   var li=getEl("li");
   var txt=getEl("h4");
   txt.innerHTML=parameter.name+":";
   if(parameter.type==="range"){
-    var input=getDrawSlider(parameter);
+    var input=draw.getDrawSlider(parameter);
   }else{
     var input=getEl("input");
     input.type=parameter.type;
@@ -109,7 +149,7 @@ function createStyleControlForParameter(parameter, content){
   content.appendChild(li);
 }
 
-function getDrawSlider(parameter){
+draw.getDrawSlider=function(parameter){
   var input=getEl("input");
   input.type="text";
   // input.id=parameter.name;
@@ -123,40 +163,37 @@ function getDrawSlider(parameter){
   return input;
 }
 
-function getEl(type){
-  return document.createElement(type);
-}
-
 //add exit button that disbale draw mode:
-function setExitCtrl(){
-  var exit=getCtrlDomElement("Exit draw", "exitDraw");
+draw.setExitCtrl=function(){
+  var exit=draw.getCtrlDomElement("Exit draw", "exitDraw");
   exit.addEventListener("click", function(){
     enableToolButton("tool-button-draw");
-    disableDraw();
+    draw.disableDraw();
   });
 }
 
-function getCtrlDomElement(title, className){
+draw.getCtrlDomElement=function(title, className){
   var ctrlDiv=document.getElementsByClassName("mapboxgl-ctrl-group")[0];
   var button=document.createElement("button");
-  button.className="mapbox-gl-draw_ctrl-draw-btn "+className+" disable";
+  // button.className="mapbox-gl-draw_ctrl-draw-btn "+className+" disable";
+  button.className="mapbox-gl-draw_ctrl-draw-btn "+className;
   button.title=title;
   button.id=className;
-  button.disabled=true;
+  // button.disabled=true;
   ctrlDiv.appendChild(button);
   return button;
 }
 
-function enableDraw(){
+draw.enableDraw=function(){
   mapmodus="draw";
-  console.log("enable draw");
   $(".mapboxgl-ctrl-top-left").show();
 }
 
-function disableDraw(){
+draw.disableDraw=function(){
   mapmodus="popup";
-  console.log("disbale draw");
   $(".mapboxgl-ctrl-top-left").hide();
   // Draw.changeMode("static");
   Draw.changeMode("simple_select");
 }
+
+draw.init();

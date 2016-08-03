@@ -9,15 +9,15 @@
   background-image: url("../Images/style.png");
   background-size: 18px;
 }
-.styleDraw.disable{
-  cursor: auto;
-  background-color: #e0e0e0;
+.ctrlDisable{
+  cursor: auto!important;
+  background-color: #e0e0e0!important;
   // background: grey url("../Images/style.png");
   // background-repeat: no-repeat;
   // background-size: 18px;
 }
-.styleDraw.disable:hover{
-  background-color: #e0e0e0;
+.ctrlDisable:hover{
+  background-color: #e0e0e0!important;
 }
 
 #stylePopup{

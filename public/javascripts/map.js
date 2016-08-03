@@ -300,108 +300,107 @@ function toggleSlideOfMapCtrl(){
 
   }else{
     $(".mapboxgl-ctrl-group").addClass("ctrl-slide-out");
-    console.log("Har ikke klasse - skal ikke slette");
+    // console.log("Har ikke klasse - skal ikke slette");
   }
 }
 
+
 //Adding popup info
 map.on('click', function (e) {
-  // Populate the popup and set its coordinates
-  //var utmCoord=getUTMCoordinates(e.lngLat.lat, e.lngLat.lng);
-  //var utmString=_makeUtmCoordinateString(utmCoord.lat, utmCoord.lng);
   if(mapmodus === "popup"){
-    if(!menuState.infoSidebarStatus){
-      if(menuState.sideNavOpen){
-        toggleSideMenu();
-      }
-      menuState.infoSidebarStatus = true;
-      $("#infoSidebar").toggleClass("sidenavOpen");
-      toggleSlideOfMapCtrl();
-    }
-    updateAdress(e.lngLat.lng,e.lngLat.lat,
-      function(result){
-        var result = JSON.parse(result.responseText).ReverseGeocodeResult;
-        document.getElementById("adresse").innerHTML="";
-
-        if(result.NearestAddress==null){
-          var kommuneNavn = document.createElement("h3");
-          kommuneNavn.id="kommuneNavn";
-          kommuneNavn.innerHTML = result.MunicipalityInfo.Name + " kommune";
-          document.getElementById("adresse").appendChild(kommuneNavn);
-        }else{
-          var punktAdresse = document.createElement("li");
-          punktAdresse.id="punktAdresse";
-          punktAdresse.innerHTML = result.NearestAddress.House;
-          var postnr = document.createElement("li");
-          postnr.id="punktPostnr";
-          postnr.innerHTML = result.NearestAddress.Zip + " "+ result.NearestAddress.PostalPlace;
-          var distance = document.createElement("li");
-          distance.id="distance";
-          distance.innerHTML = "Avstand til adresse: "+result.NearestAddress.Distance.toFixed(0)+" m";
-          // kommuneElement.id=i+"element";
-          var kommuneDiv=document.createElement("div");
-          document.getElementById("adresse").appendChild(punktAdresse);
-          document.getElementById("adresse").appendChild(postnr);
-          document.getElementById("adresse").appendChild(distance);
-        }
-        getCapabilitiesForSideMenu(result.MunicipalityInfo.Number, e.lngLat.lat, e.lngLat.lng);
-      }
-    );
-    var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
-    $("#WGSKoordinater").text(latLngString);
-
-    // getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng);
-    // getUTMCoordinates(e.lngLat.lat,e.lngLat.lng,
-    //   function(result){
-    //     var result = JSON.parse(result.responseText).coordinate;
-    //     var utmString = "UTM 32N: "+result.north.toFixed(1) +"N, "+result.east.toFixed(1)+"Ø";
-    //     $("#UTMKoordinater").text(utmString);
-    //   }
-    // );
-    getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng,
-      function(result){
-        var result = JSON.parse(result.responseText).valuelist[0].v;
-        $("#heightAboveSea").text(result.toFixed(0)+ " m.o.h");
-      }
-    );
-
-    if(map.getLayer("marker")!==undefined){
-      map.removeLayer("marker");
-      map.removeSource("marker");
-    }
-    //Adder marker
-    if(map.getLayer("marker")!==undefined){
-      map.removeLayer("marker");
-      map.removeSource("marker");
-    }
-    map.addSource("marker", {
-        "type": "geojson",
-        "data": {
-            "type": "FeatureCollection",
-            "features": [{
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [e.lngLat.lng,e.lngLat.lat]
-                }
-            }]
-        }
-    });
-
-    map.addLayer({
-        "id": "marker",
-        "type": "symbol",
-        "source": "marker",
-        "layout": {
-            "icon-image": "test4",
-            "icon-offset": [0,-25]
-        }
-    });
+    popupClickEvent(e);
   }
   else{
     return false;
   }
 });
+
+function popupClickEvent(e){
+  if(!menuState.infoSidebarStatus){
+    if(menuState.sideNavOpen){
+      toggleSideMenu();
+    }
+    menuState.infoSidebarStatus = true;
+    $("#infoSidebar").toggleClass("sidenavOpen");
+    toggleSlideOfMapCtrl();
+  }
+  updateMarker(e);
+  add_POI_Info(e);
+}
+
+function add_POI_Info(e){
+  updateAdress(e.lngLat.lng,e.lngLat.lat, function(result){
+    addAdressWindow(result, e);
+  });
+
+  var latLngString="WGS 84: "+(e.lngLat.lat.toFixed(5))+"°N,  "+(e.lngLat.lng.toFixed(5))+"°Ø";
+  $("#WGSKoordinater").text(latLngString);
+
+  getHeightAboveSeaLevel(e.lngLat.lat,e.lngLat.lng,
+    function(result){
+      var result = JSON.parse(result.responseText).valuelist[0].v;
+      $("#heightAboveSea").text(result.toFixed(0)+ " m.o.h");
+    }
+  );
+}
+
+function addAdressWindow(result, e){
+  var result = JSON.parse(result.responseText).ReverseGeocodeResult;
+  document.getElementById("adresse").innerHTML="";
+  if(result.NearestAddress==null){
+    var kommuneNavn = document.createElement("h3");
+    kommuneNavn.id="kommuneNavn";
+    kommuneNavn.innerHTML = result.MunicipalityInfo.Name + " kommune";
+    document.getElementById("adresse").appendChild(kommuneNavn);
+  }else{
+    var punktAdresse = document.createElement("li");
+    punktAdresse.id="punktAdresse";
+    punktAdresse.innerHTML = result.NearestAddress.House;
+    var postnr = document.createElement("li");
+    postnr.id="punktPostnr";
+    postnr.innerHTML = result.NearestAddress.Zip + " "+ result.NearestAddress.PostalPlace;
+    var distance = document.createElement("li");
+    distance.id="distance";
+    distance.innerHTML = "Avstand til adresse: "+result.NearestAddress.Distance.toFixed(0)+" m";
+    // kommuneElement.id=i+"element";
+    var kommuneDiv=document.createElement("div");
+    document.getElementById("adresse").appendChild(punktAdresse);
+    document.getElementById("adresse").appendChild(postnr);
+    document.getElementById("adresse").appendChild(distance);
+  }
+  getCapabilitiesForSideMenu(result.MunicipalityInfo.Number, e.lngLat.lat, e.lngLat.lng);
+}
+
+function updateMarker(e){
+  if(map.getLayer("marker")!==undefined){
+    map.removeLayer("marker");
+    map.removeSource("marker");
+  }
+  map.addSource("marker", {
+      "type": "geojson",
+      "data": {
+          "type": "FeatureCollection",
+          "features": [{
+              "type": "Feature",
+              "geometry": {
+                  "type": "Point",
+                  "coordinates": [e.lngLat.lng,e.lngLat.lat]
+              }
+          }]
+      }
+  });
+
+  map.addLayer({
+      "id": "marker",
+      "type": "symbol",
+      "source": "marker",
+      "layout": {
+          "icon-image": "test4",
+          "icon-offset": [0,-25]
+      }
+  });
+}
+
 
 function changeBackgroundMap(maptype) {
   if(mapStyle==="aerial"  || mapStyle==="normal" ){
@@ -433,6 +432,7 @@ function changeBackgroundMap(maptype) {
   map.once("render", function(){
     addAlreadyActiveOverlays();
   });
+
 
   //TODO: Fix so it changes accordingly to how it was before the change
   document.getElementById("symbolLayers").checked=true;
