@@ -300,8 +300,12 @@ $('.tool-button-del').click(function(){
 });
 //Avstand verktoy
 $('.tool-button-avstand').click(function(){
-  startMeasureModus();
-  $('.tool-button-avstand').addClass("activeListElement");
+  if(mapmodus==="measure"){
+    measure.stop();  
+  }else{
+    measure.start();
+  }
+  // $('.tool-button-avstand').addClass("activeListElement");
 });
 
 $('.tool-button-print').click(function(){
@@ -309,15 +313,25 @@ $('.tool-button-print').click(function(){
 });
 
 $('.tool-button-draw').click(function(){
-  // $('#draw-info').toggleClass("toolMenuOpen");
   if($("#tool-button-draw").hasClass("toolChosen")){ //tool chosen
-    enableToolButton("tool-button-draw");
-    disableDraw();
+    draw.disableDraw();
   }else{
-    disableToolButton("tool-button-draw");
     draw.enableDraw();
   }
 });
+$('.tool-button').click(function(e){
+  console.log("toolbtn click");
+  console.log(event.currentTarget);
+  toggleToolButtonView(e.currentTarget.id);
+});
+
+function toggleToolButtonView(toolName){
+  if($("#"+toolName).hasClass("toolChosen")){ //tool chosen
+    enableToolButton(toolName);
+  }else{
+    disableToolButton(toolName);
+  }
+}
 
 $('.tool-button-navigation').click(function(){
   $('#navigation-info').toggleClass("toolMenuOpen");

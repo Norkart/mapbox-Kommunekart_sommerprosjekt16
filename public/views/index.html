@@ -19,6 +19,7 @@
   <link href='../stylesheets/main.min.css' rel='stylesheet' />
   <link href='../stylesheets/sideMenu.min.css' rel='stylesheet' />
   <link href='../stylesheets/top-nav-bar.min.css' rel='stylesheet' />
+  <link href='../stylesheets/measure.min.css' rel='stylesheet' />
   <link href='../stylesheets/draw.min.css' rel='stylesheet' />
   <link href='../stylesheets/slider.min.css' rel='stylesheet' />
   <link href='../stylesheets/GFI-SideMenu.min.css' rel='stylesheet' />
@@ -160,8 +161,8 @@
               </button>
               <div id="toolList" class="hide">
                 <li>
-                  <div id="del">
-                    <button class="tool-button tool-button-del" name ="share" type="button">Del</button>
+                  <div id="del" class="toolBtn">
+                    <button id="tool-button-del" class="tool-button tool-button-del" name ="share" type="button">Del</button>
                     <div id="del-info" class="sideMenuToolDropdown">
                       <input id ="shareLink" value ="Link skal deles her"></input>
                       <div id="socialMedia">
@@ -173,23 +174,23 @@
                   </div>
                 </li>
                 <li>
-                  <button class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
-                  <div id ="avstand-info" class="sideMenuToolDropdown">
+                  <button id ="tool-button-avstand" class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
+                  <div id ="avstand-info" class="sideMenuToolDropdown toolBtn">
                     <span>Avstandinfo</span>
                   </div>
                 </li>
                 <li>
-                  <button class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
-                  <div id ="print-info" class="sideMenuToolDropdown">
+                  <button id ="tool-button-print" class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
+                  <div id ="print-info" class="sideMenuToolDropdown toolBtn">
                   </div>
                 </li>
                 <li>
                   <button class="tool-button tool-button-draw" id="tool-button-draw" name ="draw" type="button">Påtegning</button>
-                  <div id ="draw-info" class="sideMenuToolDropdown">
+                  <div id ="draw-info" class="sideMenuToolDropdown toolBtn">
                   </div>
                 </li>
                 <li>
-                  <button class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
+                  <button id="tool-button-navigation" class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
                   <div id ="navigation-info" class="sideMenuToolDropdown">
                     <div class="kommunekart-control">
                       <button name="submit_button" type="button" title="Søk" class="btnNavigation btnSearch"></button>
@@ -203,12 +204,12 @@
                   </div>
                 </li>
                 <li>
-                  <button class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
+                  <button id="tool-button-hjelp" class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
                   <div class="sideMenuToolDropdown">
                   </div>
                 </li>
                 <li>
-                  <button class="tool-button tool-button-om" name ="about" type="button">Om</button>
+                  <button id="tool-button-om" class="tool-button tool-button-om" name ="about" type="button">Om</button>
                   <div class="sideMenuToolDropdown">
                   </div>
                 </li>
@@ -226,6 +227,7 @@
 
   <script src="../javascripts/commonMethods.js"></script>
   <script src="../javascripts/map.js"></script>
+  <script src="../javascripts/measure.js"></script>
   <script src="../javascripts/GFISidebar.js"></script>
   <script src="../javascripts/vectorLayersOverview.js"></script>
   <script src="../javascripts/rasterOverlay.js"></script>

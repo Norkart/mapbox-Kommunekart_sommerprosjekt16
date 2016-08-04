@@ -154,134 +154,6 @@ function getBBoxPol(){
   return pol;
 }
 
-function startMeasureModus(){
-  mapmodus = "measure";
-  // GeoJSON object to hold our measurement features
-  var geojson = {
-    "type": "FeatureCollection",
-    "features": []
-  };
-  addMeasurementsLayerToMap(geojson);
-
-  //click during measurements
-  map.on('click', function(e) {
-    var linestring = {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": []
-      }
-    };
-
-    doMeasurementCalcs(e, geojson, linestring);
-    addMeasurementInfoToContainer(e, linestring);
-    map.getSource('geojson').setData(geojson);
-  });
-
-  map.on('mousemove', function (e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
-    // UI indicator for clicking/hovering a point on the map
-    map.getCanvas().style.cursor = (features.length) ? 'pointer' : 'crosshair';
-    $('#distance').css({
-      left:  e.point.x+2,
-      top:   e.point.y+2
-    });
-  });
-}
-
-
-function doMeasurementCalcs(e, geojson, linestring){
-
-  var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
-
-  // Remove the linestring from the group
-  // So we can redraw it based on the points collection
-  if (geojson.features.length > 1) geojson.features.pop();
-
-  var distanceContainer = document.getElementById('distance');
-  // Clear the Distance container to populate it with a new value
-  distanceContainer.innerHTML = '';
-
-  // If a marker was clicked, remove it from the
-  if (features.length) {
-    var id = features[0].properties.id;
-    geojson.features = geojson.features.filter(function(point) {
-      return point.properties.id !== id;
-    });
-  } else {
-    var point = {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          e.lngLat.lng,
-          e.lngLat.lat
-        ]
-      },
-      "properties": {
-        "id": String(new Date().getTime())
-      }
-    };
-
-    geojson.features.push(point);
-  }
-
-  if (geojson.features.length > 1) {
-    linestring.geometry.coordinates = geojson.features.map(function(point) {
-      return point.geometry.coordinates;
-    });
-
-    geojson.features.push(linestring);
-
-
-  }
-}
-
-function addMeasurementInfoToContainer(e, linestring){
-  // Used to draw a line between points
-
-
-  var distanceContainer = document.getElementById('distance');
-
-  // Populate the distanceContainer with total distance
-  var value = document.createElement('pre');
-  value.textContent = 'Total distance: ' + turf.lineDistance(linestring).toLocaleString() + 'km';
-  distanceContainer.appendChild(value);
-}
-
-function addMeasurementsLayerToMap(geojson){
-  map.addSource('geojson', {
-    "type": "geojson",
-    "data": geojson
-  });
-
-  // Add styles to the map
-  map.addLayer({
-    id: 'measure-points',
-    type: 'circle',
-    source: 'geojson',
-    paint: {
-      'circle-radius': 5,
-      'circle-color': 'rgb(97, 73, 241)'
-    },
-    filter: ['in', '$type', 'Point']
-  });
-  map.addLayer({
-    id: 'measure-lines',
-    type: 'line',
-    source: 'geojson',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-color': 'rgb(97, 73, 241)',
-      'line-width': 2.5
-    },
-    filter: ['in', '$type', 'LineString']
-  });
-}
-
 //called when kommune is clicked
 function flyTo(){
   var kommune=kommuneObjectList[menuState.chosenKommuneId];
@@ -643,6 +515,9 @@ function setTopKommuneHeader(){
   div.id="kommuneTopHeader";
   div.appendChild(kommuneIcon);
   div.appendChild(kommuneName);
+  div.addEventListener("click", function(){
+    toggleSideMenu();
+  });
   document.getElementById('navbar-top').insertBefore(div, document.getElementById("side-menu-toggle"));
 }
 function removeTopKommuneHeader(){
