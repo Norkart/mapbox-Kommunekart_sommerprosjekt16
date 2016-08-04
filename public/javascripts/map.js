@@ -316,7 +316,6 @@ function toggleSlideOfMapCtrl(){
 
   }else{
     $(".mapboxgl-ctrl-group").addClass("ctrl-slide-out");
-    // console.log("Har ikke klasse - skal ikke slette");
   }
 }
 
@@ -363,6 +362,7 @@ function add_POI_Info(e){
 function addAdressWindow(result, e){
   var result = JSON.parse(result.responseText).ReverseGeocodeResult;
   document.getElementById("adresse").innerHTML="";
+  result.MunicipalityInfo.Name;
   if(result.NearestAddress==null){
     var kommuneNavn = document.createElement("h3");
     kommuneNavn.id="kommuneNavn";
