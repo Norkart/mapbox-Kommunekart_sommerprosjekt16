@@ -128,6 +128,7 @@ function setNavCtrl(){
   navCtrl.id="navControllers";
   var kom=document.createElement("div");
   kom.id="showKommune";
+  kom.title="Trykk for å vise hele kommunen";
   kom.addEventListener("click", function(e){
     console.log("kommune");
     zoomToWholeMunicipality();
@@ -135,6 +136,7 @@ function setNavCtrl(){
   });
   var center=document.createElement("div");
   center.id="showCenter";
+  center.title="Trykk for å gå til sentrum av kommunen";
   center.addEventListener("click", function(e){
     console.log("CENTER");
     zoomToCenterOfMunicipality();

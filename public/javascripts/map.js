@@ -85,19 +85,35 @@ function toggleOSM(visible){ //change visibility for open street map layers depe
 
 var stillLoading;
 var interval;
+var drag=false;
 
 //Sets a progress bar by checking if render is still running. When render is not fired anymore, the variable stillLoading will not be changed back
 // to true, and the interval function will change cursos and then terminate it self
+
+// map.on("dragstart", function(){
+//   console.log("TOUCH MOVED");
+//   console.log(drag);
+//   drag=true;
+// });
+
 map.on("render", function(){
-  changeGlobalCursor("wait");
-  stillLoading=true;
-  setProgressBar();
+  console.log(drag);
+    // if(activeLayerNames.length>0 && drag===false){
+    if(activeLayerNames.length>0){
+    changeGlobalCursor("wait");
+    stillLoading=true;
+    setProgressBar();
+  }else{
+    // drag=false;
+  }
 });
+
 
 function setProgressBar(){
   clearInterval(interval);
   interval=setInterval(function(){
       if(stillLoading===false){
+        drag=false;
         document.body.style.cursor='auto';
         changeGlobalCursor("auto");
         clearInterval(interval);

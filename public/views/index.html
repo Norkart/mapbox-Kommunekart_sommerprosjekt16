@@ -72,8 +72,8 @@
     </div>
     <div id='map'></div>
     <div id="pitchController" class="mapboxgl-ctrl-group mapboxgl-ctrl">
-      <button id="pitchUp" class="mapboxgl-ctrl-icon"></button>
-      <button id="pitchDown" class="mapboxgl-ctrl-icon"></button>
+      <button id="pitchUp" title="Trykk for å tilte kartet opp." class="mapboxgl-ctrl-icon"></button>
+      <button id="pitchDown" title="Trykk for å tilte kartet ned." class="mapboxgl-ctrl-icon"></button>
     </div>
     <div id='distance' class='distance-container'></div>
 
@@ -95,7 +95,7 @@
         <button id ="side-menu-toggle-button" type ="button"></button>
         <div name ="menu-content" class = "show-menu">
           <ul id ="menu-selector" class="sidenavOpen">
-            <button id="closeSidebar"></button>
+            <button id="closeSidebar" title="Trykk for å lukke sidemeny."></button>
             <div id ="searchToggle" >
               <div class ="kommunekart-search kommunekart-control searchToggle-open" id ="searchBox">
                 <input id="MainSearch" name="search" type="search" placeholder="Søk etter adresse, sted, eiendom">
@@ -120,11 +120,11 @@
                 </button>
                 <div id="vectorLayers">
                   <input id="symbolLayers" type="checkbox" checked>
-                  <label for="symbolLayers"><span></span>Tekst</label>
-                  <input id="otherLayers" type="checkbox" checked>
-                  <label for="otherLayers"><span></span>Annet</label>
+                  <label for="symbolLayers" title="Skru av/på tekst og symboler i kartet."><span></span>Tekst</label>
+                  <input id="otherLayers" type="checkbox"  checked>
+                  <label for="otherLayers" title="Skru av/på andre lag i kartet, eksempel bygninger og veier."><span></span>Annet</label>
                   <input id="borders" type="checkbox" checked>
-                  <label for="borders"><span></span>Grenser</label>
+                  <label for="borders" title="Skru av/på automatisk visning av kommunegrenser når en kommune er aktiv."><span></span>Grenser</label>
                 </div>
               </div>
             </li>
