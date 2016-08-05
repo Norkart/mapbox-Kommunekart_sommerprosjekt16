@@ -208,7 +208,7 @@ function popupClickEvent(e){
       toggleSideMenu();
     }
     menuState.infoSidebarStatus = true;
-    $("#infoSidebar").toggleClass("sidenavOpen");
+    $("#infoSidebar").toggleClass("gfi-sidenavOpen");
     toggleSlideOfMapCtrl();
   }
   updateMarker(e);

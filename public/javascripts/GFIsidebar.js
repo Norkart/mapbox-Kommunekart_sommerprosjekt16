@@ -129,7 +129,7 @@ function addAdressWindow(result, e){
     postnr.innerHTML = result.NearestAddress.Zip + " "+ result.NearestAddress.PostalPlace;
     // var distance = document.createElement("li");
     // distance.id="distance";
-    document.getElementById("distance").innerHTML = "Avstand til adresse: "+result.NearestAddress.Distance.toFixed(0)+" m";
+    document.getElementById("gfi-distance").innerHTML = "Avstand til adresse: "+result.NearestAddress.Distance.toFixed(0)+" m";
     // kommuneElement.id=i+"element";
     var kommuneDiv=document.createElement("div");
     document.getElementById("adresse").appendChild(punktAdresse);
@@ -660,7 +660,7 @@ $('#closeInfoSidebar').click(function(){
 
 function closeInfoSidebar(){
   menuState.infoSidebarStatus = false;
-  $("#infoSidebar").removeClass("sidenavOpen");
+  $("#infoSidebar").removeClass("gfi-sidenavOpen");
   toggleSlideOfMapCtrl();
   map.removeLayer("marker");
   map.removeSource("marker");
