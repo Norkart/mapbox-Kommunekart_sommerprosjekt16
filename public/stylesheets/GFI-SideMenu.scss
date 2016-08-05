@@ -1,12 +1,19 @@
 //color variables:
 $sidemenuListColor: rgba(42, 42, 42, 0.29);
-$sidemenuListHover: rgba(125, 125, 125, 0.54);
-
+$sidemenuListHover: rgba(125, 125, 125, 0.14);
+// $menuBackgroundColor:rgba(255, 255, 255, 0.83);
+$menuBackgroundColor:rgba(255, 255, 255, 0.73);
+// $bobleColor: white;
+$bobleColor: rgba(87, 160, 51, 0.78);
+$activeToolBtnColor: rgb(214, 214, 214);
+$textColor: black;
+$capabilityButtonColor:#f4f4f4;
+$capabilityBtnBorder: 1px solid rgba(150, 150, 150, 0.37);
 
 .tool-button{
   background-size: 24px 24px;
   border-bottom:1px solid rgba(0,0,0,0.1);
-  color: white;
+  color: $textColor;
   background-position: 12px 12px;
   height:48px;
   padding-left:48px;
@@ -24,7 +31,7 @@ $sidemenuListHover: rgba(125, 125, 125, 0.54);
   background-color: $sidemenuListHover;
 }
 .tool-button:active{
-  background-color: rgb(115, 115, 115);
+  background-color: $activeToolBtnColor;
 }
 
 
@@ -32,6 +39,10 @@ $sidemenuListHover: rgba(125, 125, 125, 0.54);
 .sideBarList{
   padding: 0px;
   list-style-type: none;
+  border-top:$capabilityBtnBorder;
+  li{
+    background-color: $capabilityButtonColor;
+  }
 }
 .subSideBarList{
   display: none;
@@ -44,7 +55,7 @@ $sidemenuListHover: rgba(125, 125, 125, 0.54);
 
 .featureListElement{
   height:30px;
-  border-bottom:1px solid #565252;
+  border-bottom:$capabilityBtnBorder;
   padding-left: 10px;
   padding-right: 0px;
   font: 13.3333px Arial;
@@ -69,13 +80,21 @@ $sidemenuListHover: rgba(125, 125, 125, 0.54);
     margin-top:4px;
     border:none;
     background: none;
-    background-image: url("../images/notChosen.png");
+    background-image: url("../images/checkbox-black.png");
     background-size: 20px;
+    opacity: 0.6;
     cursor:pointer;
     float:left;
   }
   .checked{
-    background-image: url("../images/chosen.png");
+    background-image: url("../images/checkbox-checked-black.png");
+  }
+  .featurePointer{
+    background-image:url("../images/hoyrepil-svart.png")!important;
+    opacity: 0.6;
+  }
+  .featurePointer.pointer-down{
+    background-image:url("../images/nedpil-svart.png")!important;
   }
 }
 .subFeatureListElement {
@@ -101,10 +120,12 @@ $sidemenuListHover: rgba(125, 125, 125, 0.54);
 #featureHeader{
   margin-left: 10px;
   font-size: 20px;
-  color: white;
+  color: #606060;
   font-family: calibri;
   font-weight: normal;
-  margin-bottom: 8px;
+  margin-bottom: 11px;
+  margin-top: 30px;
+  text-shadow:1px 1px 7px rgba(128, 128, 128, 0.11);
 }
 
 .udefinert{
@@ -124,22 +145,25 @@ $sidemenuListHover: rgba(125, 125, 125, 0.54);
 .gfiInfo{
   font-family:calibri;
   font-size:14px;
-  padding: 5px 15px;
   margin:0px;
-  background-color: $sidemenuListHover;
+  color:black;
+  background-color:rgb(224, 224, 224);
+  padding-bottom: 7px;
   a{
     font-weight: 900;
     text-decoration: none;
-    color: #87dc58;
+    color: #5e9c3c;
   }
   .infoDescription{
     font-weight:bold;
   }
   .infoValue{
-    color: #dcdcdc;
+    color: #484848;
   }
   li{
-    margin: 5px;
+    background-color: transparent;
+    padding-left: 13px;
+    padding-top:3px;
   }
 }
 .activeInfoBox{
@@ -179,39 +203,58 @@ $sidemenuListHover: rgba(125, 125, 125, 0.54);
   float:right;
   z-index: 10;
   height:100vh;
-  background-color: rgba(33,34,34,0.72);
+  background-color: $menuBackgroundColor;
   position: fixed;
   right:0px;
   overflow-x: hidden;
   transition: 0.5s;
   color:black;
   .boble{
-    margin:10px;
-    margin-top:30px;
-    color:black;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: rgba(255,255,255,0.75);
+    // margin:10px;
+    // margin-top:30px;
+    color:white;
+    padding-top: 10px;
+    padding-bottom: 12px;
+    // border-radius: 10px;
+    background-color: $bobleColor;
+  }
+  .otherInfo{
+    background-color: rgba(0, 0, 0, 0.64);
+    color: white;
+    font-size: 12px;
+    padding:15px;
+    #koord{
+      font-size: 15px;
+    }
+  }
+  #heightAboveSea{
+    font-size: 12px;
+    margin-left: 55px;
+    margin-top: 2px;
+    list-style: none;
   }
   #punktInfo{
     #markerPos{
       width:30px;
-      height:60px;
+      margin-right: 8px;
+      margin-left: 10px;
+      height:45px;
       float:left;
-      background: url("../images/marker.png");
+      background: url("../images/marker-white.png");
       background-repeat: no-repeat;;
       background-size: 30px;
       margin-top: 15px;
     }
     #adresse{
-      width:180px;
+      width:100%;
       padding-left: 0px;
       list-style-type: none;
-      font-size: 12px;
+      font-size: 13px;
     }
     #punktAdresse{
       font-weight: bold;
-      font-size: 14px;
+      font-size: 18px;
+      margin-bottom: 2px;
     }
     span{
       font-size: 12px;
