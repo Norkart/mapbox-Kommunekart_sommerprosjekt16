@@ -210,15 +210,6 @@ function doFeatureQuery(featureUrl){
         }
       }
       updateSideMenu();
-      // setTimeout(function(){
-      //   console.log("VENTET");
-      //   console.log(GFI.activeInfoboxes);
-      //   console.log(Object.keys(GFI.activeInfoboxes).length);
-      //   if(Object.keys(GFI.activeInfoboxes).length>0){
-      //     console.log("finnes active infoboxes");
-      //     openActiveInfoBoxes();
-      //   }
-      // }, 3000);
     }
   });
 }
@@ -264,6 +255,12 @@ function updateElementsInList(listElements){
   }
 }
 
+// function activateCheckboxes(){
+//   for (var i = 0; i < GFI.drawnKommuneData.length; i++) {
+//     GFI.drawnKommuneData[i]
+//   }
+// }
+
 function prepareCapabilityDrawing(currentListButton, name, colorCounter){
   var coordinatesObj = tjenesteObjects[name].Geometry;
   var color = GFI.colors[colorCounter];
@@ -278,12 +275,22 @@ function prepareCapabilityDrawing(currentListButton, name, colorCounter){
   addPolygon(coordinatesObj, name, color);
   var colorLink = "";
   hidePolygon(name);
+  while (activeFeaturePolygons.length > 0) {
+    removeFeatreRasterPolygon(activeFeaturePolygons[0]);
+  }
   if(exsistsInList(GFI.drawnKommuneData, name)){
-    addRasterPolygon(name, coordinatesObj);
     $(currentListButton.children[2]).toggleClass("checked");
     showPolygon(name);
     showPolygonColor(currentListButton.children[1]);
+    if(exsistsInObject(GFI.activeInfoboxes, name)){
+      addRasterPolygon(name, coordinatesObj);
+    }
   }
+  // if(exsistsInList(GFI.drawnKommuneData, name)&& ){
+  //   $(currentListButton.children[2]).toggleClass("checked");
+  //   showPolygon(name);
+  //   showPolygonColor(currentListButton.children[1]);
+  // }
   return colorCounter;
 }
 
@@ -416,13 +423,14 @@ function toggleInfoBox(domElement, doOpen){
       listEl:listElement,
       btn: btn
     };
-    openCapabilityInfo(GFI.activeInfoboxes[elementTxt]);
+    openCapabilityInfo(GFI.activeInfoboxes[elementTxt], elementTxt);
   }
 }
 
 function closeCapabilityInfo(listElement, elementTxt, btn){
-  console.log("CLOSE INFO");
-  console.log(event.currentTarget);
+  if(exsistsInList(activeFeaturePolygons, elementTxt)){
+    hidePolygon(elementTxt+"Raster");
+  }
   removeInfoDiv(listElement);
   removeElementInObj(GFI.activeInfoboxes, elementTxt);
   event.currentTarget.setAttribute("active", false);
@@ -458,7 +466,7 @@ function openActiveInfoBoxes(){
   }
 }
 
-function openCapabilityInfo(infoObj){
+function openCapabilityInfo(infoObj, elementTxt){
   // console.log("Open cap. info");
   showInformation(infoObj.listEl);
   console.log($("#"+infoObj.name));
@@ -467,6 +475,12 @@ function openCapabilityInfo(infoObj){
   $("#"+infoObj.name).children(0).attr("active", true);
   $(infoObj.btn.children[3]).addClass("pointer-down");
   $(infoObj.btn.children[3]).removeClass("pointer-right");
+  var coordinatesObj = tjenesteObjects[elementTxt].Geometry;
+  if(exsistsInList(activeFeaturePolygons, elementTxt)&& exsistsInList(GFI.drawnKommuneData, elementTxt)){
+    showPolygon(elementTxt+"Raster");
+  } else if(exsistsInList(GFI.drawnKommuneData, elementTxt)&&!exsistsInList(activeFeaturePolygons, elementTxt)){
+    addRasterPolygon(elementTxt, coordinatesObj);
+  }
 }
 
 function checkboxCapabilityEvent(){
@@ -480,10 +494,24 @@ function checkboxCapabilityEvent(){
         GFI.drawnKommuneData.push(checkName);
         showPolygonColor(imageElement);
         showPolygon(checkName);
+        var coordinatesObj = tjenesteObjects[checkName].Geometry;
+        console.log(activeFeaturePolygons);
+        console.log(GFI.activeInfoboxes);
+        if(exsistsInList(activeFeaturePolygons, checkName)&&exsistsInObject(GFI.activeInfoboxes, checkName)){
+          showPolygon(checkName+"Raster");
+          console.log("Skal vise rasterbilde");
+        } else if(!exsistsInList(activeFeaturePolygons, checkName)&& exsistsInObject(GFI.activeInfoboxes, checkName)){
+          console.log("Skal adde nytt rasterpolygon");
+          addRasterPolygon(checkName, coordinatesObj);
+        }
       } else{
         removeElementInList(GFI.drawnKommuneData, checkName);
         hidePolygonColor(imageElement);
         hidePolygon(checkName);
+        if(exsistsInList(activeFeaturePolygons, checkName)){
+          console.log("Skal gjemme rasterlayaret");
+          hidePolygon(checkName+"Raster");
+        }
       }
       $(event.target).toggleClass("checked");
       event.stopPropagation();

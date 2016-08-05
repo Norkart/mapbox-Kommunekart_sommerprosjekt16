@@ -1,4 +1,7 @@
 function exsistsInList(list, element){
+  if(list == undefined){
+    return(false);
+  }
   for (var i = 0; i < list.length; i++) {
     if(list[i]==element){
       return(true);
@@ -13,6 +16,9 @@ function removeElementInList(list, target){
 }
 
 function exsistsInObject(obj, name){
+  if(obj == undefined){
+    return false;
+  }
   if(obj[name]===undefined){
     return false;
   }else{
