@@ -283,7 +283,7 @@ function updateMarker(e){
       "type": "symbol",
       "source": "marker",
       "layout": {
-          "icon-image": "test4",
+          "icon-image": "MarkerKommunekart",
           "icon-offset": [0,-25]
       }
   });
