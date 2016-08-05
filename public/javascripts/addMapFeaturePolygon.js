@@ -1,7 +1,9 @@
+var activeFeaturePolygons=[];
 function makeCompressedPolygon(points) {
     var latitude = 0;
     var longitude = 0;
     var result = [];
+    // var result="";
     var l;
 
     for (var point in points ) {
@@ -40,28 +42,47 @@ function makeCompressedPolygon(points) {
 }
 
 function addRasterPolygon(layers, coord){
+  console.log("Adder rasterpolygon");
   var currCoord =getValidCoordString(coord);
-  var adressUrl= ": http://webutvikling.gisline.no/FeatureMaskService/default.aspx?X={x}&Y={y}&Z={z}&layers="
+  var adressUrl= "http://webutvikling.gisline.no/FeatureMaskService/default.aspx?X={x}&Y={y}&Z={z}&layers="
   adressUrl += layerArea;
   adressUrl += ":";
   adressUrl += layers;
   adressUrl += "&POLYGON=";
   adressUrl += makeCompressedPolygon(currCoord);
-  // console.log(adressUrl);
-  // addRaster(adressUrl, "Nina", 10);
+  if(hasPolygon(layers+"Raster")){
+    removeFeatreRasterPolygon(layers);
+    // removeRaster(layers+"Raster");
+    // removeElementInList(activeFeaturePolygons,layers);
+  }
+  addRaster(adressUrl, layers+"Raster", 8);
+  activeFeaturePolygons.push(layers);
+  console.log(activeFeaturePolygons);
   //TODO: Finn ut hvorfor CORS error ved addRaster
 }
 
 function getValidCoordString(coord){
-  var currCoord ="";
   var list = coord.Positions;
-  for(var i=0; i<list.length; i++){
-    var el=list[i];
-    currCoord += el.X;
-    currCoord += ",";
-    currCoord += el.Y;
-    currCoord += ",";
-  }
-  currCoord = currCoord.substring(0, currCoord.length-1);
-  return currCoord;
+  var currCoords=list.map(function fix(listElement){
+    return [listElement.Y, listElement.X];
+  });
+  return currCoords;
 }
+
+function removeFeatreRasterPolygon(name){
+  removeRaster(name+"Raster");
+  removeElementInList(activeFeaturePolygons,name);
+}
+// function getValidCoordString(coord){
+//   var currCoord ="";
+//   var list = coord.Positions;
+//   for(var i=0; i<list.length; i++){
+//     var el=list[i];
+//     currCoord += el.Y;
+//     currCoord += ",";
+//     currCoord += el.X;
+//     currCoord += ",";
+//   }
+//   currCoord = currCoord.substring(0, currCoord.length-1);
+//   return currCoord;
+// }
