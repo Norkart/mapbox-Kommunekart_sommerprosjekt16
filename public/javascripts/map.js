@@ -99,7 +99,7 @@ var drag=false;
 map.on("render", function(){
   console.log(drag);
     // if(activeLayerNames.length>0 && drag===false){
-    if(activeLayerNames.length>0){
+    if(raster.activeLayerNames.length>0){
     changeGlobalCursor("wait");
     stillLoading=true;
     setProgressBar();
@@ -265,7 +265,7 @@ function changeBackgroundMap(maptype) {
     map.setStyle(flyfoto);
     mapStyle ="aerial";
     map.once("render", function(){
-      addRaster("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "aerialRaster", 10);
+      raster.addNew("http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1", "aerialRaster", 10);
       if(menuState.chosenKommuneId!=undefined){
         updateKommuneBorder();
       }
@@ -444,7 +444,7 @@ map.on('moveend', function () {
     removeTopKommuneHeader();
     //if aerial, remove aerial raster
     if(menuState.mapStyle==="aerial"){
-      removeAerialRaster();
+      raster.removeAerialRaster();
     }
   }
 });
@@ -500,8 +500,8 @@ function selectKommune(){
         if(el.children[0].getAttribute("nr")===kommuneId){
           target=el.firstChild;
           setKommuneMenuHeader(target, kommuneNavn, true);
-          resetRasterOverlays();
-          setRasterOverlayMenu(kommuneId);
+          raster.resetOverlays();
+          raster.setOverlayMenu(kommuneId);
           menuState.chosenKommuneId=kommuneId;
           menuState.type="raster";
         }

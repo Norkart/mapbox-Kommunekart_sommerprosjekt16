@@ -28,8 +28,8 @@ function createKommuneDomElement(resEl, list){
 
 function kommuneClickEvent(){
   kommuneElementClicked=true;
-  resetRasterOverlays();
-  setRasterOverlayMenu(event.currentTarget.firstChild.getAttribute("nr"));
+  raster.resetOverlays();
+  raster.setOverlayMenu(event.currentTarget.firstChild.getAttribute("nr"));
   setKommuneMenuHeader(event.currentTarget.firstChild, event.currentTarget.firstChild.getAttribute("kommune"));
   menuState.chosenKommuneId=event.currentTarget.firstChild.getAttribute("nr");
   menuState.type="raster";
@@ -75,13 +75,13 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
       var rasterElement = document.createElement("li");
       layerName=layerInfoJson.Layers[i].Name;
       layerNameMenu=layerInfoJson.Layers[i].Description;
-      formattedLayerName=formatName(layerNameMenu);
+      formattedLayerName=common.formatName(layerNameMenu);
       rasterElement.setAttribute("name",layerName);
       rasterElement.setAttribute("area",layerArea);
       rasterElement.setAttribute("active", false);
       rasterElement.innerHTML=formattedLayerName;
       rasterElement.addEventListener("click", function(){
-        rasterLayerClickEvent();
+        raster.layerClickEvent();
       });
       //adding raster element to raster list:
       rasterMenu.appendChild(rasterElement);
@@ -301,7 +301,7 @@ $('.tool-button-del').click(function(){
 //Avstand verktoy
 $('.tool-button-avstand').click(function(){
   if(mapmodus==="measure"){
-    measure.stop();  
+    measure.stop();
   }else{
     measure.start();
   }

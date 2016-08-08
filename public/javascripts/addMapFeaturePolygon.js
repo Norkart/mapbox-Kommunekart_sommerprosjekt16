@@ -1,4 +1,6 @@
 var activeFeaturePolygons=[];
+var layerArea; //name for url for area of different layers
+var layerName; //end of url for specific raster layer
 function makeCompressedPolygon(points) {
     var latitude = 0;
     var longitude = 0;
@@ -43,9 +45,11 @@ function makeCompressedPolygon(points) {
 
 function addRasterPolygon(layers, coord){
   console.log("Adder rasterpolygon");
+  console.log(layerArea);
+  console.log(GFI.layerAreas);
   var currCoord =getValidCoordString(coord);
   var adressUrl= "http://webutvikling.gisline.no/FeatureMaskService/default.aspx?X={x}&Y={y}&Z={z}&layers="
-  adressUrl += layerArea;
+  adressUrl += GFI.layerAreas[0];
   adressUrl += ":";
   adressUrl += layers;
   adressUrl += "&POLYGON=";
@@ -55,7 +59,7 @@ function addRasterPolygon(layers, coord){
     // removeRaster(layers+"Raster");
     // removeElementInList(activeFeaturePolygons,layers);
   }
-  addRaster(adressUrl, layers+"Raster", 8);
+  raster.addNew(adressUrl, layers+"Raster", 8);
   activeFeaturePolygons.push(layers);
   console.log(activeFeaturePolygons);
   //TODO: Finn ut hvorfor CORS error ved addRaster
@@ -70,7 +74,7 @@ function getValidCoordString(coord){
 }
 
 function removeFeatreRasterPolygon(name){
-  removeRaster(name+"Raster");
+  raster.remove(name+"Raster");
   removeElementInList(activeFeaturePolygons,name);
 }
 // function getValidCoordString(coord){

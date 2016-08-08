@@ -3,11 +3,11 @@ var GFI={
   drawnKommuneData:[],
   activeInfoboxes:{},
   active_POI_data:{},//availbale data for current clicked point
+  layerAreas:[],
   colors:[
     "rgba(225, 86, 83, 1)", "rgba(134, 167, 223, 1)", "rgba(244, 172, 74, 1)", "rgba(225, 210, 71, 1)", "rgba(160, 195, 56, 1)"
   ]
 };
-
 //Transform WGS to UTM coordinates
 function getUTMCoordinates(latitude, longitude, callback){
   var adressUrl= "https://kommunekart.com/api/Transform/TransformationRequest?apiRoute=api%2FTransform%2FTransformationRequest&north="+latitude+"&east="+longitude+"&fromEpsg=EPSG%3A4326&toEpsg=EPSG%3A32632&appId=Kommunekart";
@@ -50,23 +50,139 @@ function createCapabilitylist(res, lat, long, kommuneId){ //is running for each 
   createSideMenu(res, lat, long);
   tjenesteObjects={};
   // GFI.activeInfoboxes=[];
+  addFeatureInfo(long,lat);
   getFeatureInfoForObject(long, lat); //kaller videre til der hvor det legges inn i tjenesteObjects
-  initCapabilityBtn();
-  checkboxCapabilityEvent();
-  setTimeout(function(){
-    openActiveInfoBoxes();
-  }, 700);
+  // initCapabilityBtn();
+  // checkboxCapabilityEvent();
+  // setTimeout(function(){
+  //   openActiveInfoBoxes();
+  // }, 700);
 }
+
+function addFeatureInfo(long, lat){
+
+}
+
+//Get featureinfo clicked element:
+function getFeatureInfoForObject(long, lat){
+  var functionsToQuery=[];
+  for (var j = 0; j < GFI.layerAreas.length; j++) {
+    var currList = GFI.targets[j];
+    var featureUrl= "http://www.webatlas.no/wacloudtest/servicerepository/FeatureInfoService.svc/json/GetFeatureInfo?x="+ long+"&y=" +lat+"&srs=EPSG:4326&tolerance=1&querylayers=";
+    featureUrl += GFI.layerAreas[j];
+    featureUrl +=":";
+    var layers=currList[0];
+    if(currList.length > 1){
+      for(var i=1; i<currList.length; i++){
+        layers+=","+currList[i];
+      }
+    }
+    featureUrl += layers;
+    console.log(featureUrl);
+    console.log("Skal gjøre featurespørring");
+    // doFeatureQuery()
+    functionsToQuery.push(wrapperGenerator(featureUrl));
+  }
+  common.handleMultipleAsyncCalls(functionsToQuery, function(){
+    console.log("ALL GOOOD");
+    initCapabilityBtn();
+    checkboxCapabilityEvent();
+    openActiveInfoBoxes();
+  }, function(){
+    console.log("FAIL");
+  });
+}
+function wrapperGenerator(featureUrl){
+  return function(success, failure){
+    console.log(featureUrl);
+    $.ajax({
+      url: featureUrl,
+      complete: function(res){
+        var response=JSON.parse(res.responseText);
+        for (var j = 0; j < GFI.targets.length; j++) {
+          var currTargetList = GFI.targets[j];
+          var list=[];
+          for (var k = 0; k < currTargetList.length; k++) {
+            var targetListElement = currTargetList[k];
+            for(var i = 0; i < response.length; i++){
+              if(response[i].WMSLayer===targetListElement){
+                list.push(response[i]);
+                console.log("ADDING TO TJENESTEOBJECTS");
+                tjenesteObjects[targetListElement]=response[i];
+              }
+            }
+          }
+        }
+        updateSideMenu();
+        success();
+      }
+    });
+  }
+}
+
+getFeatureInfoWrapper=function(success, failure){
+  console.log(featureUrl);
+  $.ajax({
+    url: featureUrl,
+    complete: function(res){
+      var response=JSON.parse(res.responseText);
+      for (var j = 0; j < GFI.targets.length; j++) {
+        var currTargetList = GFI.targets[j];
+        var list=[];
+        for (var k = 0; k < currTargetList.length; k++) {
+          var targetListElement = currTargetList[k];
+          for(var i = 0; i < response.length; i++){
+            if(response[i].WMSLayer===targetListElement){
+              list.push(response[i]);
+              console.log("ADDING TO TJENESTEOBJECTS");
+              tjenesteObjects[targetListElement]=response[i];
+            }
+          }
+        }
+      }
+      updateSideMenu();
+      success();
+    }
+    // failure:
+
+  });
+}
+
+// function doFeatureQuery(featureUrl){
+//   return $.ajax({
+//     url: featureUrl,
+//     complete: function(res){
+//       var response=JSON.parse(res.responseText);
+//       for (var j = 0; j < GFI.targets.length; j++) {
+//         var currTargetList = GFI.targets[j];
+//         var list=[];
+//         for (var k = 0; k < currTargetList.length; k++) {
+//           var targetListElement = currTargetList[k];
+//           for(var i = 0; i < response.length; i++){
+//             if(response[i].WMSLayer===targetListElement){
+//               list.push(response[i]);
+//               console.log("ADDING TO TJENESTEOBJECTS");
+//               tjenesteObjects[targetListElement]=response[i];
+//             }
+//           }
+//         }
+//       }
+//       updateSideMenu();
+//     }
+//   });
+// }
+
+
 
 function createSideMenu(res,lat, long){
   //Creating a list with available Features for current kommune(queryable =true)
   GFI.availableFeatures =[];
-  var pastLayerAreas = layerAreas;
-  console.log(layerAreas);
-  layerAreas = [];
+  var pastLayerAreas = GFI.layerAreas;
+  console.log(GFI.layerAreas);
+  GFI.layerAreas = [];
   var subTitles = [];
   for (var j = 0; j < res.length; j++) {
-    layerAreas.push(res[j].Name);
+    GFI.layerAreas.push(res[j].Name);
     subTitles.push(res[j].Title);
     var featuresList = [];
     for (var i = 0; i < res[j].Layers.length; i++) {
@@ -78,16 +194,16 @@ function createSideMenu(res,lat, long){
     GFI.availableFeatures.push(featuresList);
   }
   console.log(pastLayerAreas);
-  console.log(layerAreas);
+  console.log(GFI.layerAreas);
   if(pastLayerAreas != undefined){
-    if(!arraysEqual(pastLayerAreas,layerAreas)){
+    if(!arraysEqual(pastLayerAreas,GFI.layerAreas)){
       while (activePolygons.length > 0) {
         removePolygon(activePolygons[0]);
       }
     }
   }
   console.log(pastLayerAreas);
-  console.log(layerAreas);
+  console.log(GFI.layerAreas);
   if(GFI.availableFeatures.length ==0){
     return;
   }
@@ -170,56 +286,12 @@ function insertListContent(subTitles, availableFeatures){
   }
 }
 
-//Get featureinfo clicked element:
-function getFeatureInfoForObject(long, lat){
-  for (var j = 0; j < layerAreas.length; j++) {
-    var currList = GFI.targets[j];
-    var featureUrl= "http://www.webatlas.no/wacloudtest/servicerepository/FeatureInfoService.svc/json/GetFeatureInfo?x="+ long+"&y=" +lat+"&srs=EPSG:4326&tolerance=1&querylayers=";
-    featureUrl += layerAreas[j];
-    featureUrl +=":";
-    var layers=currList[0];
-    if(currList.length > 1){
-      for(var i=1; i<currList.length; i++){
-        layers+=","+currList[i];
-      }
-    }
-    featureUrl += layers;
-    console.log(featureUrl);
-    console.log("Skal gjøre featurespørring");
-    doFeatureQuery(featureUrl);
-  }
-}
-
-function doFeatureQuery(featureUrl){
-  $.ajax({
-    url: featureUrl,
-    complete: function(res){
-      var response=JSON.parse(res.responseText);
-      for (var j = 0; j < GFI.targets.length; j++) {
-        var currTargetList = GFI.targets[j];
-        var list=[];
-        for (var k = 0; k < currTargetList.length; k++) {
-          var targetListElement = currTargetList[k];
-          for(var i = 0; i < response.length; i++){
-            if(response[i].WMSLayer===targetListElement){
-              list.push(response[i]);
-              console.log("ADDING TO TJENESTEOBJECTS");
-              tjenesteObjects[targetListElement]=response[i];
-            }
-          }
-        }
-      }
-      updateSideMenu();
-    }
-  });
-}
-
-
 function removeCapabilitylist(){
   document.getElementById("availableFeatureInformation").innerHTML="";
 }
 
 function updateSideMenu(){
+  console.log("sidemenu kjorer");
   var elementListe = document.getElementById("availableFeaturesList");
   var listItem = elementListe.children;
   // $(listItem).hide();
@@ -408,7 +480,9 @@ function toggleInfoBox(domElement, doOpen){
   var listElement = domElement.parentNode.parentNode;
   var btn = domElement.parentNode;
   var elementTxt = btn.getAttribute("elementfeatureName").toString();
-  console.log(tjenesteObjects);
+  if(tjenesteObjects[elementTxt]===undefined){
+    console.log("NOOOOOOOOOOOOOOOOO");
+  }
   if(tjenesteObjects[elementTxt].length > 1){
     $(domElement.parentNode.parentNode.children[1]).toggleClass("visMeny");
   }else if(exsistsInObject(GFI.activeInfoboxes, elementTxt) && !doOpen){
@@ -554,7 +628,7 @@ function addFeatureInfoText(name, value, infoList){
 
   var valueTxt = document.createElement("span");
   valueTxt.className = value;
-  valueTxt.innerHTML = formatName(value);
+  valueTxt.innerHTML = common.formatName(value);
   $(valueTxt).addClass("infoValue");
   liText.appendChild(valueTxt);
 }
