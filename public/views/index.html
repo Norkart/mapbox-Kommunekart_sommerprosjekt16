@@ -103,29 +103,37 @@
         <button id ="side-menu-toggle-button" type ="button"></button>
         <div name ="menu-content" class = "show-menu">
           <ul id ="menu-selector" class="sidenavOpen">
-            <button id="closeSidebar" title="Trykk for å lukke sidemeny."></button>
-            <div id ="searchToggle" >
-              <div class ="kommunekart-search kommunekart-control searchToggle-open" id ="searchBox">
-                <input id="MainSearch" name="search" type="search" placeholder="Søk etter adresse, sted, eiendom">
-                <input id="search_submit" type="submit">
-              </div>
+            <div id ="kommunekartHeader">
+              <span id = "logo"></span>
+              <span id ="headerTxt">KOMMUNEKART</span>
+              <button id="closeSidebar" title="Trykk for å lukke sidemeny."></button>
             </div>
+            <div id ="searchAndphto">
+              <div id ="searchToggle" >
+                <div class ="kommunekart-search kommunekart-control searchToggle-open" id ="searchBox">
+                  <input id="MainSearch" name="search" type="search" placeholder="Søk etter adresse, sted, eiendom">
+                  <input id="search_submit" type="submit">
+                </div>
+              </div>
 
-            <li id="baselayerselector"name ="baselayerselector">
-              <div class="select-baselayer" id="select-baselayer">
-                <button name ="normal" class ="baselayer-button normal selected" type="button">
-                  <!-- <img src="https://kommunekart.com/Images/bg_layer_thumb_normal.png"> -->
-                  <img>
-                  <h4>Kart</h4>
-                </button>
-                <button name ="aerial" class ="baselayer-button aerial" id ="aerial" type="button">
-                  <img src="https://kommunekart.com/Images/bg_layer_thumb_aerial_transp_bw.png">
-                  <h4>Flyfoto</h4>
-                </button>
-                <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
-                  <img src="https://kommunekart.com/Images/bg_layer_thumb_3D_HC_transp_bw.png">
-                  <h4>3D-kart</h4>
-                </button>
+              <div id ="mapOptions">
+                <li id="baselayerselector"name ="baselayerselector">
+                  <div class="select-baselayer" id="select-baselayer">
+                    <button name ="normal" class ="baselayer-button normal selected" type="button">
+                      <!-- <img src="https://kommunekart.com/Images/bg_layer_thumb_normal.png"> -->
+                      <img>
+                      <h4>Kart</h4>
+                    </button>
+                    <button name ="aerial" class ="baselayer-button aerial" id ="aerial" type="button">
+                      <img src="https://kommunekart.com/Images/bg_layer_thumb_aerial_transp_bw.png">
+                      <h4>Flyfoto</h4>
+                    </button>
+                    <button name ="threeD" class ="baselayer-button threeD" title ="Du må være innenfor Norges grense" type="button" disabled>
+                      <img src="https://kommunekart.com/Images/bg_layer_thumb_3D_HC_transp_bw.png">
+                      <h4>3D-kart</h4>
+                    </button>
+                  </div>
+                </li>
                 <div id="vectorLayers">
                   <input id="symbolLayers" type="checkbox" checked>
                   <label for="symbolLayers" title="Skru av/på tekst og symboler i kartet."><span></span>Tekst</label>
@@ -135,7 +143,7 @@
                   <label for="borders" title="Skru av/på automatisk visning av kommunegrenser når en kommune er aktiv."><span></span>Grenser</label>
                 </div>
               </div>
-            </li>
+            </div>
 
             <li id="kommunekartMeny" name="kommunekartMeny">
               <div id ="kommunekart-menu">
