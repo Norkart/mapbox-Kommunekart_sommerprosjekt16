@@ -59,9 +59,6 @@ $capabilityBtnBorder: 1px solid rgba(150, 150, 150, 0.37);
   padding-left: 10px;
   padding-right: 0px;
   font: 13.3333px Arial;
-  .check{
-    display: inline !important;
-  }
   span{
     width:140px;
     margin-left: 4px;
@@ -75,29 +72,33 @@ $capabilityBtnBorder: 1px solid rgba(150, 150, 150, 0.37);
     float:left;
     margin:6px;
   }
-  .check{
-    height:20px;
-    width:20px;
-    margin-top:4px;
-    border:none;
-    background: none;
-    background-image: url("../images/checkbox-black.png");
-    background-size: 20px;
-    opacity: 0.6;
-    cursor:pointer;
-    float:left;
-  }
-  .checked{
-    background-image: url("../images/checkbox-checked-black.png");
-  }
   .featurePointer{
     background-image:url("../images/hoyrepil-svart.png")!important;
     opacity: 0.6;
-  }
+      }
   .featurePointer.pointer-down{
     background-image:url("../images/nedpil-svart.png")!important;
   }
 }
+.check{
+  display: inline !important;
+}
+.check{
+  height:20px;
+  width:20px;
+  margin-top:4px;
+  border:none;
+  background: none;
+  background-image: url("../images/checkbox-black.png");
+  background-size: 20px;
+  opacity: 0.6;
+  cursor:pointer;
+  float:left;
+}
+.checked{
+  background-image: url("../images/checkbox-checked-black.png");
+}
+
 .subFeatureListElement {
   // height:25px;
   padding:0px;

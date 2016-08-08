@@ -43,13 +43,14 @@ function toggleWarningSign(visible, layername){
   for (var i = 0; i < kommune.children.length; i++) {
     var child=kommune.children[i];
     if(child.getAttribute("name")===layername){
+      var check = child.children[1];
       if(visible){
-        if(child.children.length<1){ //no warning sign already
+        if(child.children.length<3){ //no warning sign already
           //add warning img in li element
           var warning=document.createElement("img");
           warning.id="advarsel";
           warning.title="Ikke synlig nå, zoom inn for å se laget";
-          warning.src="../Images/advarsel.png";
+          warning.src="../Images/blackIcons/other/warning.png";
           warning.setAttribute("minzoom", minzoom);
           warning.addEventListener("click", function(e){
               e.stopPropagation();
@@ -62,8 +63,8 @@ function toggleWarningSign(visible, layername){
           }
       }else{
         // remove warning img
-        if(child.children.length>0){
-          child.removeChild(child.children[0]);
+        if(child.children.length>2){
+          child.removeChild(child.children[2]);
         }
       }
     }
@@ -142,20 +143,40 @@ function addActiveRastersAfterBackgroundmapChange(){
 
 function rasterLayerClickEvent(){
   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
-  var activeLayer=event.currentTarget.getAttribute("active");
+  var liElement = event.currentTarget.parentNode;
+  var activeLayer=liElement.getAttribute("active");
   if(activeLayer==="true"){
-    removeFromList(event.currentTarget.getAttribute("name"), activeLayerNames);
-    updateGlobalActiveRaster("remove", event.currentTarget.getAttribute("name"));
-    event.currentTarget.setAttribute("active", false);
-    event.currentTarget.className="";
-    toggleWarningSign(false, event.currentTarget.getAttribute("name"));
+    $(event.target).toggleClass("checked");
+    removeFromList(liElement.getAttribute("name"), activeLayerNames);
+    updateGlobalActiveRaster("remove", liElement.getAttribute("name"));
+    liElement.setAttribute("active", false);
+    liElement.className="";
+    toggleWarningSign(false, liElement.getAttribute("name"));
   }else{
-    enableRaster(event.currentTarget.getAttribute("name"), event.currentTarget);
+    $(event.target).toggleClass("checked");
+    // event.target.toggleClass("checked");
+    enableRaster(liElement.getAttribute("name"), liElement);
   }
-  updateRasterView(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
+  updateRasterView(liElement.getAttribute("name"), liElement.getAttribute("area"));
 
   // updateInformationSideMenu(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
 }
+// function rasterLayerClickEvent(){
+//   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
+//   var activeLayer=event.currentTarget.getAttribute("active");
+//   if(activeLayer==="true"){
+//     removeFromList(event.currentTarget.getAttribute("name"), activeLayerNames);
+//     updateGlobalActiveRaster("remove", event.currentTarget.getAttribute("name"));
+//     event.currentTarget.setAttribute("active", false);
+//     event.currentTarget.className="";
+//     toggleWarningSign(false, event.currentTarget.getAttribute("name"));
+//   }else{
+//     enableRaster(event.currentTarget.getAttribute("name"), event.currentTarget);
+//   }
+//   updateRasterView(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
+//
+//   // updateInformationSideMenu(event.currentTarget.getAttribute("name"), event.currentTarget.getAttribute("area"));
+// }
 
 function enableRaster(layerName, currentListElement){
   updateGlobalActiveRaster("add", currentListElement.getAttribute("name"));

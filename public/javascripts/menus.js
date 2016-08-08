@@ -79,9 +79,16 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
       rasterElement.setAttribute("name",layerName);
       rasterElement.setAttribute("area",layerArea);
       rasterElement.setAttribute("active", false);
-      rasterElement.innerHTML=formattedLayerName;
-      rasterElement.addEventListener("click", function(){
+      // rasterElement.innerHTML=formattedLayerName;
+      var tekst = document.createElement("span");
+      tekst.innerHTML = formattedLayerName;
+      rasterElement.appendChild(tekst);
+      var checkbox = document.createElement("button");
+      checkbox.className="check";
+      rasterElement.appendChild(checkbox);
+      checkbox.addEventListener("click", function(){
         rasterLayerClickEvent();
+        // checkbox.toggleClass("checked");
       });
       //adding raster element to raster list:
       rasterMenu.appendChild(rasterElement);
@@ -102,12 +109,19 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
 
 function setKommuneMenuHeader(target, kommuneName, moveEvent){
   //set chosen kommune name above list, instead of "velg kommune"
-  document.getElementById("choose-kommune-text").innerHTML=kommuneName;
+  var kommune = document.createElement("div");
+  kommune.id = "chosenKommune";
+  var tekst = document.createElement("span");
+  kommune.appendChild(tekst);
+  tekst.innerHTML = kommuneName;
+  var parent = document.getElementById("kommunekart-menu");
+  var kommunelist = document.getElementById("kommuneList");
+  parent.insertBefore(kommune, kommunelist);
   //add kommune icon
   var kommuneIcon=target.firstChild.cloneNode(true);
   if(document.getElementById("kommuneHeaderImg")==undefined){
     kommuneIcon.id="kommuneHeaderImg";
-    document.getElementById("kommunekart-menu-button").insertBefore(kommuneIcon, document.getElementById("kommunekart-menu-button").firstChild);
+    kommune.insertBefore(kommuneIcon, kommune.firstChild);
   }else if(document.getElementById("kommuneHeaderImg") !=undefined){ //only change url for image
     var img=document.getElementById("kommuneHeaderImg");
     img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
@@ -117,6 +131,23 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
   }
   setNavCtrl(); //show border and show center
 }
+// function setKommuneMenuHeader(target, kommuneName, moveEvent){
+//   //set chosen kommune name above list, instead of "velg kommune"
+//   document.getElementById("choose-kommune-text").innerHTML=kommuneName;
+//   //add kommune icon
+//   var kommuneIcon=target.firstChild.cloneNode(true);
+//   if(document.getElementById("kommuneHeaderImg")==undefined){
+//     kommuneIcon.id="kommuneHeaderImg";
+//     document.getElementById("kommunekart-menu-button").insertBefore(kommuneIcon, document.getElementById("kommunekart-menu-button").firstChild);
+//   }else if(document.getElementById("kommuneHeaderImg") !=undefined){ //only change url for image
+//     var img=document.getElementById("kommuneHeaderImg");
+//     img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
+//   }
+//   if(menuState.chosenKommuneId==false){
+//     createKommuneBackButton();
+//   }
+//   setNavCtrl(); //show border and show center
+// }
 
 function setNavCtrl(){
   //check if already exist
@@ -144,7 +175,7 @@ function setNavCtrl(){
   });
   navCtrl.appendChild(kom);
   navCtrl.appendChild(center);
-  document.getElementById("kommunekart-menu-button").insertBefore(navCtrl, document.getElementById("kommuneListPointer"));
+  document.getElementById("chosenKommune").appendChild(navCtrl);
 }
 
 function createKommuneBackButton(){
@@ -166,11 +197,9 @@ function createKommuneBackButton(){
 function unselectKommune(){ //back button event
   menuState.type="kommune";
   //delete back button and kommune icon: two first items
-  if(document.getElementById("kommunekart-menu-button").children.length===5){ //means that the header is set to a kommune
-    document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
-    document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("kommunekart-menu-button").firstChild);
-    $("#navControllers").remove();
-    document.getElementById("choose-kommune-text").innerHTML="Velg kommune";
+  if(document.getElementById("chosenKommune")!=undefined){ //means that the header is set to a kommune
+    document.getElementById("kommunekart-menu").removeChild(document.getElementById("chosenKommune"));
+    document.getElementById("kommunekart-menu-button").removeChild(document.getElementById("backToKommuneList"));
   }
   //change inner html:
   hideKommuneMenuContent("raster");
@@ -301,7 +330,7 @@ $('.tool-button-del').click(function(){
 //Avstand verktoy
 $('.tool-button-avstand').click(function(){
   if(mapmodus==="measure"){
-    measure.stop();  
+    measure.stop();
   }else{
     measure.start();
   }
