@@ -276,3 +276,29 @@ $capabilityBtnBorder: 1px solid rgba(150, 150, 150, 0.37);
   cursor: pointer;
   margin-top: 1px;
 }
+
+#gfiCheckboxDiv{
+  display: flex;
+  border-bottom: 1px solid #c8c8c8;
+  div{
+    display: flex;
+  }
+  span{
+    margin-left: -5px;
+    margin-right: 5px;
+    width: 100%;
+    margin-top: 5px;
+  }
+  input{
+    background-size: 19px;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    display: inline-table;
+    background-image: url("../images/checkbox-black.png");
+    width: 20px;
+    height: 20px;
+  }
+  input:checked{
+    background-image: url("../images/checkbox-checked-black.png");
+  }
+}
