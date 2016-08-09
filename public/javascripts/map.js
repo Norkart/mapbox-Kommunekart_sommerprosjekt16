@@ -52,7 +52,7 @@ function updateOsmMap(){
   if(difference==undefined && osmActive){ //i norge, osm på --> skru av
     toggleOSM(false); //turn off
     osmActive=false;
-  }else if(difference!=undefined && osmActive ==false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
+  }else if(difference!=undefined && osmActive == false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
     toggleOSM(true); //turn on
     osmActive=true;
   }else{

@@ -6467,7 +6467,7 @@ var normalMapLayers= {
             ],
             "layout": {
                 "text-size": 10,
-                "icon-image": "riksvegskilt",
+                "icon-image": "Riksvegskilt",
                 "icon-rotation-alignment": "viewport",
                 "text-max-angle": 38,
                 "icon-keep-upright": true,
@@ -6591,7 +6591,7 @@ var normalMapLayers= {
             "layout": {
                 "text-size": 10,
                 "text-allow-overlap": false,
-                "icon-image": "europavegskilt-2",
+                "icon-image": "EuropaVegSkilt_2",
                 "icon-rotation-alignment": "viewport",
                 "text-max-angle": 38,
                 "icon-keep-upright": true,
