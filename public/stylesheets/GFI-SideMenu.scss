@@ -89,14 +89,14 @@ $capabilityBtnBorder: 1px solid rgba(150, 150, 150, 0.37);
   margin-top:4px;
   border:none;
   background: none;
-  background-image: url("../images/checkbox-black.png");
+  background-image: url("../images/blackIcons/other/unchecked.png");
   background-size: 20px;
-  opacity: 0.6;
+  // opacity: 0.6;
   cursor:pointer;
   float:left;
 }
 .checked{
-  background-image: url("../images/checkbox-checked-black.png");
+  background-image: url("../images/blackIcons/other/checked.png");
 }
 
 .subFeatureListElement {

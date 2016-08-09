@@ -467,9 +467,12 @@ input[type="submit"]:hover {
     //   cursor:pointer;
     //
     // }
-    // .activeRasterElement{
-    //   background-color: rgba(204, 200, 200, 0.46);
-    // }
+    .activeRasterElement{
+      cursor:pointer;
+    }
+    .rasterListElement{
+      cursor:pointer;
+    }
     span{
       float:left;
     }
@@ -478,8 +481,13 @@ input[type="submit"]:hover {
       margin-top:0px;
       margin-right:10px;
     }
-    button.checked{
+    .rasterListElement:hover button.check{
+      background-image: url("../images/checkbox-black.png");
+      background-size: 22px;
+    }
+    .activeRasterElement:hover button.checked{
       background-image: url("../images/checkbox-checked-black.png");
+      background-size: 22px;
     }
     #advarsel{
       padding: 0;
