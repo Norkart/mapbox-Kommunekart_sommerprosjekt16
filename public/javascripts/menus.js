@@ -27,10 +27,12 @@ function createKommuneDomElement(resEl, list){
 }
 
 function kommuneClickEvent(){
+  console.log("kommuneClickEvent");
   kommuneElementClicked=true;
   raster.resetOverlays();
   raster.setOverlayMenu(event.currentTarget.firstChild.getAttribute("nr"));
   setKommuneMenuHeader(event.currentTarget.firstChild, event.currentTarget.firstChild.getAttribute("kommune"));
+  console.log("Skal velge kommune");
   menuState.chosenKommuneId=event.currentTarget.firstChild.getAttribute("nr");
   menuState.type="raster";
   flyTo();
@@ -110,17 +112,31 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
 
 function setKommuneMenuHeader(target, kommuneName, moveEvent){
   //set chosen kommune name above list, instead of "velg kommune"
-  var kommune = document.createElement("div");
-  kommune.id = "chosenKommune";
-  var tekst = document.createElement("span");
-  kommune.appendChild(tekst);
-  tekst.innerHTML = kommuneName;
-  var parent = document.getElementById("kommunekart-menu");
-  var kommunelist = document.getElementById("kommuneList");
-  parent.insertBefore(kommune, kommunelist);
+  $("#kommuneListPointer").hide();
+  if(document.getElementById("chosenKommune")==undefined){
+    var kommune = document.createElement("div");
+    kommune.id = "chosenKommune";
+    var tekst = document.createElement("span");
+    tekst.id= "chosenKommuneName";
+    kommune.appendChild(tekst);
+    tekst.innerHTML = kommuneName;
+    var parent = document.getElementById("kommunekart-menu");
+    var kommunelist = document.getElementById("kommuneList");
+    parent.insertBefore(kommune, kommunelist);
+    kommune.addEventListener("click", function(){
+      if(menuState.kommuneMenuOpen){
+        hideKommuneMenuContent(menuState.type);
+      }else{
+        showKommuneMenuContent(menuState.type);
+      }
+    });
+  } else{
+    document.getElementById("chosenKommuneName").innerHTML = kommuneName;
+  }
   //add kommune icon
   var kommuneIcon=target.firstChild.cloneNode(true);
   if(document.getElementById("kommuneHeaderImg")==undefined){
+    var kommune = document.getElementById("chosenKommune");
     kommuneIcon.id="kommuneHeaderImg";
     kommune.insertBefore(kommuneIcon, kommune.firstChild);
   }else if(document.getElementById("kommuneHeaderImg") !=undefined){ //only change url for image
@@ -183,15 +199,15 @@ function createKommuneBackButton(){
   var backButton=document.createElement("button");
   backButton.id="backToKommuneList";
   backButton.className="pointer";
-  backButton.addEventListener("click", function(){
-    map.flyTo({zoom:9});
-    if(menuState.kommuneMenuOpen){
-      unselectKommune();
-      showKommuneMenuContent(menuState.type);
-    }else{
-      unselectKommune();
-    }
-  });
+  // backButton.addEventListener("click", function(){
+  //   map.flyTo({zoom:9});
+  //   if(menuState.kommuneMenuOpen){
+  //     unselectKommune();
+  //     showKommuneMenuContent(menuState.type);
+  //   }else{
+  //     unselectKommune();
+  //   }
+  // });
   document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
 }
 
@@ -260,10 +276,24 @@ document.getElementById("kommunekart-menu-button").addEventListener("click", fun
     console.log("Dont fire open/close event");
     return; //dont fire this event
   }
-  if(menuState.kommuneMenuOpen){
-    hideKommuneMenuContent(menuState.type);
-  }else{
-    showKommuneMenuContent(menuState.type);
+
+  if(menuState.type ==="raster"){
+    map.flyTo({zoom:9});
+    $("#kommuneListPointer").show();
+    console.log(menuState.kommuneMenuOpen);
+    if(menuState.kommuneMenuOpen){
+      console.log("skal vise kommunemen");
+      unselectKommune();
+      showKommuneMenuContent(menuState.type);
+    }else{
+      unselectKommune();
+    }
+  } else{
+    if(menuState.kommuneMenuOpen && menuState.type ==="kommune"){
+      hideKommuneMenuContent(menuState.type);
+    }else{
+      showKommuneMenuContent(menuState.type);
+    }
   }
 });
 

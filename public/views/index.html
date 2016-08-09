@@ -144,93 +144,91 @@
                 </div>
               </div>
             </div>
+            <div id = "menusDiv">
+              <li id="kommunekartMeny" name="kommunekartMeny">
+                <div id ="kommunekart-menu">
+                  <button class="mainButton" id ="kommunekart-menu-button" type = "button">
+                    <h4 id ="choose-kommune-text">Velg kommune</h4>
+                    <!-- <div id="navControllers">
+                      <div id="showKommune"></div>
+                      <div id="showCenter"></div>
+                    </div> -->
+                    <div id="kommuneListPointer" class ="pointer pointer-right"></div>
+                  </button>
 
-            <li id="kommunekartMeny" name="kommunekartMeny">
-              <div id ="kommunekart-menu">
-                <button class="mainButton" id ="kommunekart-menu-button" type = "button">
-                  <h4 id ="choose-kommune-text">Velg kommune</h4>
-                  <!-- <div id="navControllers">
-                    <div id="showKommune"></div>
-                    <div id="showCenter"></div>
-                  </div> -->
-                  <div id="kommuneListPointer" class ="pointer pointer-right"></div>
-                </button>
-
-                <div id="kommuneList" class="list sideMenuLists">
-                  <div id ="kommuneSearchDiv">
-                    <!-- <div class ="kommunekart-search kommunekart-control" id ="searchBox"> -->
-                    <input id="KommuneSearch" class="search" name="search" type="search" placeholder="Søk etter kommune">
-                    <input id="search_submit" type="submit">
-                    <!-- </div> -->
+                  <div id="kommuneList" class="list sideMenuLists">
+                    <div id ="kommuneSearchDiv">
+                      <!-- <div class ="kommunekart-search kommunekart-control" id ="searchBox"> -->
+                      <input id="KommuneSearch" class="search" name="search" type="search" placeholder="Søk etter kommune">
+                      <input id="search_submit" type="submit">
+                      <!-- </div> -->
+                    </div>
+                    <!-- adding list from js here -->
                   </div>
-                  <!-- adding list from js here -->
                 </div>
-              </div>
-            </li>
-
-
-            <div class="tools" name="verktøy">
-              <button class="mainButton" id="toolHeader">
-                <h4>Verktøy</h4>
-                <div id="toolPointer" class="pointer pointer-right"></div>
-              </button>
-              <div id="toolList" class="hide">
-                <li>
-                  <div id="del" class="toolBtn">
-                    <button id="tool-button-del" class="tool-button tool-button-del" name ="share" type="button">Del</button>
-                    <div id="del-info" class="sideMenuToolDropdown">
-                      <input id ="shareLink" value ="Link skal deles her"></input>
-                      <div id="socialMedia">
-                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/FB_72.png">
-                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/GooglePlus_72.png">
-                        <img class ="smSymbol" src="https://www.kommunekart.com/Images/Twitter_72.png">
+              </li>
+              <div class="tools" name="verktøy">
+                <button class="mainButton" id="toolHeader">
+                  <h4>Verktøy</h4>
+                  <div id="toolPointer" class="pointer pointer-right"></div>
+                </button>
+                <div id="toolList" class="hide">
+                  <li>
+                    <div id="del" class="toolBtn">
+                      <button id="tool-button-del" class="tool-button tool-button-del" name ="share" type="button">Del</button>
+                      <div id="del-info" class="sideMenuToolDropdown">
+                        <input id ="shareLink" value ="Link skal deles her"></input>
+                        <div id="socialMedia">
+                          <img class ="smSymbol" src="https://www.kommunekart.com/Images/FB_72.png">
+                          <img class ="smSymbol" src="https://www.kommunekart.com/Images/GooglePlus_72.png">
+                          <img class ="smSymbol" src="https://www.kommunekart.com/Images/Twitter_72.png">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <button id ="tool-button-avstand" class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
-                  <div id ="avstand-info" class="sideMenuToolDropdown toolBtn">
-                    <span>Avstandinfo</span>
-                  </div>
-                </li>
-                <li>
-                  <button id ="tool-button-print" class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
-                  <div id ="print-info" class="sideMenuToolDropdown toolBtn">
-                  </div>
-                </li>
-                <li>
-                  <button class="tool-button tool-button-draw" id="tool-button-draw" name ="draw" type="button">Påtegning</button>
-                  <div id ="draw-info" class="sideMenuToolDropdown toolBtn">
-                  </div>
-                </li>
-                <li>
-                  <button id="tool-button-navigation" class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
-                  <div id ="navigation-info" class="sideMenuToolDropdown">
-                    <div class="kommunekart-control">
-                      <button name="submit_button" type="button" title="Søk" class="btnNavigation btnSearch"></button>
-                      <button name="route_planning_switch_direction_button" class="kommunekart-switch-nav switch-direction-icon" title="Bytt retning" style="display: block;" type="button"></button>
-                      <div name="search_input_container" class="kommunekart-search-form">
-                        <input name="search_input_1" input="text" class="kommunekart-search-input" placeholder="Fra...">
-                        <input name="search_input_2" input="text" class="kommunekart-search-input" placeholder="Til...">
-                      </div>
-                      <button name="route_planning_back_to_normal_search_button" class="btnNavigation icon-remove" style="display: block;" type="button"></button>
+                  </li>
+                  <li>
+                    <button id ="tool-button-avstand" class="tool-button tool-button-avstand" name ="measure" type="button">Avstand</button>
+                    <div id ="avstand-info" class="sideMenuToolDropdown toolBtn">
+                      <span>Avstandinfo</span>
                     </div>
-                  </div>
-                </li>
-                <li>
-                  <button id="tool-button-hjelp" class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
-                  <div class="sideMenuToolDropdown">
-                  </div>
-                </li>
-                <li>
-                  <button id="tool-button-om" class="tool-button tool-button-om" name ="about" type="button">Om</button>
-                  <div class="sideMenuToolDropdown">
-                  </div>
-                </li>
-              </div>
-            </div> <!--end of tools-->
-
+                  </li>
+                  <li>
+                    <button id ="tool-button-print" class="tool-button tool-button-print" name ="print" type="button">Skriv ut</button>
+                    <div id ="print-info" class="sideMenuToolDropdown toolBtn">
+                    </div>
+                  </li>
+                  <li>
+                    <button class="tool-button tool-button-draw" id="tool-button-draw" name ="draw" type="button">Påtegning</button>
+                    <div id ="draw-info" class="sideMenuToolDropdown toolBtn">
+                    </div>
+                  </li>
+                  <li>
+                    <button id="tool-button-navigation" class="tool-button tool-button-navigation" name ="navigation" type="button">Ruteplanlegger</button>
+                    <div id ="navigation-info" class="sideMenuToolDropdown">
+                      <div class="kommunekart-control">
+                        <button name="submit_button" type="button" title="Søk" class="btnNavigation btnSearch"></button>
+                        <button name="route_planning_switch_direction_button" class="kommunekart-switch-nav switch-direction-icon" title="Bytt retning" style="display: block;" type="button"></button>
+                        <div name="search_input_container" class="kommunekart-search-form">
+                          <input name="search_input_1" input="text" class="kommunekart-search-input" placeholder="Fra...">
+                          <input name="search_input_2" input="text" class="kommunekart-search-input" placeholder="Til...">
+                        </div>
+                        <button name="route_planning_back_to_normal_search_button" class="btnNavigation icon-remove" style="display: block;" type="button"></button>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <button id="tool-button-hjelp" class="tool-button tool-button-hjelp" name ="help" type="button">Hjelp</button>
+                    <div class="sideMenuToolDropdown">
+                    </div>
+                  </li>
+                  <li>
+                    <button id="tool-button-om" class="tool-button tool-button-om" name ="about" type="button">Om</button>
+                    <div class="sideMenuToolDropdown">
+                    </div>
+                  </li>
+                </div>
+              </div> <!--end of tools-->
+            </div>
             <li id="norkartLogo">
               <a  href="http://norkart.no" title="Forsiden"></a>
             </li>

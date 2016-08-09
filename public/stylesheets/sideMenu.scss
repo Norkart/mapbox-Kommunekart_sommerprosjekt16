@@ -89,6 +89,7 @@ input[type="submit"]:hover {
   ul li{
     // border-bottom: 1px solid #565252;
   }
+  // overflow-y:auto;
 }
 
 #closeSidebar{
@@ -224,6 +225,10 @@ input[type="submit"]:hover {
   background-color: rgba(44, 45, 45, 0.94)!important;
 }
 
+// #menusDiv{
+//   overflow-y: auto;
+//   overflow-x: hidden;
+// }
 #menu-selector{ //styling of tool buttons
   list-style-type: none;
   background-color: rgba(235,235,235,0.76); //backgorund of whole sidemenu!
@@ -236,7 +241,7 @@ input[type="submit"]:hover {
   // transition: 0.5s;
   transition: 0.5s;
   // overflow-y: auto;
-  overflow-y: scroll;
+  overflow-y: hidden;
   padding:0;
 
   #toolList{

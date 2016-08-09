@@ -465,8 +465,8 @@ function updateTopKommuneHeader(){
 }
 
 function setTopKommuneHeader(){
-  var kommuneName=document.getElementById("kommunekart-menu-button").children[2].cloneNode(true);
-  var kommuneIcon=document.getElementById("kommunekart-menu-button").children[1].cloneNode(true);
+  var kommuneName=document.getElementById("chosenKommuneName").cloneNode(true);
+  var kommuneIcon=document.getElementById("chosenKommune").children[0].cloneNode(true);
   var div=document.createElement("div");
   div.id="kommuneTopHeader";
   div.appendChild(kommuneIcon);

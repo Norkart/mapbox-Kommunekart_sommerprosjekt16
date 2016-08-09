@@ -294,11 +294,11 @@ $capabilityBtnBorder: 1px solid rgba(150, 150, 150, 0.37);
     -webkit-appearance: none;
     -webkit-border-radius: 0;
     display: inline-table;
-    background-image: url("../images/checkbox-black.png");
+    background-image: url("../images/blackIcons/other/unchecked.png");
     width: 20px;
     height: 20px;
   }
   input:checked{
-    background-image: url("../images/checkbox-checked-black.png");
+    background-image: url("../images/blackIcons/other/checked.png");
   }
 }
