@@ -78,6 +78,7 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
       layerName=layerInfoJson.Layers[i].Name;
       layerNameMenu=layerInfoJson.Layers[i].Description;
       formattedLayerName=common.formatName(layerNameMenu);
+      rasterElement.className ="rasterListElement";
       rasterElement.setAttribute("name",layerName);
       rasterElement.setAttribute("area",layerArea);
       rasterElement.setAttribute("active", false);
@@ -88,8 +89,8 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
       var checkbox = document.createElement("button");
       checkbox.className="check";
       rasterElement.appendChild(checkbox);
-      checkbox.addEventListener("click", function(){
-        raster.layerClickEvent(event.currentTarget);
+      rasterElement.addEventListener("click", function(){
+        raster.layerClickEvent(event.currentTarget.children[1]);
         // checkbox.toggleClass("checked");
 
       });
