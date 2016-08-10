@@ -273,7 +273,7 @@ input[type="submit"]:hover {
   .toolListHidden{ //not in use, didnt work:(
     height: 0!important;
   }
-  .toolChosen{
+  #tool-button-avstand.toolChosen{
     background-color: rgba(117, 117, 117, 0.58);
   }
 }
@@ -292,9 +292,9 @@ input[type="submit"]:hover {
       margin-bottom:10px;
     }
     .smSymbol{
-      width:50px;
+      width:30px;
       border-radius: 25px;
-      margin-left: 10px;
+      margin-left: 26px;
       cursor: pointer;
     }
   }
@@ -421,11 +421,13 @@ input[type="submit"]:hover {
     border-bottom:solid 1px rgba(118, 118, 118, 0.5);
   }
   #chosenKommune{
+    cursor: pointer;
     height: 47px;
     padding-left: 10px;
     border-bottom: 1px solid rgba(118,118,118,0.5);
     padding-left:10px;
-    span{
+    color:#3f3e3e;
+    h4{
       margin-top:10px;
       float:left;
     }

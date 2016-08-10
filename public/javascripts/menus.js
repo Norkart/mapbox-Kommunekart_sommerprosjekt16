@@ -103,21 +103,13 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
   document.getElementById("kommunekart-menu").appendChild(rasterMenu);
 }
 
-//if zoomLevel is lower than 9.5 --> unselect kommune, go back to "Velg kommune" text, and remove raster layer: same as x functionality?
-// map.on('moveend', function(){
-//   console.log("moveend");
-//   // console.log(event.currentTarget);
-//   // && event.currentTarget.id!== "backToKommuneList"
-//
-// });
-
 function setKommuneMenuHeader(target, kommuneName, moveEvent){
   //set chosen kommune name above list, instead of "velg kommune"
   $("#kommuneListPointer").hide();
   if(document.getElementById("chosenKommune")==undefined){
     var kommune = document.createElement("div");
     kommune.id = "chosenKommune";
-    var tekst = document.createElement("span");
+    var tekst = document.createElement("h4");
     tekst.id= "chosenKommuneName";
     kommune.appendChild(tekst);
     tekst.innerHTML = kommuneName;
@@ -147,27 +139,12 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
   if(menuState.chosenKommuneId==false){
     createKommuneBackButton();
   }
+  // updateCenterAndMiddle();
   setNavCtrl(); //show border and show center
 }
-// function setKommuneMenuHeader(target, kommuneName, moveEvent){
-//   //set chosen kommune name above list, instead of "velg kommune"
-//   document.getElementById("choose-kommune-text").innerHTML=kommuneName;
-//   //add kommune icon
-//   var kommuneIcon=target.firstChild.cloneNode(true);
-//   if(document.getElementById("kommuneHeaderImg")==undefined){
-//     kommuneIcon.id="kommuneHeaderImg";
-//     document.getElementById("kommunekart-menu-button").insertBefore(kommuneIcon, document.getElementById("kommunekart-menu-button").firstChild);
-//   }else if(document.getElementById("kommuneHeaderImg") !=undefined){ //only change url for image
-//     var img=document.getElementById("kommuneHeaderImg");
-//     img.setAttribute("src", target.getAttribute("kommuneSkiltLogo"));
-//   }
-//   if(menuState.chosenKommuneId==false){
-//     createKommuneBackButton();
-//   }
-//   setNavCtrl(); //show border and show center
-// }
 
 function setNavCtrl(){
+  console.log("Setter navControllers");
   //check if already exist
   if(document.getElementById("showKommune")!=undefined){
     return;
@@ -200,15 +177,7 @@ function createKommuneBackButton(){
   var backButton=document.createElement("button");
   backButton.id="backToKommuneList";
   backButton.className="pointer";
-  // backButton.addEventListener("click", function(){
-  //   map.flyTo({zoom:9});
-  //   if(menuState.kommuneMenuOpen){
-  //     unselectKommune();
-  //     showKommuneMenuContent(menuState.type);
-  //   }else{
-  //     unselectKommune();
-  //   }
-  // });
+
   document.getElementById("kommunekart-menu-button").insertBefore(backButton, document.getElementById("kommunekart-menu-button").firstChild);
 }
 
@@ -272,6 +241,7 @@ document.getElementById('menu-selector').addEventListener("click", function(){
 
 //"Velg kommune" is clicked, kommunelist shown/hidden
 document.getElementById("kommunekart-menu-button").addEventListener("click", function(){
+  $(document.getElementById('KommuneSearch')).val(''); //Clear the kommune-search input field
   console.log("fired open/close listener");
   if(event.target.id ==="backToKommuneList" || event.target.id ==="showKommune" || event.target.id==="showCenter"){
     console.log("Dont fire open/close event");
@@ -362,8 +332,10 @@ $('.tool-button-del').click(function(){
 //Avstand verktoy
 $('.tool-button-avstand').click(function(){
   if(mapmodus==="measure"){
+    console.log("Skal stoppe measure");
     measure.stop();
   }else{
+    console.log("Skal starte measure");
     measure.start();
   }
   // $('.tool-button-avstand').addClass("activeListElement");

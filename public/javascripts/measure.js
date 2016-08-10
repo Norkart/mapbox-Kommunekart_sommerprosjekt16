@@ -26,7 +26,7 @@ measure.start=function(){
 }
 
 measure.stop=function(){
-  mapmodus="poup";
+  mapmodus="popup";
 }
 
 measure.clickevent=function(e){

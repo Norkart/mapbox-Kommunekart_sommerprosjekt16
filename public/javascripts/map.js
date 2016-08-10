@@ -27,6 +27,7 @@ var map = new mapboxgl.Map({
 
 map.addControl(new mapboxgl.Navigation({position: 'bottom-right'}));
 map.addControl(new mapboxgl.Geolocate({position: 'bottom-right'}));
+addTitlesControllers();
 
 //sets boundarie for how often a function can be called
 var throttle = function(func, time) {
@@ -86,15 +87,6 @@ function toggleOSM(visible){ //change visibility for open street map layers depe
 var stillLoading;
 var interval;
 var drag=false;
-
-//Sets a progress bar by checking if render is still running. When render is not fired anymore, the variable stillLoading will not be changed back
-// to true, and the interval function will change cursos and then terminate it self
-
-// map.on("dragstart", function(){
-//   console.log("TOUCH MOVED");
-//   console.log(drag);
-//   drag=true;
-// });
 
 map.on("render", function(){
   console.log(drag);
@@ -157,10 +149,24 @@ function getBBoxPol(){
 //called when kommune is clicked
 function flyTo(){
   var kommune=kommuneObjectList[menuState.chosenKommuneId];
+  // console.log("Kommune");
   var zoomTo=kommune.StartZoom;
   if(zoomTo==-1){
     zoomTo=14;
   }
+  var zoomCenter= updateCenterAndMiddle();
+
+  map.flyTo({
+    center: zoomCenter,
+    // zoom:zoomTo-5
+    zoom:10
+  });
+
+}
+
+function updateCenterAndMiddle(){
+  var kommune=kommuneObjectList[menuState.chosenKommuneId];
+  console.log("Kommune");
   var middleEast= kommune.West + ((kommune.East-kommune.West)/2);
   var middleNorth = kommune.South + ((kommune.North-kommune.South)/2);
   var startEast=kommune.StartEast;
@@ -172,13 +178,10 @@ function flyTo(){
   if(startNorth==0){
     startNorth=middleNorth;
   }
-  map.flyTo({
-    center:[startEast,startNorth],
-    // zoom:zoomTo-5
-    zoom:10
-  });
+
   menuState.activeKommuneCenter=[startEast, startNorth];
   menuState.activeKommuneMiddle=[middleEast, middleNorth];
+  return [startEast, startNorth];
 }
 
 function toggleSlideOfMapCtrl(){
@@ -271,10 +274,9 @@ function changeBackgroundMap(maptype) {
       }
     });
     wmsUrl = "http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=TMS_WEBATLAS_STANDARD:1;";
-    $("#menu-selector").addClass("darkerColor");
   }
   map.once("render", function(){
-    addAlreadyActiveOverlays();
+    raster.addAlreadyActiveOverlays();
   });
 
 
@@ -436,6 +438,7 @@ map.on('moveend', function () {
     selectKommune();
     //wait for select kommune to finish, otherwise we wont know what to set header to
     setTimeout(function(){
+      updateCenterAndMiddle();
       updateTopKommuneHeader();
     }, 500);
   }else if(menuState.chosenKommuneId!=false){ //if kommune is active, and you zoom out
@@ -537,4 +540,16 @@ function zoomToCenterOfMunicipality(){
     zoom:13,
     center: menuState.activeKommuneCenter
   });
+}
+
+function addTitlesControllers(){
+  var locationBtn = document.getElementsByClassName("mapboxgl-ctrl-geolocate")[0];
+  var zoomIn = document.getElementsByClassName("mapboxgl-ctrl-zoom-in")[0];
+  var zoomOut = document.getElementsByClassName("mapboxgl-ctrl-zoom-out")[0];
+  var rotation = document.getElementsByClassName("mapboxgl-ctrl-compass")[0];
+
+  $(locationBtn).attr('title','Finn din posisjon');
+  $(zoomIn).attr('title','Zoom inn');
+  $(zoomOut).attr('title','Zoom ut');
+  $(rotation).attr('title','Roter kart');
 }
