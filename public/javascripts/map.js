@@ -274,7 +274,7 @@ function changeBackgroundMap(maptype) {
     $("#menu-selector").addClass("darkerColor");
   }
   map.once("render", function(){
-    addAlreadyActiveOverlays();
+    raster.addAlreadyActiveOverlays();
   });
 
 

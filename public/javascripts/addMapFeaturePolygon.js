@@ -43,26 +43,40 @@ function makeCompressedPolygon(points) {
     return result.join("");
 }
 
-function addRasterPolygon(layers, coord){
+function updateFeatureRasterPolygon(layerName, coord){
+  console.log("update feature");
+  console.log(hasPolygon(layerName+"Raster"));
+  if(hasPolygon(layerName+"Raster")){
+    removeFeatureRasterPolygon(layerName);
+  }else{
+    addRasterPolygon(layerName, coord);
+  }
+}
+
+function addRasterPolygon(layerName, coord){ //layerName =layerName?
   console.log("Adder rasterpolygon");
+  console.log(layerName);
   console.log(layerArea);
   console.log(GFI.layerAreas);
   var currCoord =getValidCoordString(coord);
+  console.log(currCoord);
   var adressUrl= "http://webutvikling.gisline.no/FeatureMaskService/default.aspx?X={x}&Y={y}&Z={z}&layers="
   adressUrl += GFI.layerAreas[0];
   adressUrl += ":";
-  adressUrl += layers;
+  adressUrl += layerName;
   adressUrl += "&POLYGON=";
   adressUrl += makeCompressedPolygon(currCoord);
-  if(hasPolygon(layers+"Raster")){
-    removeFeatreRasterPolygon(layers);
-    // removeRaster(layers+"Raster");
-    // removeElementInList(activeFeaturePolygons,layers);
+  if(hasPolygon(layerName+"Raster")){
+    removeFeatureRasterPolygon(layerName);
+    // removeRaster(layerName+"Raster");
+    // removeElementInList(activeFeaturePolygons,layerName);
   }
-  raster.addNew(adressUrl, layers+"Raster", 8);
-  activeFeaturePolygons.push(layers);
+  raster.addNew(adressUrl, layerName+"Raster", 8);
+  activeFeaturePolygons.push(layerName);
   console.log(activeFeaturePolygons);
-  //TODO: Finn ut hvorfor CORS error ved addRaster
+  var checkboxEl=getCheckboxEl(layerName, "feature");
+  // toggleSpecificGFICheckbox(checkboxEl);
+  // updateActiveCheckboxObj(layerName, "feature", true);
 }
 
 function getValidCoordString(coord){
@@ -73,9 +87,10 @@ function getValidCoordString(coord){
   return currCoords;
 }
 
-function removeFeatreRasterPolygon(name){
+function removeFeatureRasterPolygon(name){
   raster.remove(name+"Raster");
   removeElementInList(activeFeaturePolygons,name);
+  updateActiveCheckboxObj(name, "feature", false);
 }
 // function getValidCoordString(coord){
 //   var currCoord ="";
