@@ -75,14 +75,15 @@ raster.isVisible=function(layername){
 //
 
 
-raster.toggleWarningSign = function(visible, layername){
-  console.log("toggle warning");
+
+raster.toggleWarningSign = function(visible, layername){ //layername
   var minzoom=raster.layerZoomlevels[layername][1]-1;
   var tilgjengeligeRasterListe=document.getElementById("layerList");
   for (var i = 0; i < tilgjengeligeRasterListe.children.length; i++) {
-    var child=tilgjengeligeRasterListe.children[i]; //current raster
+    var child=tilgjengeligeRasterListe.children[i]; //current rasterlayer
     if(child.getAttribute("name")===layername){
       var check = child.children[1];
+      var isChecked = $(check).hasClass("checked");
       if(visible){
         //remove legend img
         if(child.children.length>2){
@@ -106,6 +107,9 @@ raster.toggleWarningSign = function(visible, layername){
         }
         document.getElementById
       }else{
+        if(!isChecked){
+          return;
+        }
         // remove warning img
         if(child.children.length>2){
           child.removeChild(child.children[2]);
@@ -221,9 +225,11 @@ raster.layerClickEvent=function(layerName){
   var activeLayer=liElement.getAttribute("active");
   if(activeLayer==="true"){
     if(liElement.children.length>2 ){
+      if($(liElement.children[2]).hasClass("selected")){
+        $("#tegnForklaring").hide();
+      }
       var id = liElement.children[2].id.toString();
       document.getElementById(id).remove();
-      $("#tegnForklaring").hide();
     }
     $(target).toggleClass("checked");
     common.removeFromList(liElement.getAttribute("name"), raster.activeLayerNames);

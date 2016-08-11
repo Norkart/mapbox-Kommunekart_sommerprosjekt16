@@ -282,6 +282,7 @@ document.getElementById("kommunekart-menu-button").addEventListener("click", fun
 });
 
 function toggleSideMenu(){
+  $("#tegnForklaring").toggleClass("legendSidebarClosed")
   $("#menu-selector").toggleClass("sidenavOpen");
   if(menuState.sideNavOpen){ //CLOSING menu
     var actualMenuState=menuState.kommuneMenuOpen;
