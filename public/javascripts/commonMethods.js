@@ -93,8 +93,6 @@ common.handleMultipleAsyncCalls = function (functions, success, failure) {
     }
 
     var finishIfDone = function () {
-      console.log(counter);
-      console.log(numberOfFunctions);
         if (counter === numberOfFunctions) {
             if (failureCounter > 0) {
                 failure(results);

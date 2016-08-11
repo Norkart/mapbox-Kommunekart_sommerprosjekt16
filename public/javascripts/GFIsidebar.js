@@ -50,19 +50,9 @@ function getCapabilitiesForSideMenu(kommuneId, lat, long){
 function createCapabilitylist(res, lat, long, kommuneId){ //is running for each map click
   createSideMenu(res, lat, long);
   tjenesteObjects={};
-  // GFI.activeInfoboxes=[];
-  addFeatureInfo(long,lat);
   getFeatureInfoForObject(long, lat); //kaller videre til der hvor det legges inn i tjenesteObjects
-  // initCapabilityBtn();
-  // checkboxCapabilityEvent();
-  // setTimeout(function(){
-  //   openActiveInfoBoxes();
-  // }, 700);
 }
 
-function addFeatureInfo(long, lat){
-
-}
 
 //Get featureinfo clicked element:
 function getFeatureInfoForObject(long, lat){
@@ -79,22 +69,26 @@ function getFeatureInfoForObject(long, lat){
       }
     }
     featureUrl += layers;
-    console.log(featureUrl);
-    console.log("Skal gjøre featurespørring");
-    // doFeatureQuery()
     functionsToQuery.push(wrapperGenerator(featureUrl));
   }
   common.handleMultipleAsyncCalls(functionsToQuery, function(){
     console.log("ALL GOOOD");
+    console.log(tjenesteObjects);
+    console.log(GFI.activeCheckbuttons);
     if($.isEmptyObject(tjenesteObjects)){
       // alert("Ingen tilgjenelige tjenester")
       console.log("Ingen Tilgjengelige tjenester");
       document.getElementById("featureHeader").innerHTML="Ingen tilgjengelige tjenester for dette punktet";
     }else{
       document.getElementById("featureHeader").innerHTML="Tilgjengelige tjenester";
+      updateSideMenu();
       initCapabilityBtn();
-      // checkboxCapabilityEvent();
       openActiveInfoBoxes();
+
+      if(menuState.infoSidebarStatus){
+        turnOnActiveCheckboxes();
+      }
+      // checkboxCapabilityEvent();
     }
   }, function(){
     console.log("FAIL");
@@ -102,7 +96,6 @@ function getFeatureInfoForObject(long, lat){
 }
 function wrapperGenerator(featureUrl){
   return function(success, failure){
-    console.log(featureUrl);
     $.ajax({
       url: featureUrl,
       complete: function(res){
@@ -115,7 +108,6 @@ function wrapperGenerator(featureUrl){
             for(var i = 0; i < response.length; i++){
               if(response[i].WMSLayer===targetListElement){
                 list.push(response[i]);
-                console.log("ADDING TO TJENESTEOBJECTS");
                 tjenesteObjects[targetListElement]=response[i];
               }
             }
@@ -128,65 +120,44 @@ function wrapperGenerator(featureUrl){
   }
 }
 
-getFeatureInfoWrapper=function(success, failure){
-  console.log(featureUrl);
-  $.ajax({
-    url: featureUrl,
-    complete: function(res){
-      var response=JSON.parse(res.responseText);
-      for (var j = 0; j < GFI.targets.length; j++) {
-        var currTargetList = GFI.targets[j];
-        var list=[];
-        for (var k = 0; k < currTargetList.length; k++) {
-          var targetListElement = currTargetList[k];
-          for(var i = 0; i < response.length; i++){
-            if(response[i].WMSLayer===targetListElement){
-              list.push(response[i]);
-              console.log("ADDING TO TJENESTEOBJECTS");
-              tjenesteObjects[targetListElement]=response[i];
-            }
-          }
+function turnOnActiveCheckboxes(){
+  for(var layerName in GFI.active_POI_data){
+    if(GFI.activeCheckbuttons[layerName]!==undefined){
+
+      console.log(GFI.activeCheckbuttons);
+      if(GFI.activeCheckbuttons[layerName]["feature"]!== undefined){
+        if(GFI.activeCheckbuttons[layerName]["feature"]["active"]===true){
+          console.log("UpdateFeature");
+          var coordinatesObj = tjenesteObjects[layerName].Geometry;
+          updateFeatureRasterPolygon(layerName, coordinatesObj);
         }
       }
-      updateSideMenu();
-      success();
+      console.log("CHECKING FOR BORDER");
+      console.log(GFI.activeCheckbuttons[layerName]["border"]);
+      if(GFI.activeCheckbuttons[layerName]["border"]!==undefined){
+        if(GFI.activeCheckbuttons[layerName]["border"]["active"]===false){
+          //turn off border - done automatically
+        }else{
+          //turn checkbox on
+          var checkEl=getCheckboxEl(layerName, "border");
+          toggleSpecificGFICheckbox(checkEl, true);
+        }
+      }if(GFI.activeCheckbuttons[layerName]["lag"]!== undefined){
+        if(GFI.activeCheckbuttons[layerName]["lag"]["active"]===true){
+        //do anything?
+        var checkEl=getCheckboxEl(layerName, "lag");
+        console.log(checkEl);
+        toggleSpecificGFICheckbox(checkEl);
+        }
+      }
     }
-    // failure:
-
-  });
+  }
 }
-
-// function doFeatureQuery(featureUrl){
-//   return $.ajax({
-//     url: featureUrl,
-//     complete: function(res){
-//       var response=JSON.parse(res.responseText);
-//       for (var j = 0; j < GFI.targets.length; j++) {
-//         var currTargetList = GFI.targets[j];
-//         var list=[];
-//         for (var k = 0; k < currTargetList.length; k++) {
-//           var targetListElement = currTargetList[k];
-//           for(var i = 0; i < response.length; i++){
-//             if(response[i].WMSLayer===targetListElement){
-//               list.push(response[i]);
-//               console.log("ADDING TO TJENESTEOBJECTS");
-//               tjenesteObjects[targetListElement]=response[i];
-//             }
-//           }
-//         }
-//       }
-//       updateSideMenu();
-//     }
-//   });
-// }
-
-
 
 function createSideMenu(res,lat, long){
   //Creating a list with available Features for current kommune(queryable =true)
   GFI.availableFeatures =[];
   var pastLayerAreas = GFI.layerAreas;
-  console.log(GFI.layerAreas);
   GFI.layerAreas = [];
   var subTitles = [];
   for (var j = 0; j < res.length; j++) {
@@ -201,8 +172,6 @@ function createSideMenu(res,lat, long){
     }
     GFI.availableFeatures.push(featuresList);
   }
-  console.log(pastLayerAreas);
-  console.log(GFI.layerAreas);
   if(pastLayerAreas != undefined){
     if(!arraysEqual(pastLayerAreas,GFI.layerAreas)){
       while (activePolygons.length > 0) {
@@ -210,8 +179,6 @@ function createSideMenu(res,lat, long){
       }
     }
   }
-  console.log(pastLayerAreas);
-  console.log(GFI.layerAreas);
   if(GFI.availableFeatures.length ==0){
     return;
   }
@@ -299,7 +266,6 @@ function removeCapabilitylist(){
 }
 
 function updateSideMenu(){
-  console.log("sidemenu kjorer");
   var elementListe = document.getElementById("availableFeaturesList");
   var listItem = elementListe.children;
   // $(listItem).hide();
@@ -359,12 +325,17 @@ function prepareCapabilityDrawing(currentListButton, name, colorCounter){
     removeFeatureRasterPolygon(activeFeaturePolygons[0]);
   }
   if(exsistsInList(GFI.drawnKommuneData, name)){ //TODO: her er sjekk på hva som skal være default på!!!!
-    console.log("existst in list, turn on");
     // $(currentListButton.children[2]).toggleClass("checked");
     showPolygon(name);
     showPolygonColor(currentListButton.children[1]);
-    if(exsistsInObject(GFI.activeInfoboxes, name)){
-      addRasterPolygon(name, coordinatesObj);
+    // if(exsistsInObject(GFI.activeInfoboxes, name)){
+    //   addRasterPolygon(name, coordinatesObj);
+    // }
+    console.log(GFI.activeCheckbuttons);
+    if(GFI.activeCheckbuttons[name].feature!==undefined){
+      if(GFI.activeCheckbuttons[name].feature.active===true){
+        // addRasterPolygon(name, coordinatesObj);
+      }
     }
   }
   // if(exsistsInList(GFI.drawnKommuneData, name)&& ){
@@ -493,7 +464,6 @@ function showInformation(listElement) {
   var features=GFI.active_POI_data[featureName][featureName].AttributesList;
   var string = "";
   var infoDiv = addInfoDiv(listElement);
-  console.log(featureName);
   var infoList = addInfoList(infoDiv, featureName);
   for (var element in features) {
     if(features.hasOwnProperty(element)){
@@ -513,22 +483,32 @@ function initCapabilityBtn(){
     classname[i].addEventListener('click', function(){
       toggleInfoBox(event.target, false);
       //turn on borders default
-      console.log(event.target);
-      console.log(event.target.parentNode.parentNode.id);
       var id=event.target.parentNode.parentNode.id;
       console.log(document.getElementById(id+"info"));
+      console.log(document.getElementById(id+"info").children[0]);
+      console.log(document.getElementById(id+"info").children[0].children[0]);
       var target=document.getElementById(id+"info").children[0].children[0].children[0];
       GFIBorderCheckboxEvent(target);
+
     });
   }
 }
 
+function initBorderCheckObj(layerName){
+  if(GFI.activeCheckbuttons[layerName]!==undefined){
+    if(GFI.activeCheckbuttons[layerName]["border"]===undefined){
+      updateActiveCheckboxObj(layerName, "border", true);
+    }
+  }
+};
+
 function toggleInfoBox(domElement, doOpen){
-  console.log(domElement);
-  console.log(tjenesteObjects);
   var listElement = domElement.parentNode.parentNode;
   var btn = domElement.parentNode;
   var elementTxt = btn.getAttribute("elementfeatureName").toString();
+
+  initBorderCheckObj(elementTxt);
+
   if(tjenesteObjects[elementTxt]===undefined){
     console.log("NOOOOOOOOOOOOOOOOO");
   }
@@ -537,9 +517,7 @@ function toggleInfoBox(domElement, doOpen){
   }else if(exsistsInObject(GFI.activeInfoboxes, elementTxt) && !doOpen){
     closeCapabilityInfo(listElement, elementTxt, btn);
     //remove from activeInfoBoxes
-    console.log(GFI.activeInfoboxes);
     delete GFI.activeInfoboxes[elementTxt];
-    console.log(GFI.activeInfoboxes);
   }else{
     GFI.activeInfoboxes[elementTxt]={ //add to active
       name:elementTxt,
@@ -568,18 +546,14 @@ function openActiveInfoBoxes(){
   }
   // console.log(GFI.active_POI_data);
   console.log("open active info boxes");
-  console.log(GFI.activeInfoboxes);
   var domElement;
   for(var el in GFI.activeInfoboxes){
     if(exsistsInObject(GFI.active_POI_data, el)){
-      console.log("TRY TO OPEN INFO BOX");
       var features=document.getElementById("availableFeaturesList");
-      console.log(features);
       var open=false
       for(var j=0; j<features.children.length; j++){
         if(features.children[j].firstChild.getAttribute("elementfeatureName") ===el){
           domElement=features.children[j].firstChild.firstChild;
-          console.log(domElement);
           open=true;
         }
       }
@@ -592,8 +566,6 @@ function openActiveInfoBoxes(){
 function openCapabilityInfo(infoObj, elementTxt){
   // console.log("Open cap. info");
   showInformation(infoObj.listEl);
-  console.log($("#"+infoObj.name));
-  console.log($("#"+infoObj.name).children(0).children(0));
   $("#"+infoObj.name).children(0).children(0).toggleClass("activeInfoBox");
   $("#"+infoObj.name).children(0).attr("active", true);
   $(infoObj.btn.children[3]).addClass("pointer-down");
@@ -606,45 +578,11 @@ function openCapabilityInfo(infoObj, elementTxt){
   // }
 }
 
-// // function checkboxCapabilityEvent(){
-//   var classname = document.getElementsByClassName("check");
-//   for (var i = 0; i < classname.length; i++) {
-//     classname[i].addEventListener('click', function(){
-//       console.log("listener fired");
-//       var checkName = event.target.parentNode.getAttribute("elementfeatureName").toString();
-//       var coordinatesObj = tjenesteObjects[checkName].Geometry;
-//       var imageElement = event.target.parentNode.children[1];
-//       if(!$(event.target).hasClass("checked")){
-//         GFI.drawnKommuneData.push(checkName);
-//         showPolygonColor(imageElement);
-//         showPolygon(checkName);
-//         var coordinatesObj = tjenesteObjects[checkName].Geometry;
-//         console.log(activeFeaturePolygons);
-//         console.log(GFI.activeInfoboxes);
-//         // if(exsistsInList(activeFeaturePolygons, checkName)&&exsistsInObject(GFI.activeInfoboxes, checkName)){
-//         //   showPolygon(checkName+"Raster");
-//         //   console.log("Skal vise rasterbilde");
-//         // } else if(!exsistsInList(activeFeaturePolygons, checkName)&& exsistsInObject(GFI.activeInfoboxes, checkName)){
-//         //   console.log("Skal adde nytt rasterpolygon");
-//         //   addRasterPolygon(checkName, coordinatesObj);
-//         // }
-//       } else{
-//         removeElementInList(GFI.drawnKommuneData, checkName);
-//         hidePolygonColor(imageElement);
-//         hidePolygon(checkName);
-//         if(exsistsInList(activeFeaturePolygons, checkName)){
-//           console.log("Skal gjemme rasterlayaret");
-//           hidePolygon(checkName+"Raster");
-//         }
-//       }
-//       $(event.target).toggleClass("checked");
-//       event.stopPropagation();
-//     });
-//   }
-// }
 
 function getCheckboxEl(layerName, type){
-  console.log(layerName);
+  if(document.getElementById(layerName+"-gfiCheckboxDiv")===null){
+    return false;
+  }
   var checkboxes=document.getElementById(layerName+"-gfiCheckboxDiv").children;
   if(type==="border"){
     return checkboxes[0].children[0];
@@ -658,24 +596,16 @@ function getCheckboxEl(layerName, type){
 }
 
 function GFIBorderCheckboxEvent(target){
-  console.log("listener fired");
-  console.log(target);
   var layerName = target.parentNode.parentNode.id.split("-")[0];
-  console.log(layerName);
   var coordinatesObj = tjenesteObjects[layerName].Geometry;
   var imageElement = document.getElementById(layerName+"-GFI").children[0].children[1];
-  console.log(target.checked);
-  console.log(target);
   if(!$(target).hasClass("checked")){ //skru på
     GFI.drawnKommuneData.push(layerName);
     showPolygonColor(imageElement);
     showPolygon(layerName);
     var coordinatesObj = tjenesteObjects[layerName].Geometry;
-    console.log(activeFeaturePolygons);
-    console.log(GFI.activeInfoboxes);
     updateActiveCheckboxObj(layerName, "border", true);
   }else{
-    console.log("REMOVING ELEMENT");
     removeElementInList(GFI.drawnKommuneData, layerName);
     hidePolygonColor(imageElement);
     hidePolygon(layerName);
@@ -761,13 +691,10 @@ function removePolygon(id){
   map.removeLayer(id);
   map.removeSource(id);
   removeElementInList(activePolygons, id);
-  console.log("Sletter polgon: "+ id);
-  console.log(activePolygons);
 }
 
 function hidePolygon(id){
   map.setLayoutProperty(id, 'visibility', 'none');
-  console.log("Gjemmer polygon: " + id);
 }
 
 function showPolygon(id){
@@ -839,27 +766,16 @@ function closeInfoSidebar(){
 }
 
 
-// $("#lagCheckbox").click(function(){
-//   console.log("CLICK");
-//   GFIcheckboxClickEvent("lagCheckbox");
-// });
 
 function GFIcheckboxClickEvent(className, ulForInfobox, target){ //target is checkbox element
   var layerName=ulForInfobox.id.split("-")[0];
-  console.log(layerName);
   if(className==="lagCheckbox"){
-    console.log(ulForInfobox);
     // var targetEl=getDomElementFromLayerList(getElementFeatureNameFromCheckbox(target));
     raster.layerClickEvent(layerName);
   }else if(className==="borderCheckbox"){
-    console.log(GFI.activeInfoboxes);
-    console.log("BORDER-CLICK");
     GFIBorderCheckboxEvent(target);
   }else if(className==="featureCheckbox"){
-    console.log("FEATURE CLICK");
-    console.log(tjenesteObjects);
     var coordinatesObj = tjenesteObjects[layerName].Geometry;
-    console.log(coordinatesObj);
     updateFeatureRasterPolygon(layerName, coordinatesObj);
   }
   // toggleGFICheckbox(layerName);
@@ -876,7 +792,6 @@ getDomElementFromLayerList=function(name){
 }
 
 toggleGFICheckbox=function(layerName, type){
-  console.log(layerName);
   var box=document.getElementById(layerName+"-gfiCheckboxDiv");
   if(box.checked===true){
     box.checked=false;
@@ -885,19 +800,23 @@ toggleGFICheckbox=function(layerName, type){
   }
 }
 
-toggleSpecificGFICheckbox=function(el){
+toggleSpecificGFICheckbox=function(el, state){
   if($(el).hasClass("checked")===true){
-    $(el).removeClass("checked");
+    if(state===true){
+        //do nothing, already on
+    }else{
+      $(el).removeClass("checked");
+    }
   }else{
     $(el).addClass("checked");
   }
 }
 
 function updateActiveCheckboxObj(layerName, type, active){
-  console.log(layerName);
-  GFI.activeCheckbuttons[layerName]={};
+  if(GFI.activeCheckbuttons[layerName]===undefined){
+    GFI.activeCheckbuttons[layerName]={};
+  }
   GFI.activeCheckbuttons[layerName][type]={"active":active};
-  console.log(GFI.activeCheckbuttons);
 }
 function isActiveCheckbutton(layerName, type){
   return GFI.activeCheckbuttons[layerName][type];

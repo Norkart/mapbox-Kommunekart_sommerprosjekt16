@@ -133,7 +133,6 @@ raster.addAlreadyActiveOverlays=function(){
 raster.layerClickEvent=function(layerName){
   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
   // var liElement = target.parentNode;
-  console.log(layerName);
   var liElement=document.getElementById(layerName);
   var target=document.getElementById(layerName).children[1];
   var activeLayer=liElement.getAttribute("active");
@@ -213,7 +212,6 @@ raster.addAerial =function(url, name){ //het addAerialRaster()
 }
 
 raster.addNew=function(url, name, zoomLevel){
-  console.log(url);
   var mz;
   if(zoomLevel){
     mz=zoomLevel;
@@ -257,7 +255,6 @@ raster.addNew=function(url, name, zoomLevel){
   map.addLayer(layerObj, layerNameToInsertBefore);
 
   map.once("render", function(){
-      console.log("render done turn on raster");
   });
 }
 
@@ -307,7 +304,6 @@ raster.remove=function(name){ //gets called everytime a kommune is chosen
     map.removeSource(name);
     map.removeLayer(name);
   }else{
-    console.log("no raster to delete");
     return false;
   }
 }

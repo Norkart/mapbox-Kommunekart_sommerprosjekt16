@@ -44,22 +44,20 @@ function makeCompressedPolygon(points) {
 }
 
 function updateFeatureRasterPolygon(layerName, coord){
-  console.log("update feature");
-  console.log(hasPolygon(layerName+"Raster"));
   if(hasPolygon(layerName+"Raster")){
     removeFeatureRasterPolygon(layerName);
+    // GFI.activeCheckbuttons[name].feature=false;
+    updateActiveCheckboxObj(layerName, "feature", false);
+    console.log(GFI.activeCheckbuttons);
   }else{
     addRasterPolygon(layerName, coord);
+    updateActiveCheckboxObj(layerName, "feature", true);
+    // console.log(GFI.activeCheckbuttons); --> riktig her
   }
 }
 
 function addRasterPolygon(layerName, coord){ //layerName =layerName?
-  console.log("Adder rasterpolygon");
-  console.log(layerName);
-  console.log(layerArea);
-  console.log(GFI.layerAreas);
   var currCoord =getValidCoordString(coord);
-  console.log(currCoord);
   var adressUrl= "http://webutvikling.gisline.no/FeatureMaskService/default.aspx?X={x}&Y={y}&Z={z}&layers="
   adressUrl += GFI.layerAreas[0];
   adressUrl += ":";
@@ -68,15 +66,13 @@ function addRasterPolygon(layerName, coord){ //layerName =layerName?
   adressUrl += makeCompressedPolygon(currCoord);
   if(hasPolygon(layerName+"Raster")){
     removeFeatureRasterPolygon(layerName);
-    // removeRaster(layerName+"Raster");
-    // removeElementInList(activeFeaturePolygons,layerName);
   }
   raster.addNew(adressUrl, layerName+"Raster", 8);
   activeFeaturePolygons.push(layerName);
-  console.log(activeFeaturePolygons);
   var checkboxEl=getCheckboxEl(layerName, "feature");
-  // toggleSpecificGFICheckbox(checkboxEl);
-  // updateActiveCheckboxObj(layerName, "feature", true);
+  if(checkboxEl!==undefined){
+    toggleSpecificGFICheckbox(checkboxEl);
+  }
 }
 
 function getValidCoordString(coord){
@@ -90,18 +86,8 @@ function getValidCoordString(coord){
 function removeFeatureRasterPolygon(name){
   raster.remove(name+"Raster");
   removeElementInList(activeFeaturePolygons,name);
-  updateActiveCheckboxObj(name, "feature", false);
+  var checkboxEl=getCheckboxEl(name, "feature");
+  if(checkboxEl!==null){
+    toggleSpecificGFICheckbox(checkboxEl);
+  }
 }
-// function getValidCoordString(coord){
-//   var currCoord ="";
-//   var list = coord.Positions;
-//   for(var i=0; i<list.length; i++){
-//     var el=list[i];
-//     currCoord += el.Y;
-//     currCoord += ",";
-//     currCoord += el.X;
-//     currCoord += ",";
-//   }
-//   currCoord = currCoord.substring(0, currCoord.length-1);
-//   return currCoord;
-// }
