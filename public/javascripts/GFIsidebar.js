@@ -6,7 +6,7 @@ var GFI={
   active_POI_data:{},//availbale data for current clicked point
   layerAreas:[],
   colors:[
-    "rgba(225, 86, 83, 1)", "rgba(134, 167, 223, 1)", "rgba(244, 172, 74, 1)", "rgba(225, 210, 71, 1)", "rgba(160, 195, 56, 1)"
+    "rgba(225, 86, 83, 1)", "rgba(53, 150, 221, 1)", "rgba(244, 167, 51, 1)", "rgba(213, 76, 174, 1)", "rgba(160, 195, 56, 1)"
   ]
 };
 //Transform WGS to UTM coordinates
@@ -419,15 +419,15 @@ getCapabilityCheckbox =function(className, name, feature){
   return checkEl;
 }
 getCapabilityCheckboxes=function(feature){
-  var lagCheck=getCapabilityCheckbox("lagCheckbox", "Vis lag");
+  var lagCheck=getCapabilityCheckbox("lagCheckbox", "Vis alt");
   if(exsistsInList(raster.activeLayerNames, feature)){
     // lagCheck.children[0].checked=true;
   }else{
     // lagCheck.children[0].checked=false;
   }
-  var featureCheck=getCapabilityCheckbox("featureCheckbox", "Vis feature");
+  var featureCheck=getCapabilityCheckbox("featureCheckbox", "Vis valgt");
     // featureCheck.children[0].checked=true;
-  var borderCheck=getCapabilityCheckbox("borderCheckbox", "Vis grense");
+  var borderCheck=getCapabilityCheckbox("borderCheckbox", "Vis omriss");
     // borderCheck.children[0].checked=true;
   var div=document.createElement("div");
   div.id=feature+"-gfiCheckboxDiv";
@@ -760,11 +760,12 @@ function closeInfoSidebar(){
   toggleSlideOfMapCtrl();
   map.removeLayer("marker");
   map.removeSource("marker");
+
   while (activePolygons.length > 0) {
     removePolygon(activePolygons[0]);
+    removeFeatureRasterPolygon(activePolygons[0]);
   }
 }
-
 
 
 function GFIcheckboxClickEvent(className, ulForInfobox, target){ //target is checkbox element
