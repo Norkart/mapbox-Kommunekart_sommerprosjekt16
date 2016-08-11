@@ -91,6 +91,7 @@ function createRasterLayerMenu(categoriesJson){ //categoriesJson is the list wit
       rasterElement.appendChild(checkbox);
       rasterElement.addEventListener("click", function(){
         raster.layerClickEvent(event.currentTarget.children[1]);
+        // getMapDescription();
         // checkbox.toggleClass("checked");
 
       });

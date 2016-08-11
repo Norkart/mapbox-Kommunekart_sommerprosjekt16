@@ -5,6 +5,8 @@ var raster={
   layerZoomlevels:{},
   scaleArray:[0, 134217728, 67108864, 33554432, 16777216, 8388608, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048, 1024, 512, 256, 128]
 }
+var currentWmsUrl;
+var activeLegend = "";
 
 map.on('moveend', function(){
   raster.handleWarningSigns();
@@ -35,15 +37,56 @@ raster.isVisible=function(layername){
     return false;
   }
 }
+// //toggleWarningSign
+// raster.toggleWarningSign = function(visible, layername){
+//   var minzoom=raster.layerZoomlevels[layername][1]-1;
+//   var kommune=document.getElementById("layerList");
+//   for (var i = 0; i < kommune.children.length; i++) {
+//     var child=kommune.children[i];
+//     if(child.getAttribute("name")===layername){
+//       var check = child.children[1];
+//       if(visible){
+//         if(child.children.length<3){ //no warning sign already
+//           //add warning img in li element
+//           var warning=document.createElement("img");
+//           warning.id="advarsel";
+//           warning.title="Ikke synlig nå, zoom inn for å se laget";
+//           warning.src="../Images/blackIcons/other/warning.png";
+//           warning.setAttribute("minzoom", minzoom);
+//           warning.addEventListener("click", function(e){
+//               e.stopPropagation();
+//               map.flyTo({
+//                 zoom: event.currentTarget.getAttribute("minzoom"),
+//                 speed: 0.9
+//               });
+//           });
+//           child.appendChild(warning);
+//           }
+//       }else{
+//         // remove warning img
+//         if(child.children.length>2){
+//           child.removeChild(child.children[2]);
+//         }
+//       }
+//     }
+//   }
+// }
+//
+
 
 raster.toggleWarningSign = function(visible, layername){
+  console.log("toggle legend");
   var minzoom=raster.layerZoomlevels[layername][1]-1;
-  var kommune=document.getElementById("layerList");
-  for (var i = 0; i < kommune.children.length; i++) {
-    var child=kommune.children[i];
+  var tilgjengeligeRasterListe=document.getElementById("layerList");
+  for (var i = 0; i < tilgjengeligeRasterListe.children.length; i++) {
+    var child=tilgjengeligeRasterListe.children[i]; //current raster
     if(child.getAttribute("name")===layername){
       var check = child.children[1];
       if(visible){
+        //remove legend img
+        if(child.children.length>2){
+          child.removeChild(child.children[2]);
+        }
         if(child.children.length<3){ //no warning sign already
           //add warning img in li element
           var warning=document.createElement("img");
@@ -52,18 +95,57 @@ raster.toggleWarningSign = function(visible, layername){
           warning.src="../Images/blackIcons/other/warning.png";
           warning.setAttribute("minzoom", minzoom);
           warning.addEventListener("click", function(e){
-              e.stopPropagation();
-              map.flyTo({
-                zoom: event.currentTarget.getAttribute("minzoom"),
-                speed: 0.9
-              });
+            e.stopPropagation();
+            map.flyTo({
+              zoom: event.currentTarget.getAttribute("minzoom"),
+              speed: 0.9
+            });
           });
           child.appendChild(warning);
-          }
+        }
+        document.getElementById
       }else{
         // remove warning img
         if(child.children.length>2){
           child.removeChild(child.children[2]);
+        }
+        if(child.children.length<3){ //no legend sign already
+          //add legend img in li element
+
+          var legend=document.createElement("img");
+          legend.id="legendImg"+layername;
+          legend.className='smblLegend';
+          legend.title="Vis tegnforklaring";
+          legend.src="../Images/legendNotSelected.png";
+          legend.addEventListener("click", function(e){
+            var img = event.currentTarget;
+            e.stopPropagation();
+            $(img).toggleClass("selected");
+            if($(img).hasClass("selected")){
+              img.src="../Images/legend.png";
+              var layer = $(img.parentNode).attr("name");
+              getMapDescription(layer);
+              var pastActiveLegend =document.getElementById(activeLegend);
+
+              if(pastActiveLegend==legend.id){ //if clickEvent on same imgObj
+                activeLegend="";
+
+              } else if(activeLegend!=""){  //if no legendbox is selected
+                pastActiveLegend.src="../Images/legendNotSelected.png"; //Only possible to have one active legendbox
+                $(pastActiveLegend).toggleClass("selected");
+              }
+              activeLegend=legend.id;
+
+            } else{
+              // $("#tegnForklaring").hide();
+              img.src="../Images/legendNotSelected.png";
+              activeLegend ="";
+            }
+            if(activeLegend ==""){
+              $("#tegnForklaring").hide();
+            }
+          });
+          child.appendChild(legend);
         }
       }
     }
@@ -96,6 +178,7 @@ raster.setOverlayMenu=function(kommuneId){
   $.ajax({
     url:layersUrl
   }).done(function(res){
+    currentWmsUrl = res[0].URL;
     for(var i=0; i<res.length; i++){
       raster.saveZoomLevelForLayers(res[i].Layers);
     }
@@ -133,6 +216,13 @@ raster.layerClickEvent=function(target){
   var liElement = target.parentNode;
   var activeLayer=liElement.getAttribute("active");
   if(activeLayer==="true"){
+    console.log(liElement.children[2]);
+    if(liElement.children.length>2 ){
+      var id = liElement.children[2].id.toString();
+      console.log(id);
+      document.getElementById(id).remove();
+      $("#tegnForklaring").hide();
+    }
     $(target).toggleClass("checked");
     common.removeFromList(liElement.getAttribute("name"), raster.activeLayerNames);
     updateGlobalActiveRaster("remove", target.getAttribute("name"));
@@ -140,6 +230,14 @@ raster.layerClickEvent=function(target){
     liElement.className="";
     target.setAttribute("active", false);
     target.className="check";
+    // if(liElement.children.length >2){
+    //   // list.parentNode.removeChild(list);
+    //   console.log(liElement);
+    //   console.log(liElement.children);
+    //   liElement.removeChild(liElement.children[2]);
+    //   $("#tegnForklaring").hide();
+    //   console.log("Sletter barn");
+    // }
     raster.toggleWarningSign(false, liElement.getAttribute("name"));
   }else{
     $(target).toggleClass("checked");
@@ -151,11 +249,16 @@ raster.layerClickEvent=function(target){
 }
 
 raster.enable=function(layerName, currentListElement){
-  updateGlobalActiveRaster("add", currentListElement.getAttribute("name"));
+  rasterName = currentListElement.getAttribute("name");
+  updateGlobalActiveRaster("add", rasterName);
   raster.activeLayerNames.push(layerName);
   currentListElement.setAttribute("active", true);
   currentListElement.className="activeRasterElement";
   raster.toggleWarningSign(!raster.isVisible(layerName), layerName);
+  // addLegendSymbol(currentListElement, rasterName);
+  if(raster.isVisible && document.getElementById('smblLegend'+rasterName)!= undefined){
+    console.log("Skal adde legend symbol");
+  }
 }
 
 raster.updateView = function(name, layerArea){
@@ -293,3 +396,25 @@ function mapClickMoreInfoEvent(kommuneId){
     updateInformationSideMenu(res);
   });
 }
+
+function addLegendSymbol(listElement, name){
+  var legendImg=document.createElement("img");
+  legendImg.id='smblLegend'+name;
+  legendImg.className='smblLegend';
+  legendImg.title="Vis tegnforklaring";
+  legendImg.src="../Images/legend.png";
+  // legendImg.setAttribute("minzoom", minzoom);
+  var checkbox = listElement.children[1];
+  listElement.insertBefore(legendImg, checkbox);
+}
+function removeLegendSymbol(id){
+
+}
+
+// showLegendDiv(){
+//
+// }
+//
+// hideLegendDiv(){
+//
+// }
