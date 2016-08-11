@@ -76,7 +76,7 @@ raster.isVisible=function(layername){
 
 
 raster.toggleWarningSign = function(visible, layername){
-  console.log("toggle legend");
+  console.log("toggle warning");
   var minzoom=raster.layerZoomlevels[layername][1]-1;
   var tilgjengeligeRasterListe=document.getElementById("layerList");
   for (var i = 0; i < tilgjengeligeRasterListe.children.length; i++) {
@@ -277,12 +277,12 @@ raster.enable=function(layerName, currentListElement){
   updateGlobalActiveRaster("add", rasterName);
   raster.activeLayerNames.push(layerName);
   currentListElement.setAttribute("active", true);
+  console.log(currentListElement.children[1]);
   currentListElement.className="activeRasterElement";
+  $(currentListElement.children[1]).addClass("checked");
   raster.toggleWarningSign(!raster.isVisible(layerName), layerName);
   // addLegendSymbol(currentListElement, rasterName);
-  if(raster.isVisible && document.getElementById('smblLegend'+rasterName)!= undefined){
-    console.log("Skal adde legend symbol");
-  }
+
 }
 
 raster.updateView = function(name, layerArea){
