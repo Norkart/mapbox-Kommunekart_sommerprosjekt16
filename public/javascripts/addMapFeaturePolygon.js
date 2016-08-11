@@ -43,26 +43,36 @@ function makeCompressedPolygon(points) {
     return result.join("");
 }
 
-function addRasterPolygon(layers, coord){
-  console.log("Adder rasterpolygon");
-  console.log(layerArea);
-  console.log(GFI.layerAreas);
+function updateFeatureRasterPolygon(layerName, coord){
+  if(hasPolygon(layerName+"Raster")){
+    removeFeatureRasterPolygon(layerName);
+    // GFI.activeCheckbuttons[name].feature=false;
+    updateActiveCheckboxObj(layerName, "feature", false);
+    console.log(GFI.activeCheckbuttons);
+  }else{
+    addRasterPolygon(layerName, coord);
+    updateActiveCheckboxObj(layerName, "feature", true);
+    // console.log(GFI.activeCheckbuttons); --> riktig her
+  }
+}
+
+function addRasterPolygon(layerName, coord){ //layerName =layerName?
   var currCoord =getValidCoordString(coord);
   var adressUrl= "http://webutvikling.gisline.no/FeatureMaskService/default.aspx?X={x}&Y={y}&Z={z}&layers="
   adressUrl += GFI.layerAreas[0];
   adressUrl += ":";
-  adressUrl += layers;
+  adressUrl += layerName;
   adressUrl += "&POLYGON=";
   adressUrl += makeCompressedPolygon(currCoord);
-  if(hasPolygon(layers+"Raster")){
-    removeFeatreRasterPolygon(layers);
-    // removeRaster(layers+"Raster");
-    // removeElementInList(activeFeaturePolygons,layers);
+  if(hasPolygon(layerName+"Raster")){
+    removeFeatureRasterPolygon(layerName);
   }
-  raster.addNew(adressUrl, layers+"Raster", 8);
-  activeFeaturePolygons.push(layers);
-  console.log(activeFeaturePolygons);
-  //TODO: Finn ut hvorfor CORS error ved addRaster
+  raster.addNew(adressUrl, layerName+"Raster", 8);
+  activeFeaturePolygons.push(layerName);
+  var checkboxEl=getCheckboxEl(layerName, "feature");
+  if(checkboxEl!==undefined){
+    toggleSpecificGFICheckbox(checkboxEl);
+  }
 }
 
 function getValidCoordString(coord){
@@ -73,20 +83,11 @@ function getValidCoordString(coord){
   return currCoords;
 }
 
-function removeFeatreRasterPolygon(name){
+function removeFeatureRasterPolygon(name){
   raster.remove(name+"Raster");
   removeElementInList(activeFeaturePolygons,name);
+  var checkboxEl=getCheckboxEl(name, "feature");
+  if(checkboxEl!==null){
+    toggleSpecificGFICheckbox(checkboxEl);
+  }
 }
-// function getValidCoordString(coord){
-//   var currCoord ="";
-//   var list = coord.Positions;
-//   for(var i=0; i<list.length; i++){
-//     var el=list[i];
-//     currCoord += el.Y;
-//     currCoord += ",";
-//     currCoord += el.X;
-//     currCoord += ",";
-//   }
-//   currCoord = currCoord.substring(0, currCoord.length-1);
-//   return currCoord;
-// }

@@ -2,6 +2,7 @@ var raster={
   wmsUrl:"http://www.webatlas.no/wacloudtest/servicerepository/combine.aspx?X={x}&Y={y}&Z={z}&layers=",
   activeLayerNames:[], //rasters drawn
   globalActiveLayernames:[], //all rasters that is active for kommuner, may not exist in all of them and therefor need a seperate list
+  allAvailableLayers:{}, //objects, where key is name of layer, and the values objects with name and area
   layerZoomlevels:{},
   scaleArray:[0, 134217728, 67108864, 33554432, 16777216, 8388608, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048, 1024, 512, 256, 128]
 }
@@ -211,15 +212,16 @@ raster.addAlreadyActiveOverlays=function(){
 }
 
 
-raster.layerClickEvent=function(target){
+// raster.layerClickEvent=function(target){
+raster.layerClickEvent=function(layerName){
   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
-  var liElement = target.parentNode;
+  // var liElement = target.parentNode;
+  var liElement=document.getElementById(layerName);
+  var target=document.getElementById(layerName).children[1];
   var activeLayer=liElement.getAttribute("active");
   if(activeLayer==="true"){
-    console.log(liElement.children[2]);
     if(liElement.children.length>2 ){
       var id = liElement.children[2].id.toString();
-      console.log(id);
       document.getElementById(id).remove();
       $("#tegnForklaring").hide();
     }
@@ -230,22 +232,44 @@ raster.layerClickEvent=function(target){
     liElement.className="";
     target.setAttribute("active", false);
     target.className="check";
-    // if(liElement.children.length >2){
-    //   // list.parentNode.removeChild(list);
-    //   console.log(liElement);
-    //   console.log(liElement.children);
-    //   liElement.removeChild(liElement.children[2]);
-    //   $("#tegnForklaring").hide();
-    //   console.log("Sletter barn");
-    // }
     raster.toggleWarningSign(false, liElement.getAttribute("name"));
+
+    updateActiveCheckboxObj(layerName, "lag", false);
+    raster.turnOff(target, layerName, liElement);
   }else{
-    $(target).toggleClass("checked");
-    raster.enable(liElement.getAttribute("name"), liElement);
+    updateActiveCheckboxObj(layerName, "lag", true);
+    raster.turnOn(target, layerName, liElement);
   }
-  raster.updateView(liElement.getAttribute("name"), liElement.getAttribute("area"));
-  // toggleGFICheckbox("lagCheckbox");
+  // raster.updateView(liElement.getAttribute("name"), liElement.getAttribute("area"));
+  raster.updateView(layerName, liElement.getAttribute("area"));
   // updateInformationSideMenu(target.getAttribute("name"), target.getAttribute("area"));
+}
+
+raster.turnOn=function(target, layerName, liElement){
+  $(target).toggleClass("checked");
+  if(document.getElementById(layerName+"-gfiCheckboxDiv")!==null){ // if right sidemenu active, update the checkbox there as well
+    var gfiCheckbox=document.getElementById(layerName+"-gfiCheckboxDiv").children[2].children[0];
+    $(gfiCheckbox).addClass("checked");
+  }
+  // raster.enable(liElement.getAttribute("name"), liElement);
+  raster.enable(layerName, liElement);
+}
+
+raster.turnOff=function(target, layerName, liElement){
+  $(target).toggleClass("checked");
+  if(document.getElementById(layerName+"-gfiCheckboxDiv")!==null){ // if right sidemenu active, update the checkbox there as well
+    var gfiCheckbox=document.getElementById(layerName+"-gfiCheckboxDiv").children[2].children[0];
+    $(gfiCheckbox).removeClass("checked");
+  }
+  // common.removeFromList(liElement.getAttribute("name"), raster.activeLayerNames);
+  common.removeFromList(layerName, raster.activeLayerNames);
+  // updateGlobalActiveRaster("remove", target.getAttribute("name"));
+  updateGlobalActiveRaster("remove",layerName);
+  liElement.setAttribute("active", false);
+  liElement.className="";
+  target.setAttribute("active", false);
+  target.className="check";
+  raster.toggleWarningSign(false, liElement.getAttribute("name"));
 }
 
 raster.enable=function(layerName, currentListElement){
@@ -333,7 +357,6 @@ raster.addNew=function(url, name, zoomLevel){
   map.addLayer(layerObj, layerNameToInsertBefore);
 
   map.once("render", function(){
-      console.log("render done turn on raster");
   });
 }
 
@@ -383,7 +406,6 @@ raster.remove=function(name){ //gets called everytime a kommune is chosen
     map.removeSource(name);
     map.removeLayer(name);
   }else{
-    console.log("no raster to delete");
     return false;
   }
 }

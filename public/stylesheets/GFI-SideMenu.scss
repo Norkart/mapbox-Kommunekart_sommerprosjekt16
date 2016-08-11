@@ -277,7 +277,7 @@ $capabilityBtnBorder: 1px solid rgba(150, 150, 150, 0.37);
   margin-top: 1px;
 }
 
-#gfiCheckboxDiv{
+.gfiCheckboxDiv{
   display: flex;
   border-bottom: 1px solid #c8c8c8;
   div{
@@ -298,7 +298,7 @@ $capabilityBtnBorder: 1px solid rgba(150, 150, 150, 0.37);
     width: 20px;
     height: 20px;
   }
-  input:checked{
+  .checked{
     background-image: url("../images/blackIcons/other/checked.png");
   }
 }
