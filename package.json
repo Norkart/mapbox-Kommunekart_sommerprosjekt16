@@ -5,6 +5,7 @@
   "main": "index.html",
   "dependencies": {
     "bootstrap-slider": "^9.1.1",
+    "jquery": "^3.1.0",
     "list.js": "^1.2.0",
     "mapbox-gl": "^0.20.0",
     "mapbox-gl-draw": "^0.10.0",

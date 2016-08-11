@@ -77,10 +77,9 @@ function getFeatureInfoForObject(long, lat){
     console.log(GFI.activeCheckbuttons);
     if($.isEmptyObject(tjenesteObjects)){
       // alert("Ingen tilgjenelige tjenester")
-      console.log("Ingen Tilgjengelige tjenester");
-      document.getElementById("featureHeader").innerHTML="Ingen tilgjengelige tjenester for dette punktet";
+      document.getElementById("featureHeader").innerHTML="Ingen tilgjengelige kart for dette punktet";
     }else{
-      document.getElementById("featureHeader").innerHTML="Tilgjengelige tjenester";
+      document.getElementById("featureHeader").innerHTML="Tilgjengelige kart";
       updateSideMenu();
       initCapabilityBtn();
       openActiveInfoBoxes();
@@ -233,7 +232,7 @@ function addAdressWindow(result, e){
 function getFeatureHeaderDom(){
   var featureHeader = document.createElement("h3"); //Creating header for Featurelist
   featureHeader.id="featureHeader";
-  featureHeader.innerHTML = "Tilgjengelige tjenester";
+  featureHeader.innerHTML = "Tilgjengelige kart";
   document.getElementById("availableFeatureInformation").appendChild(featureHeader);
 }
 
@@ -484,9 +483,6 @@ function initCapabilityBtn(){
       toggleInfoBox(event.target, false);
       //turn on borders default
       var id=event.target.parentNode.parentNode.id;
-      console.log(document.getElementById(id+"info"));
-      console.log(document.getElementById(id+"info").children[0]);
-      console.log(document.getElementById(id+"info").children[0].children[0]);
       var target=document.getElementById(id+"info").children[0].children[0].children[0];
       GFIBorderCheckboxEvent(target);
 
@@ -515,6 +511,20 @@ function toggleInfoBox(domElement, doOpen){
   if(tjenesteObjects[elementTxt].length > 1){
     $(domElement.parentNode.parentNode.children[1]).toggleClass("visMeny");
   }else if(exsistsInObject(GFI.activeInfoboxes, elementTxt) && !doOpen){
+    console.log(elementTxt);
+    if(GFI.activeCheckbuttons[elementTxt].feature!==undefined){
+      if(GFI.activeCheckbuttons[elementTxt].feature.active){
+        removeFeatureRasterPolygon(elementTxt); //funker kun hvis det er tegnet
+      }
+    }
+    if(GFI.activeCheckbuttons[elementTxt].border.active){
+      // removePolygon(elementTxt);
+      removeElementInList(GFI.drawnKommuneData, elementTxt);
+      var imageElement=document.getElementById(elementTxt+"-GFI").children[0].children[1];
+      hidePolygonColor(imageElement);
+      hidePolygon(elementTxt);
+      updateActiveCheckboxObj(elementTxt, true);
+    }
     closeCapabilityInfo(listElement, elementTxt, btn);
     //remove from activeInfoBoxes
     delete GFI.activeInfoboxes[elementTxt];
