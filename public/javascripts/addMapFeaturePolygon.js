@@ -48,11 +48,9 @@ function updateFeatureRasterPolygon(layerName, coord){
     removeFeatureRasterPolygon(layerName);
     // GFI.activeCheckbuttons[name].feature=false;
     updateActiveCheckboxObj(layerName, "feature", false);
-    console.log(GFI.activeCheckbuttons);
   }else{
     addRasterPolygon(layerName, coord);
     updateActiveCheckboxObj(layerName, "feature", true);
-    // console.log(GFI.activeCheckbuttons); --> riktig her
   }
 }
 

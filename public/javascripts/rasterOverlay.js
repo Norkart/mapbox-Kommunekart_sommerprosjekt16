@@ -76,7 +76,6 @@ raster.isVisible=function(layername){
 
 
 raster.toggleWarningSign = function(visible, layername){
-  console.log("toggle legend");
   var minzoom=raster.layerZoomlevels[layername][1]-1;
   var tilgjengeligeRasterListe=document.getElementById("layerList");
   for (var i = 0; i < tilgjengeligeRasterListe.children.length; i++) {
@@ -215,7 +214,6 @@ raster.addAlreadyActiveOverlays=function(){
 // raster.layerClickEvent=function(target){
 raster.layerClickEvent=function(layerName){
   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
-  // var liElement = target.parentNode;
   var liElement=document.getElementById(layerName);
   var target=document.getElementById(layerName).children[1];
   var activeLayer=liElement.getAttribute("active");
@@ -234,28 +232,27 @@ raster.layerClickEvent=function(layerName){
     target.className="check";
     raster.toggleWarningSign(false, liElement.getAttribute("name"));
 
-    updateActiveCheckboxObj(layerName, "lag", false);
     raster.turnOff(target, layerName, liElement);
   }else{
-    updateActiveCheckboxObj(layerName, "lag", true);
     raster.turnOn(target, layerName, liElement);
   }
-  // raster.updateView(liElement.getAttribute("name"), liElement.getAttribute("area"));
   raster.updateView(layerName, liElement.getAttribute("area"));
-  // updateInformationSideMenu(target.getAttribute("name"), target.getAttribute("area"));
 }
 
 raster.turnOn=function(target, layerName, liElement){
+  updateActiveCheckboxObj(layerName, "lag", true);
+
   $(target).toggleClass("checked");
   if(document.getElementById(layerName+"-gfiCheckboxDiv")!==null){ // if right sidemenu active, update the checkbox there as well
     var gfiCheckbox=document.getElementById(layerName+"-gfiCheckboxDiv").children[2].children[0];
     $(gfiCheckbox).addClass("checked");
   }
-  // raster.enable(liElement.getAttribute("name"), liElement);
+
   raster.enable(layerName, liElement);
 }
 
 raster.turnOff=function(target, layerName, liElement){
+  updateActiveCheckboxObj(layerName, "lag", false);
   $(target).toggleClass("checked");
   if(document.getElementById(layerName+"-gfiCheckboxDiv")!==null){ // if right sidemenu active, update the checkbox there as well
     var gfiCheckbox=document.getElementById(layerName+"-gfiCheckboxDiv").children[2].children[0];
@@ -278,10 +275,10 @@ raster.enable=function(layerName, currentListElement){
   raster.activeLayerNames.push(layerName);
   currentListElement.setAttribute("active", true);
   currentListElement.className="activeRasterElement";
+  $(currentListElement.children[1]).addClass("checked");
   raster.toggleWarningSign(!raster.isVisible(layerName), layerName);
   // addLegendSymbol(currentListElement, rasterName);
   if(raster.isVisible && document.getElementById('smblLegend'+rasterName)!= undefined){
-    console.log("Skal adde legend symbol");
   }
 }
 
