@@ -809,7 +809,9 @@ input[type="submit"]:hover {
   overflow-y: auto;
   opacity: 0.95;
 }
-
+.legendSidebarClosed{
+  margin-left: 10px !important;
+}
 // #legendImgDiv{
 //   margin-top:10px;
 // }
