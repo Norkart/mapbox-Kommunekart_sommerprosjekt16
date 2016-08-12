@@ -129,7 +129,14 @@ function setKommuneMenuHeader(target, kommuneName, moveEvent){
     var parent = document.getElementById("kommunekart-menu");
     var kommunelist = document.getElementById("kommuneList");
     parent.insertBefore(kommune, kommunelist);
+    var pointer = document.createElement("div");
+    pointer.id ="currentKommunePointer";
+    pointer.className ="pointer";
+    $(pointer).addClass("pointer-down");
+    kommune.appendChild(pointer);
     kommune.addEventListener("click", function(){
+      $("#currentKommunePointer").toggleClass("pointer-right");
+      $("#currentKommunePointer").toggleClass("pointer-down");
       if(menuState.kommuneMenuOpen){
         hideKommuneMenuContent(menuState.type);
       }else{
@@ -195,6 +202,7 @@ function createKommuneBackButton(){
 }
 
 function unselectKommune(){ //back button event
+  $("#kommuneListPointer").show();
   menuState.type="kommune";
   //delete back button and kommune icon: two first items
   if(document.getElementById("chosenKommune")!=undefined){ //means that the header is set to a kommune
@@ -256,7 +264,7 @@ document.getElementById('menu-selector').addEventListener("click", function(){
 document.getElementById("kommunekart-menu-button").addEventListener("click", function(){
   $(document.getElementById('KommuneSearch')).val(''); //Clear the kommune-search input field
   $("#tegnForklaring").hide();
-  if(event.target.id ==="backToKommuneList" || event.target.id ==="showKommune" || event.target.id==="showCenter"){
+  if(event.target.id ==="showKommune" || event.target.id==="showCenter"){
     console.log("Dont fire open/close event");
     return; //dont fire this event
   }
