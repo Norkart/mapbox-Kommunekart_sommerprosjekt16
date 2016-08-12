@@ -255,7 +255,7 @@ document.getElementById('menu-selector').addEventListener("click", function(){
 //"Velg kommune" is clicked, kommunelist shown/hidden
 document.getElementById("kommunekart-menu-button").addEventListener("click", function(){
   $(document.getElementById('KommuneSearch')).val(''); //Clear the kommune-search input field
-  console.log("fired open/close listener");
+  $("#tegnForklaring").hide();
   if(event.target.id ==="backToKommuneList" || event.target.id ==="showKommune" || event.target.id==="showCenter"){
     console.log("Dont fire open/close event");
     return; //dont fire this event

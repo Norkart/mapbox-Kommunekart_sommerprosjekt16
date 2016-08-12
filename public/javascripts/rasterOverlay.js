@@ -38,42 +38,6 @@ raster.isVisible=function(layername){
     return false;
   }
 }
-// //toggleWarningSign
-// raster.toggleWarningSign = function(visible, layername){
-//   var minzoom=raster.layerZoomlevels[layername][1]-1;
-//   var kommune=document.getElementById("layerList");
-//   for (var i = 0; i < kommune.children.length; i++) {
-//     var child=kommune.children[i];
-//     if(child.getAttribute("name")===layername){
-//       var check = child.children[1];
-//       if(visible){
-//         if(child.children.length<3){ //no warning sign already
-//           //add warning img in li element
-//           var warning=document.createElement("img");
-//           warning.id="advarsel";
-//           warning.title="Ikke synlig nå, zoom inn for å se laget";
-//           warning.src="../Images/blackIcons/other/warning.png";
-//           warning.setAttribute("minzoom", minzoom);
-//           warning.addEventListener("click", function(e){
-//               e.stopPropagation();
-//               map.flyTo({
-//                 zoom: event.currentTarget.getAttribute("minzoom"),
-//                 speed: 0.9
-//               });
-//           });
-//           child.appendChild(warning);
-//           }
-//       }else{
-//         // remove warning img
-//         if(child.children.length>2){
-//           child.removeChild(child.children[2]);
-//         }
-//       }
-//     }
-//   }
-// }
-//
-
 
 raster.toggleWarningSign = function(visible, layername){
   var minzoom=raster.layerZoomlevels[layername][1]-1;
@@ -214,7 +178,6 @@ raster.addAlreadyActiveOverlays=function(){
   }
 }
 
-
 // raster.layerClickEvent=function(target){
 raster.layerClickEvent=function(layerName){
   //For each click the source url has to be updated: Either a layer is added or removed but the string has to be manipulated either way
@@ -233,7 +196,10 @@ raster.layerClickEvent=function(layerName){
     common.removeFromList(liElement.getAttribute("name"), raster.activeLayerNames);
     updateGlobalActiveRaster("remove", target.getAttribute("name"));
     liElement.setAttribute("active", false);
-    liElement.className="";
+    liElement.className = "rasterListElement";
+    // $(liElement).removeClass("");
+    console.log(liElement);
+    console.log("Skal oppdatere klassenavn");
     target.setAttribute("active", false);
     target.className="check";
     raster.toggleWarningSign(false, liElement.getAttribute("name"));
@@ -269,7 +235,7 @@ raster.turnOff=function(target, layerName, liElement){
   // updateGlobalActiveRaster("remove", target.getAttribute("name"));
   updateGlobalActiveRaster("remove",layerName);
   liElement.setAttribute("active", false);
-  liElement.className="";
+  liElement.className="rasterListElement";
   target.setAttribute("active", false);
   target.className="check";
   raster.toggleWarningSign(false, liElement.getAttribute("name"));
@@ -281,7 +247,7 @@ raster.enable=function(layerName, currentListElement){
   raster.activeLayerNames.push(layerName);
   currentListElement.setAttribute("active", true);
   console.log(currentListElement.children[1]);
-  currentListElement.className="activeRasterElement";
+  currentListElement.className = "activeRasterElement";
   $(currentListElement.children[1]).addClass("checked");
   raster.toggleWarningSign(!raster.isVisible(layerName), layerName);
   // addLegendSymbol(currentListElement, rasterName);
