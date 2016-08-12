@@ -9,6 +9,7 @@
     "list.js": "^1.2.0",
     "mapbox-gl": "^0.20.0",
     "mapbox-gl-draw": "^0.10.0",
+    "turf": "^3.0.14",
     "turf-buffer": "^3.0.10",
     "turf-difference": "^3.0.12",
     "turf-intersect": "^3.0.10",

@@ -11,6 +11,7 @@ var menuState={
 var mapmodus = "popup";
 var mapStyle = "normal";
 var osmActive=true;
+var norkartDataActive=true;
 var kommuneObjectList={};
 var kommune;
 var tjenesteObjects={};
@@ -43,27 +44,75 @@ var throttle = function(func, time) {
   };
 };
 
-map.on('move', throttle(updateOsmMap, 500)); //make sure it doesn't run too often
+map.on('move', throttle(updateOsmMap, 800)); //make sure it doesn't run too often
+// map.on('move', throttle(updateNorkartData, 500)); //make sure it doesn't run too often
+
+function updateNorkartData(){
+  var bboxPol= getBBoxPol();
+  var norwayPol=norBorder.features[0];
+  var intersection=turf.intersection(bboxPol, norwayPol);
+
+  if(intersection==undefined && norkartDataActive){ //i norge, osm på --> skru av
+    toggleNorkartData(false); //turn off
+    norkartDataActive=false;
+  }else if(intersection!=undefined && norkartDataActive == false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
+    toggleNorkartData(true); //turn on
+    norkartDataActive=true;
+  }
+}
+
+function toggleNorkartData(){
+
+  if(menuState.mapStyle==="aerial"){
+    var layerList=flyfoto.layers;
+  }else{
+    // var layerList=normalMapLayers.layers;
+    return;
+  }
+  var norkartGroup="1452169018974.0132";
+  for(var i=0; i<layerList.length; i++){
+    var layer=layerList[i];
+    if(layer.metadata){
+      if(layer.metadata["mapbox:group"] === osmGroup){
+        if(visible){// make layers visible
+          map.setLayoutProperty(layer.id, 'visibility', 'visible');
+        }else{
+          map.setLayoutProperty(layer.id, 'visibility', 'none');
+          map.getLayoutProperty(layer.id, 'visibility');
+        }
+      }
+    }
+  }
+}
+
 
 function updateOsmMap(){
   //check border intersection between norway and bounding box of the view
   var bboxPol= getBBoxPol();
-  var norwayPol=norBorder.features[0];
+  console.log(JSON.stringify(bboxPol));
+  // var norwayPol=norBorder.features[0];
+  var norwayPol=norwayBorderMed.features[0];
+  console.log(norwayPol);
   var difference=turf.erase(bboxPol, norwayPol);
+  console.log("Difference is: ");
+  console.log(JSON.stringify(difference));
   if(difference==undefined && osmActive){ //i norge, osm på --> skru av
     toggleOSM(false); //turn off
     osmActive=false;
   }else if(difference!=undefined && osmActive == false){ //difference defined, meaning some of bbox outside norway, osm off --> turn on osm
     toggleOSM(true); //turn on
     osmActive=true;
-  }else{
-    //do nothing
   }
+}
+
+function addMorePoints(pol){
+
 }
 
 function toggleOSM(visible){ //change visibility for open street map layers depending on "visible" value
   if(menuState.mapStyle==="aerial"){
     var layerList=flyfoto.layers;
+    return;
   }else{
     var layerList=normalMapLayers.layers;
   }
@@ -129,20 +178,37 @@ function getBBoxPol(){
   var ne=[bounds._ne.lng, bounds._ne.lat];
   var nw=[sw[0], ne[1]]; //lng, lat
   var se=[ne[0], sw[1]];
+  //adding points in between corners
+  var sw_nw=[sw[0], (sw[1]+nw[1])/2];
+  var nw_ne=[(nw[0]+ne[0])/2, nw[1]];
+  var ne_se=[ne[0], (se[1]+ne[1])/2];
+  var se_sw=[(sw[0]+se[0])/2,se[1]];
   var pol={
     "type": "Feature",
     "properties":{},
     "geometry": {
       "type": "MultiPolygon",
       "coordinates": [[[
-        [bounds._sw.lng, bounds._sw.lat],
-        [sw[0], ne[1]],
-        [bounds._ne.lng, bounds._ne.lat],
-        [ne[0], sw[1]],
-        [bounds._sw.lng, bounds._sw.lat]
+        sw,
+        sw_nw,
+        nw,
+        nw_ne,
+        ne,
+        ne_se,
+        se,
+        se_sw,
+        sw
       ]]]
+      // "coordinates": [[[
+      //   [bounds._sw.lng, bounds._sw.lat],
+      //   [sw[0], ne[1]],
+      //   [bounds._ne.lng, bounds._ne.lat],
+      //   [ne[0], sw[1]],
+      //   [bounds._sw.lng, bounds._sw.lat]
+      // ]]]
     }
   };
+  console.log(JSON.stringify(pol));
   return pol;
 }
 
@@ -161,12 +227,10 @@ function flyTo(){
     // zoom:zoomTo-5
     zoom:10
   });
-
 }
 
 function updateCenterAndMiddle(){
   var kommune=kommuneObjectList[menuState.chosenKommuneId];
-  console.log("Kommune");
   var middleEast= kommune.West + ((kommune.East-kommune.West)/2);
   var middleNorth = kommune.South + ((kommune.North-kommune.South)/2);
   var startEast=kommune.StartEast;
