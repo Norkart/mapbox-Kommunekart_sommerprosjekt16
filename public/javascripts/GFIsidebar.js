@@ -131,7 +131,7 @@ function turnOnActiveCheckboxes(){
       }
       if(isActiveCheckbutton(layerName, "lag")){
         var checkEl=getCheckboxEl(layerName, "lag");
-        toggleSpecificGFICheckbox(checkEl);
+        toggleSpecificGFICheckbox(checkEl, true);
       }
     }
   }
@@ -470,11 +470,7 @@ function toggleInfoBox(domElement, doOpen){
   var listElement = domElement.parentNode.parentNode;
   var btn = domElement.parentNode;
   var elementTxt = btn.getAttribute("elementfeatureName").toString();
-
   initBorderCheckObj(elementTxt);
-
-  if(tjenesteObjects[elementTxt]===undefined){
-  }
   if(tjenesteObjects[elementTxt].length > 1){
     $(domElement.parentNode.parentNode.children[1]).toggleClass("visMeny");
   }else if(exsistsInObject(GFI.activeInfoboxes, elementTxt) && !doOpen){
@@ -502,7 +498,6 @@ function toggleInfoBox(domElement, doOpen){
     };
     openCapabilityInfo(GFI.activeInfoboxes[elementTxt], elementTxt);
   }
-
   if(isActiveCheckbutton(elementTxt, "lag")){
     var checkEl=getCheckboxEl(elementTxt, "lag");
     toggleSpecificGFICheckbox(checkEl, true);
